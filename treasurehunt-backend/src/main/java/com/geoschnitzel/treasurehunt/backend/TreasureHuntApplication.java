@@ -1,10 +1,11 @@
 package com.geoschnitzel.treasurehunt.backend;
 
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class HelloWorld {
+public class TreasureHuntApplication {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        SpringApplication.run(TreasureHuntApplication.class, args);
     }
 }

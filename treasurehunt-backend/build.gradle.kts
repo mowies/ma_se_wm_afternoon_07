@@ -23,7 +23,7 @@ plugins {
 }
 
 application {
-    mainClassName = "com.geoschnitzel.treasurehunt.backend.HelloWorld"
+    mainClassName = "com.geoschnitzel.treasurehunt.backend.TreasureHuntApplication"
 }
 
 repositories {
