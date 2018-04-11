@@ -10,8 +10,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.junit.Assert.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -29,11 +29,37 @@ public class HelloWorldControllerTest {
     }
 
     @Test
-    public void testCreationOfANewProjectSucceeds() throws Exception {
-        String helloWorldResult = mvc.perform(get("/helloWorld").contentType(MediaType.APPLICATION_JSON))
+    public void helloWorldReturnsGreeting() throws Exception {
+        mvc.perform(get("/helloWorld").contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk())
-                .andReturn().getResponse().getContentAsString();
-        assertEquals("Hello World!", helloWorldResult);
+                .andExpect(content().string("Hello World!"));
+    }
+
+    @Test
+    public void databaseEndpointCanCrud() throws Exception {
+        mvc.perform(put("/helloDb").param("message", "message one").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(""));
+
+        mvc.perform(get("/helloDb").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[\"message one\"]"));
+
+        mvc.perform(put("/helloDb").param("message", "message two").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(""));
+
+        mvc.perform(get("/helloDb").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[\"message one\",\"message two\"]"));
+
+        mvc.perform(delete("/helloDb").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(""));
+
+        mvc.perform(get("/helloDb").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
     }
 
 }
