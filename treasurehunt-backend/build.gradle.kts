@@ -20,6 +20,7 @@ apply {
 plugins {
     java
     application
+    id("net.ltgt.apt").version("0.10")
 }
 
 application {
@@ -31,6 +32,9 @@ repositories {
 }
 
 dependencies {
+    compileOnly("org.projectlombok:lombok:1.16.20")
+    apt("org.projectlombok:lombok:1.16.20")
+
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.boot:spring-boot-starter-web")
     runtime("org.hsqldb:hsqldb")
