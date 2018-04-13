@@ -1,8 +1,7 @@
-import com.geoschnitzel.treasurehunt.backend.HelloDatabaseController;
-import com.geoschnitzel.treasurehunt.backend.HelloWorldController;
-import com.geoschnitzel.treasurehunt.backend.Message;
-import com.geoschnitzel.treasurehunt.backend.MessageRepository;
+package com.geoschnitzel.treasurehunt.backend;
+
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +52,10 @@ public class HelloWorldControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Ignore("Not ready yet")
     @Test
     public void databaseEndpointCanCrud() throws Exception {
+        //TODO finish this test
         given(messageRepository.findAll()).willReturn(Arrays.asList(new Message[0]));
 
         mvc.perform(put("/helloDb").param("message", "message one").contentType(MediaType.APPLICATION_JSON))
