@@ -22,6 +22,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    implementation group: 'com.google.guava', name: 'guava', version: '24.1-android'
+    
     testImplementation 'junit:junit:4.12'
     testImplementation "org.mockito:mockito-all:1.10.19"
     testImplementation "org.hamcrest:hamcrest-all:1.3"
