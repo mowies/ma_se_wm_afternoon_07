@@ -53,9 +53,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        //Navigation TODO Own Class
-
     }
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
