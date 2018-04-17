@@ -12,14 +12,12 @@ import com.geoschnitzel.treasurehunt.R;
 
 public class SHPurchaseActivity extends AppCompatActivity {
 
-    private DrawerLayout mDrawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        mDrawerLayout = findViewById(R.id.drawer_layout);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -33,8 +31,6 @@ public class SHPurchaseActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }
