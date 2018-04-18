@@ -16,6 +16,7 @@ repositories {
 
 dependencies {
     compile(kotlin("stdlib"))
+    compile("com.fasterxml.jackson.core", "jackson-annotations", "2.9.5")
 
     testCompile("junit", "junit", "4.12")
     testCompile("org.hamcrest", "hamcrest-all", "1.3")

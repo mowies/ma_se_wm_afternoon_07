@@ -15,11 +15,14 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -30,6 +33,9 @@ public class HelloWorldControllerTest {
 
     @MockBean
     private MessageRepository messageRepository;
+
+    @MockBean
+    private DateProvider dateProvider;
 
     private MockMvc mvc;
 
@@ -43,9 +49,14 @@ public class HelloWorldControllerTest {
 
     @Test
     public void helloWorldReturnsGreeting() throws Exception {
+        given(dateProvider.currentDate()).willReturn(new Date(1524066200885L));
+
         mvc.perform(get("/helloWorld").contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Hello World!"));
+                .andExpect(content().json("{\n" +
+                        "  \"message\": \"Hello World\",\n" +
+                        "  \"timestamp\": \"2018-04-18T15:22:13.804+0000\"\n" +
+                        "}"));
     }
 
     @Test
