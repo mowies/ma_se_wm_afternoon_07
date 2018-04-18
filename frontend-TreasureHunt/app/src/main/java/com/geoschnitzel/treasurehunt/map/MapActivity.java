@@ -1,6 +1,7 @@
 package com.geoschnitzel.treasurehunt.map;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -16,12 +17,15 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import com.geoschnitzel.treasurehunt.R;
+import com.geoschnitzel.treasurehunt.base.ToolBarFragment;
 import com.geoschnitzel.treasurehunt.shpurchase.SHPurchaseActivity;
+import com.geoschnitzel.treasurehunt.utils.ActivityUtils;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,NavigationView.OnNavigationItemSelectedListener {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
+        NavigationView.OnNavigationItemSelectedListener, ToolBarFragment.OnFragmentInteractionListener {
 
     private DrawerLayout mDrawerLayout;
 
@@ -35,8 +39,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
         nav_view.setNavigationItemSelectedListener(this);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        //Toolbar toolbar = findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -47,13 +51,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        ToolBarFragment toolbarFragment = (ToolBarFragment) getSupportFragmentManager().findFragmentById(R.id.frame_toolbar);
+        if(toolbarFragment == null) {
+            toolbarFragment = ToolBarFragment.newInstance(110);
+            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), toolbarFragment, R.id.frame_toolbar);
+        }
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
+
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -93,6 +100,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }
