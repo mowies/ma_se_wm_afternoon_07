@@ -1,6 +1,10 @@
 group = "com.geoschnitzel"
 version = "1.0-SNAPSHOT"
 
+apply {
+    plugin("maven")
+}
+
 plugins {
     java
     kotlin("jvm").version("1.2.31")
