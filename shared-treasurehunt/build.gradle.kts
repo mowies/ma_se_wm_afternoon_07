@@ -3,6 +3,7 @@ version = "1.0-SNAPSHOT"
 
 plugins {
     java
+    kotlin("jvm").version("1.2.31")
 }
 
 repositories {
@@ -10,7 +11,10 @@ repositories {
 }
 
 dependencies {
+    compile(kotlin("stdlib"))
+
     testCompile("junit", "junit", "4.12")
+    testCompile("org.hamcrest", "hamcrest-all", "1.3")
 }
 
 configure<JavaPluginConvention> {
