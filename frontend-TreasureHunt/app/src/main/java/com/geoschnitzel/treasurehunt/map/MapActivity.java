@@ -1,42 +1,22 @@
 package com.geoschnitzel.treasurehunt.map;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.geoschnitzel.treasurehunt.R;
-import com.geoschnitzel.treasurehunt.base.ToolBarFragment;
-import com.geoschnitzel.treasurehunt.shpurchase.SHPurchaseActivity;
-import com.geoschnitzel.treasurehunt.utils.ActivityUtils;
+import com.geoschnitzel.treasurehunt.base.BaseActivityNavigationDrawer;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
-        NavigationView.OnNavigationItemSelectedListener, ToolBarFragment.OnFragmentInteractionListener {
-
-    private DrawerLayout mDrawerLayout;
+public class MapActivity extends BaseActivityNavigationDrawer implements OnMapReadyCallback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
-
-        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-
-        NavigationView nav_view = (NavigationView)findViewById(R.id.nav_view);
-        nav_view.setNavigationItemSelectedListener(this);
-
-        //Toolbar toolbar = findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        super.setContentView(R.layout.activity_map);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.floatingSearchButton);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -47,60 +27,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        ToolBarFragment toolbarFragment = (ToolBarFragment) getSupportFragmentManager().findFragmentById(R.id.frame_toolbar);
-        if(toolbarFragment == null) {
-            toolbarFragment = ToolBarFragment.newInstance(110);
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), toolbarFragment, R.id.frame_toolbar);
-        }
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        switch(id) {
-            case R.id.nav_buy:
-                Intent intent = new Intent(this, SHPurchaseActivity.class);
-                startActivity(intent);
-                break;
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 
 
-    @Override
-    public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
 
     }
 }
