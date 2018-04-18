@@ -1,15 +1,15 @@
 package com.geoschnitzel.treasurehunt.map;
 
-import com.geoschnitzel.treasurehunt.BasePresenter;
-import com.geoschnitzel.treasurehunt.BaseView;
+import com.geoschnitzel.treasurehunt.IBasePresenter;
+import com.geoschnitzel.treasurehunt.IBaseView;
 
 public interface MapContract {
 
-    interface View extends BaseView<Presenter> {
+    interface View extends IBaseView<Presenter> {
 
     }
 
-    interface Presenter extends BasePresenter {
+    interface Presenter extends IBasePresenter {
 
     }
 

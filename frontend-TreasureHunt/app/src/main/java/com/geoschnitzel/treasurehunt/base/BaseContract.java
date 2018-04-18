@@ -1,9 +1,9 @@
-package com.geoschnitzel.treasurehunt.shpurchase;
+package com.geoschnitzel.treasurehunt.base;
 
 import com.geoschnitzel.treasurehunt.IBasePresenter;
 import com.geoschnitzel.treasurehunt.IBaseView;
 
-public interface SHPurchaseContract {
+public interface BaseContract {
 
     interface View extends IBaseView<Presenter> {
 

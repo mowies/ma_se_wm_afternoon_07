@@ -8,29 +8,20 @@
     tools:context="com.geoschnitzel.treasurehunt.map.MapActivity"
     tools:openDrawer="start">
 
-    <FrameLayout
-        android:id="@+id/content_frame"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <FrameLayout
+            android:id="@+id/frame_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="wrap_content" />
 
-            <include
-                layout="@layout/base_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-
-            <include
-                layout="@layout/content_mapview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-    </FrameLayout>
+        <include layout="@layout/content_mapview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 
     <!-- Navigation Drawer -->
     <android.support.design.widget.NavigationView
