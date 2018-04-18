@@ -35,6 +35,7 @@ dependencies {
     compileOnly("org.projectlombok:lombok:1.16.20")
     apt("org.projectlombok:lombok:1.16.20")
 
+    compile(project(":shared-treasurehunt"))
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.boot:spring-boot-starter-web")
     runtime("org.hsqldb:hsqldb")
