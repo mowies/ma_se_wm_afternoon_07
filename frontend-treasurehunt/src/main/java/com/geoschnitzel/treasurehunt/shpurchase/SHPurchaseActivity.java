@@ -2,18 +2,17 @@ package com.geoschnitzel.treasurehunt.shpurchase;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.widget.GridView;
 
 import com.geoschnitzel.treasurehunt.R;
+import com.geoschnitzel.treasurehunt.base.BaseActivity;
 import com.geoschnitzel.treasurehunt.model.SHPurchaseItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SHPurchaseActivity extends AppCompatActivity {
+public class SHPurchaseActivity extends BaseActivity {
 
 
     @Override
@@ -61,15 +60,8 @@ public class SHPurchaseActivity extends AppCompatActivity {
                 .setSHValue(5000)
                 .setPrice(24.99f));
 
-        glshpurchase.setAdapter(new SHPurchaseAdapter(testList, this.getApplicationContext()));
+        glshpurchase.setAdapter(new SHPurchaseAdapter(testList,this.getApplicationContext()));
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

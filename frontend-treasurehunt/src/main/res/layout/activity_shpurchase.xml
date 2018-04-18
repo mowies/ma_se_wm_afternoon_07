@@ -14,7 +14,7 @@
         android:orientation="vertical">
 
         <include
-            layout="@layout/base_toolbar"
+            layout="@layout/fragment_tool_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
