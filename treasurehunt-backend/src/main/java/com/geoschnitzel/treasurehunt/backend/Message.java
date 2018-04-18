@@ -20,6 +20,11 @@ public class Message {
     public Message() {
     }
 
+    public Message(Long id, String message) {
+        this.id = id;
+        this.message = message;
+    }
+
     public Message(String message) {
         this.message = message;
     }

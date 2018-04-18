@@ -1,7 +1,6 @@
 package com.geoschnitzel.treasurehunt.backend;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,11 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.Arrays;
+import java.util.Collections;
 
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -52,16 +54,15 @@ public class HelloWorldControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Ignore("Not ready yet")
     @Test
     public void databaseEndpointCanCrud() throws Exception {
-        //TODO finish this test
         given(messageRepository.findAll()).willReturn(Arrays.asList(new Message[0]));
-
         mvc.perform(put("/helloDb").param("message", "message one").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(""));
+        verify(messageRepository).save(argThat(argument -> argument.getMessage().equals("message one")));
 
+        given(messageRepository.findAll()).willReturn(Collections.singletonList(new Message(1L, "message one")));
         mvc.perform(get("/helloDb").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[\"message one\"]"));
@@ -69,15 +70,20 @@ public class HelloWorldControllerTest {
         mvc.perform(put("/helloDb").param("message", "message two").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(""));
+        verify(messageRepository).save(argThat(argument -> argument.getMessage().equals("message two")));
 
+        given(messageRepository.findAll()).willReturn(Arrays.asList(new Message(1L, "message one"), new Message(2L, "message two")));
         mvc.perform(get("/helloDb").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[\"message one\",\"message two\"]"));
 
+
         mvc.perform(delete("/helloDb").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(""));
+        verify(messageRepository).deleteAll();
 
+        given(messageRepository.findAll()).willReturn(Collections.emptyList());
         mvc.perform(get("/helloDb").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
