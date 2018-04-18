@@ -1,27 +1,18 @@
 package com.geoschnitzel.treasurehunt.shpurchase;
 
 import android.os.Bundle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.GridLayout;
 import android.widget.GridView;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.geoschnitzel.treasurehunt.R;
+import com.geoschnitzel.treasurehunt.base.BaseActivity;
 import com.geoschnitzel.treasurehunt.model.SHPurchaseItem;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class SHPurchaseActivity extends AppCompatActivity {
+public class SHPurchaseActivity extends BaseActivity {
 
 
     @Override
@@ -73,11 +64,4 @@ public class SHPurchaseActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }
