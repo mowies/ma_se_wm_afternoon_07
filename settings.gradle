@@ -1,0 +1,4 @@
+rootProject.name = 'treasurehunt'
+include 'shared-treasurehunt'
+include 'backend-treasurehunt'
+include 'frontend-treasurehunt'
