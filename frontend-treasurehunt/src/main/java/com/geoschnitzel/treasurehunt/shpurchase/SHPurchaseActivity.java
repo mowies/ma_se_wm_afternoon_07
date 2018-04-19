@@ -20,14 +20,6 @@ public class SHPurchaseActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shpurchase);
 
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu_send);
-
         GridView glshpurchase = findViewById(R.id.gvshpurchase);
 
         List<SHPurchaseItem> testList = new ArrayList<SHPurchaseItem>();
@@ -40,23 +32,23 @@ public class SHPurchaseActivity extends BaseActivity {
                 .setSHValue(20)
                 .setPrice(2.99f));
         testList.add(new SHPurchaseItem(testList.get(0))
-                .setTitle("Bronze")
+                .setTitle("Silber")
                 .setSHValue(20)
                 .setPrice(4.99f));
         testList.add(new SHPurchaseItem(testList.get(0))
-                .setTitle("Bronze")
+                .setTitle("Gold")
                 .setSHValue(100)
                 .setPrice(7.99f));
         testList.add(new SHPurchaseItem(testList.get(0))
-                .setTitle("Bronze")
+                .setTitle("Platin")
                 .setSHValue(500)
                 .setPrice(12.99f));
         testList.add(new SHPurchaseItem(testList.get(0))
-                .setTitle("Bronze")
+                .setTitle("Rodium")
                 .setSHValue(1000)
                 .setPrice(17.99f));
         testList.add(new SHPurchaseItem(testList.get(0))
-                .setTitle("Bronze")
+                .setTitle("Plutonium")
                 .setSHValue(5000)
                 .setPrice(24.99f));
 
