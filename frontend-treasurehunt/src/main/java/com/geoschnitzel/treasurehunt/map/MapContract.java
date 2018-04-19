@@ -7,7 +7,7 @@ import com.geoschnitzel.treasurehunt.rest.SearchParamItem;
 public interface MapContract {
 
     interface View extends IBaseView<Presenter> {
-        void OpenSearch(SearchParamItem sParam);
+        void openSearch(SearchParamItem sParam);
     }
 
     interface Presenter extends IBasePresenter {
