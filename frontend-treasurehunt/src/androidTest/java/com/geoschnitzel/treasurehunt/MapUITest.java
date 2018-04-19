@@ -5,7 +5,7 @@ import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import com.geoschnitzel.treasurehunt.map.MapActivity;
+import com.geoschnitzel.treasurehunt.main.MainActivity;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -24,8 +24,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 @LargeTest
 public class MapUITest {
     @Rule
-    public ActivityTestRule<MapActivity> mTasksActivityTestRule =
-            new ActivityTestRule<MapActivity>(MapActivity.class) {
+    public ActivityTestRule<MainActivity> mTasksActivityTestRule =
+            new ActivityTestRule<MainActivity>(MainActivity.class) {
 
             };
 
