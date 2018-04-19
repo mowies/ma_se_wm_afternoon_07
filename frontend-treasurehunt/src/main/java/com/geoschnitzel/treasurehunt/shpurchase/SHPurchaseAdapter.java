@@ -1,14 +1,16 @@
 package com.geoschnitzel.treasurehunt.shpurchase;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.geoschnitzel.treasurehunt.R;
-import com.geoschnitzel.treasurehunt.model.SHPurchaseItem;
+import com.geoschnitzel.treasurehunt.rest.SHPurchaseItem;
 
 import java.util.List;
 
@@ -45,9 +47,19 @@ public class SHPurchaseAdapter extends BaseAdapter {
         TextView tvPrice = vItem.findViewById(R.id.shpurchase_item_price);
         TextView tvSHValue = vItem.findViewById(R.id.shpurchase_item_shvalue);
         TextView tvTitle = vItem.findViewById(R.id.shpurchase_item_title);
+        Button bBuy = vItem.findViewById(R.id.shpurchase_item_buy);
+
         tvPrice.setText(item.getPriceAsText());
-        tvSHValue.setText(item.getSHValue() + "");
+        tvSHValue.setText(item.getShValueAsText());
         tvTitle.setText(item.getTitle());
+
+        bBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
         return vItem;
     }
 }

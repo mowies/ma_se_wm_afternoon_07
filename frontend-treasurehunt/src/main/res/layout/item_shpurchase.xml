@@ -40,6 +40,7 @@
         android:text="price" />
 
     <Button
+        android:id="@+id/shpurchase_item_buy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Buy"
