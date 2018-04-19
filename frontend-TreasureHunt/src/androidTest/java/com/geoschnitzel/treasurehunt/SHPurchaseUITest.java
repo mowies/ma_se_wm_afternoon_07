@@ -4,12 +4,10 @@ import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.geoschnitzel.treasurehunt.model.WebService;
 import com.geoschnitzel.treasurehunt.rest.SHPurchaseItem;
 import com.geoschnitzel.treasurehunt.shpurchase.SHPurchaseActivity;
-import com.geoschnitzel.treasurehunt.shpurchase.SHPurchaseContract;
-import com.geoschnitzel.treasurehunt.shpurchase.SHPurchasePresenter;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,21 +28,14 @@ import static org.hamcrest.Matchers.anything;
 @LargeTest
 public class SHPurchaseUITest {
 
-    SHPurchaseContract.Presenter mPresenter;
-
     @Rule
     public ActivityTestRule<SHPurchaseActivity> mTasksActivityTestRule =
             new ActivityTestRule<SHPurchaseActivity>(SHPurchaseActivity.class) {
             };
 
-    @Before
-    public void LoadTestData() {
-        mPresenter = new SHPurchasePresenter(mTasksActivityTestRule.getActivity());
-    }
-
     @Test
     public void clickBuyButton_ShowsMessage() {
-        List<SHPurchaseItem> dataList = mPresenter.getSHPurchaseItems();
+        List<SHPurchaseItem> dataList = WebService.getSHPurchaseItems();
         for (int index = 0; index < dataList.size(); index++) {
             onData(anything())
                     .inAdapterView(withId(R.id.shpurchase_gvitems))
@@ -57,7 +48,7 @@ public class SHPurchaseUITest {
 
     @Test
     public void LoadData_CheckVisible() {
-        List<SHPurchaseItem> dataList = mPresenter.getSHPurchaseItems();
+        List<SHPurchaseItem> dataList = WebService.getSHPurchaseItems();
         for (int index = 0; index < dataList.size(); index++) {
             SHPurchaseItem data = dataList.get(index);
             onData(anything())

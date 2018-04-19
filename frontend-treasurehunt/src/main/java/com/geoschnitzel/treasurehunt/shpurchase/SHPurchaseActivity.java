@@ -1,31 +1,28 @@
 package com.geoschnitzel.treasurehunt.shpurchase;
 
 import android.os.Bundle;
-import android.widget.GridView;
 
 import com.geoschnitzel.treasurehunt.R;
-import com.geoschnitzel.treasurehunt.base.BaseActivity;
+import com.geoschnitzel.treasurehunt.base.BaseActivityWithBackButton;
+import com.geoschnitzel.treasurehunt.utils.ActivityUtils;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-public class SHPurchaseActivity extends BaseActivity implements SHPurchaseContract.View {
+public class SHPurchaseActivity extends BaseActivityWithBackButton {
 
     SHPurchaseContract.Presenter mPresenter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shpurchase);
 
-        mPresenter = new SHPurchasePresenter(this);
+        SHPurchaseFragment shPurchaseFragment =
+                (SHPurchaseFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
+        if (shPurchaseFragment == null) {
+            // Create the fragment
+            shPurchaseFragment = SHPurchaseFragment.newInstance();
+            ActivityUtils.addFragmentToActivity(
+                    getSupportFragmentManager(), shPurchaseFragment, R.id.contentFrame);
+        }
 
-        GridView glshpurchase = findViewById(R.id.shpurchase_gvitems);
-        glshpurchase.setAdapter(new SHPurchaseAdapter(mPresenter.getSHPurchaseItems(), this.getApplicationContext()));
-
-    }
-
-    @Override
-    public void setPresenter(SHPurchaseContract.Presenter presenter) {
-        mPresenter = checkNotNull(presenter);
+        mPresenter = new SHPurchasePresenter(shPurchaseFragment);
     }
 }
