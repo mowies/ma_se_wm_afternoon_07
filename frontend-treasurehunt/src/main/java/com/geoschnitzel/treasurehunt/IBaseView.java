@@ -16,8 +16,8 @@
 
 package com.geoschnitzel.treasurehunt;
 
-public interface BaseView<T> {
+public interface IBaseView<IBasePresenter> {
 
-    void setPresenter(T presenter);
+    void setPresenter(IBasePresenter presenter);
 
 }

@@ -16,7 +16,7 @@
 
 package com.geoschnitzel.treasurehunt;
 
-public interface BasePresenter {
+public interface IBasePresenter {
 
     void start();
 
