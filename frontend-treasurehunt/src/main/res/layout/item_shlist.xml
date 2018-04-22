@@ -46,7 +46,7 @@
             android:isIndicator="true"
             style="?android:attr/ratingBarStyleSmall"
             android:numStars="5"
-            android:stepSize="1."/>
+            android:stepSize=".1"/>
 
         <TextView
             android:id="@+id/shlist_item_length"
