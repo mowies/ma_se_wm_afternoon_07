@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.geoschnitzel.treasurehunt.shlist.SHListFragment">
+
+    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content"
+        android:columnCount="2"
+        android:rowCount="5">
+        <TextView
+            android:id="@+id/shlist_item_visited"
+            android:layout_width="10dp"
+            android:layout_height="match_parent"
+            android:background="#FF0000"
+            android:visibility="visible"
+            android:layout_column="0"
+            android:layout_rowSpan="5"
+            android:layout_gravity="fill_vertical"/>
+
+        <TextView
+            android:id="@+id/shlist_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal|center_vertical"
+            android:layout_column="1"
+            android:text="Name"/>
+
+        <TextView
+            android:id="@+id/shlist_item_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal|center_vertical"
+            android:layout_column="1"
+            android:text="Author" />
+
+        <RatingBar
+            android:id="@+id/shlist_item_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_column="1"
+            android:isIndicator="true"
+            style="?android:attr/ratingBarStyleSmall"
+            android:numStars="5"
+            android:stepSize="1."/>
+
+        <TextView
+            android:id="@+id/shlist_item_length"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal|center_vertical"
+            android:layout_column="1"
+            android:text="Length" />
+
+        <TextView
+            android:id="@+id/shlist_item_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="1"
+            android:layout_gravity="fill_horizontal|center_vertical"
+            android:text="Description" />
+    </GridLayout>
+
+</android.support.constraint.ConstraintLayout>
