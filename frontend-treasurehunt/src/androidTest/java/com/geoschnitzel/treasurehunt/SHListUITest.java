@@ -2,6 +2,11 @@ package com.geoschnitzel.treasurehunt;
 
 import com.geoschnitzel.treasurehunt.shlist.SHListActivity;
 
+import android.support.test.espresso.contrib.DrawerActions;
+import android.support.test.filters.LargeTest;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
+
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -20,6 +25,6 @@ public class SHListUITest {
 
     @Test
     public void exampleListIsDisplayed(){
-        onView(withChild(withText("SchnitzelBoi"))).check(matches(isDisplayed()));
+        onView(withChild(withText("München"))).check(matches(isDisplayed()));
     }
 }
