@@ -13,6 +13,8 @@ import com.geoschnitzel.treasurehunt.backend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.transaction.Transactional;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,8 +31,8 @@ public class TestDataService implements TestDataApi {
         this.userRepository = userRepository;
     }
 
-
     @Override
+    @Transactional
     public void generateTestData() {
 
         List<User> users = getUserTestList();
@@ -65,4 +67,5 @@ public class TestDataService implements TestDataApi {
                 )
         );
     }
+
 }

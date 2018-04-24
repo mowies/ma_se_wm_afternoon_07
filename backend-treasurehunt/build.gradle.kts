@@ -40,6 +40,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     runtime("org.hsqldb:hsqldb")
     testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("org.hamcrest", "hamcrest-all", "1.3")
 }
 
 configure<JavaPluginConvention> {
