@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
+import static com.geoschnitzel.treasurehunt.util.UtilsKt.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -44,7 +41,4 @@ public class MessageRepositoryTest {
         assertThat(asList(messageRepository.findAll()), hasSize(0));
     }
 
-    private <T> List<T> asList(Iterable<T> iterable) {
-        return StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
-    }
 }

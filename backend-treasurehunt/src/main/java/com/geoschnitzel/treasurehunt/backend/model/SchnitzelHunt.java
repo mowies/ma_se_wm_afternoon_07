@@ -1,5 +1,6 @@
 package com.geoschnitzel.treasurehunt.backend.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,7 +31,7 @@ public class SchnitzelHunt {
      */
     private int maxSpeed;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private User creator;
 
     @Embedded

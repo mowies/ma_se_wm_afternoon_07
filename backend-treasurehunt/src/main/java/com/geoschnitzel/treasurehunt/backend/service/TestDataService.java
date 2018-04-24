@@ -10,6 +10,8 @@ import com.geoschnitzel.treasurehunt.backend.repository.SchnitzelHuntRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.transaction.Transactional;
+
 @Service
 @RestController
 public class TestDataService implements TestDataApi {
@@ -21,6 +23,7 @@ public class TestDataService implements TestDataApi {
     }
 
     @Override
+    @Transactional
     public void generateTestData() {
         schnitzelHuntRepository.save(
                 new SchnitzelHunt(
