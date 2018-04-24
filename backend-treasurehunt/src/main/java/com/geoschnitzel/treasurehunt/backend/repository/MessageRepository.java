@@ -1,4 +1,4 @@
-package com.geoschnitzel.treasurehunt.backend;
+package com.geoschnitzel.treasurehunt.backend.repository;
 
 import com.geoschnitzel.treasurehunt.backend.model.Message;
 

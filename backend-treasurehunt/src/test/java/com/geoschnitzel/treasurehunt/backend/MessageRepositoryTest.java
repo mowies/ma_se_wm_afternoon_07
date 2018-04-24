@@ -1,6 +1,7 @@
 package com.geoschnitzel.treasurehunt.backend;
 
 import com.geoschnitzel.treasurehunt.backend.model.Message;
+import com.geoschnitzel.treasurehunt.backend.repository.MessageRepository;
 
 import org.junit.Before;
 import org.junit.Test;

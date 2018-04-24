@@ -1,6 +1,9 @@
 package com.geoschnitzel.treasurehunt.backend;
 
+import com.geoschnitzel.treasurehunt.backend.api.HelloDatabaseApi;
+import com.geoschnitzel.treasurehunt.backend.api.HelloWorldApi;
 import com.geoschnitzel.treasurehunt.backend.model.Message;
+import com.geoschnitzel.treasurehunt.backend.repository.MessageRepository;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,9 +31,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {HelloWorldController.class, HelloDatabaseController.class})
+@SpringBootTest(classes = {HelloWorldApi.class, HelloDatabaseApi.class})
 @EnableWebMvc
-public class HelloWorldControllerTest {
+public class HelloWorldApiTest {
 
     @MockBean
     private MessageRepository messageRepository;

@@ -1,8 +1,8 @@
-package com.geoschnitzel.treasurehunt.backend;
+package com.geoschnitzel.treasurehunt.backend.api;
 
 import org.springframework.web.bind.annotation.GetMapping;
 
-public interface TestDataController {
+public interface TestDataApi {
 
     @GetMapping("/generateTestData")
     void generateTestData();

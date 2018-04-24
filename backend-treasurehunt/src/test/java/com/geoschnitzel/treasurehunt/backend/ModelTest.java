@@ -1,5 +1,7 @@
 package com.geoschnitzel.treasurehunt.backend;
 
+import com.geoschnitzel.treasurehunt.backend.service.TestDataService;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,11 +14,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class ModelTest {
 
     @Autowired
-    private TestDataGenerator testDataGenerator;
+    private TestDataService testDataService;
 
     @Before
     public void generateTestData() {
-        testDataGenerator.generateTestData();
+        testDataService.generateTestData();
     }
 
     @Test

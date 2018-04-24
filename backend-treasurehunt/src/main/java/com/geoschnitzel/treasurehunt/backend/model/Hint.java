@@ -22,4 +22,5 @@ public abstract class Hint {
     protected Long id;
 
     private int timeToUnlockHint;
+
 }

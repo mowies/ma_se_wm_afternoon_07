@@ -1,6 +1,7 @@
-package com.geoschnitzel.treasurehunt.backend;
+package com.geoschnitzel.treasurehunt.backend.api;
 
 import com.geoschnitzel.treasurehunt.backend.model.Message;
+import com.geoschnitzel.treasurehunt.backend.repository.MessageRepository;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +17,11 @@ import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("/helloDb")
-public class HelloDatabaseController {
+public class HelloDatabaseApi {
 
     private final MessageRepository messageRepository;
 
-    public HelloDatabaseController(MessageRepository messageRepository) {
+    public HelloDatabaseApi(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;
     }
 
