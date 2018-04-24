@@ -1,5 +1,6 @@
 package com.geoschnitzel.treasurehunt.backend;
 
+import com.geoschnitzel.treasurehunt.backend.repository.SchnitzelHuntRepository;
 import com.geoschnitzel.treasurehunt.backend.service.TestDataService;
 
 import org.junit.Before;
@@ -16,6 +17,9 @@ public class ModelTest {
     @Autowired
     private TestDataService testDataService;
 
+    @Autowired
+    private SchnitzelHuntRepository schnitzelHuntRepository;
+
     @Before
     public void generateTestData() {
         testDataService.generateTestData();
@@ -23,6 +27,6 @@ public class ModelTest {
 
     @Test
     public void testDataExists() {
-        //nothing
+        schnitzelHuntRepository.findAll();
     }
 }
