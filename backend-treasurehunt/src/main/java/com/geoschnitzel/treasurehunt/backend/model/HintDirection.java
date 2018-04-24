@@ -8,16 +8,12 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-public class HintText extends Hint {
-
-    private String description;
-
-    public HintText() {
+public class HintDirection extends Hint {
+    public HintDirection() {
         super();
     }
 
-    public HintText(Long id, int timeToUnlockHint, String description) {
+    public HintDirection(Long id, int timeToUnlockHint) {
         super(id, timeToUnlockHint);
-        this.description = description;
     }
 }
