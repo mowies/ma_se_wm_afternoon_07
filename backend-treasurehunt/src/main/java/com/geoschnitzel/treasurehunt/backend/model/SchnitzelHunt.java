@@ -41,5 +41,5 @@ public class SchnitzelHunt {
     private Area startArea;
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Target> target;
+    private List<Target> targets;
 }
