@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".shfilter.SHFilterFragment">
+
+    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content"
+        android:columnCount="2"
+        android:rowCount="5">
+        <TextView
+            android:id="@+id/shfilter_label_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal|center_vertical"
+            android:layout_column="0"
+            android:text="Name:"/>
+
+        <TextView
+            android:id="@+id/shfilter_label_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal|center_vertical"
+            android:layout_column="0"
+            android:text="Author:" />
+
+        <TextView
+            android:id="@+id/shfilter_label_length"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill_horizontal|center_vertical"
+            android:layout_column="0"
+            android:text="Length:" />
+
+        <TextView
+            android:id="@+id/shfilter_label_rating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_column="0"
+            android:layout_gravity="fill_horizontal|center_vertical"
+            android:text="Rating:" />
+    </GridLayout>
+</FrameLayout>
