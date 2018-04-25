@@ -1,12 +1,14 @@
 package com.geoschnitzel.treasurehunt.backend.schema;
 
-import java.util.List;
+import java.util.Date;
 
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,21 +16,19 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "TRANSACTION_TYPE")
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public abstract class SchnitziTransaction {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    //TODO Google ID oder so
+    private Date time;
 
-    private String displayName;
-
-    private String email;
-
-    @OneToMany
-    private List<SchnitziTransaction> transactions;
+    private int amount;
 
 }
