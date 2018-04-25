@@ -10,16 +10,20 @@ import com.geoschnitzel.treasurehunt.backend.schema.HintDirection;
 import com.geoschnitzel.treasurehunt.backend.schema.HintImage;
 import com.geoschnitzel.treasurehunt.backend.schema.HintText;
 import com.geoschnitzel.treasurehunt.backend.schema.SchnitzelHunt;
+import com.geoschnitzel.treasurehunt.backend.schema.SchnitziTransaction;
 import com.geoschnitzel.treasurehunt.backend.schema.Target;
 import com.geoschnitzel.treasurehunt.backend.schema.User;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import javax.transaction.Transactional;
+
+import static java.util.Collections.emptyList;
 
 @Service
 @RestController
@@ -44,11 +48,24 @@ public class TestDataService implements TestDataApi {
     }
 
     public List<User> getUserTestList() {
-        return Arrays.asList(new User(null, "User 1", "user1@schnitzel.com"),
-                new User(null, "User 2", "user2@schnitzel.com"),
-                new User(null, "User 3", "user3@schnitzel.com"),
-                new User(null, "User 4", "user4@schnitzel.com"),
-                new User(null, "User 5", "user5@schnitzel.com"));
+        return getUserTestList(5);
+    }
+
+    public List<User> getUserTestList(int usersToGenerate) {
+        List<User> generatedUsers = new ArrayList<>();
+        for (int i = 0; i < usersToGenerate; i++) {
+            generatedUsers.add(generateUser(i));
+        }
+
+        return generatedUsers;
+    }
+
+    private User generateUser(int userId) {
+        return new User(null, "User " + userId, "user" + userId + "@schnitzel.com", generateUserTransactions(userId));
+    }
+
+    private List<SchnitziTransaction> generateUserTransactions(int seed) {
+        return emptyList(); //TODO
     }
 
     public List<SchnitzelHunt> getSchnitzelHuntTestList(User user1) {

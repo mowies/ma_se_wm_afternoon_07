@@ -22,14 +22,17 @@ import javax.transaction.Transactional;
 import static com.geoschnitzel.treasurehunt.util.UtilsKt.asList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class SchemaTest {
 
     @Autowired
@@ -46,7 +49,6 @@ public class SchemaTest {
         testDataService.generateTestData();
     }
 
-    @Transactional
     @Test
     public void testDataExists() {
         List<User> expectedUsers = testDataService.getUserTestList();
@@ -54,6 +56,9 @@ public class SchemaTest {
 
         List<User> actualUsers = asList(userRepository.findAll());
         List<SchnitzelHunt> actualHunts = asList(schnitzelHuntRepository.findAll());
+
+        assertThat(actualUsers, is(not(empty())));
+        assertThat(actualHunts, is(not(empty())));
 
         assertThat(actualUsers, hasSize(expectedUsers.size()));
         assertThat(actualHunts, hasSize(expectedHunts.size()));
