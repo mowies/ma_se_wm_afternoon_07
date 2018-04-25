@@ -2,9 +2,11 @@ package com.geoschnitzel.treasurehunt.backend.service;
 
 
 import com.geoschnitzel.treasurehunt.backend.api.TestDataApi;
+import com.geoschnitzel.treasurehunt.backend.model.GameRepository;
 import com.geoschnitzel.treasurehunt.backend.model.SchnitzelHuntRepository;
 import com.geoschnitzel.treasurehunt.backend.model.UserRepository;
 import com.geoschnitzel.treasurehunt.backend.schema.Area;
+import com.geoschnitzel.treasurehunt.backend.schema.Game;
 import com.geoschnitzel.treasurehunt.backend.schema.HintCoordinate;
 import com.geoschnitzel.treasurehunt.backend.schema.HintDirection;
 import com.geoschnitzel.treasurehunt.backend.schema.HintImage;
@@ -26,19 +28,22 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
 @Service
 @RestController
 public class TestDataService implements TestDataApi {
 
-    private SchnitzelHuntRepository schnitzelHuntRepository;
-    private UserRepository userRepository;
+    private final SchnitzelHuntRepository schnitzelHuntRepository;
+    private final UserRepository userRepository;
+    private final GameRepository gameRepository;
 
     public TestDataService(SchnitzelHuntRepository schnitzelHuntRepository,
-                           UserRepository userRepository) {
+                           UserRepository userRepository, GameRepository gameRepository) {
         this.schnitzelHuntRepository = schnitzelHuntRepository;
         this.userRepository = userRepository;
+        this.gameRepository = gameRepository;
     }
 
     @Override
@@ -46,7 +51,13 @@ public class TestDataService implements TestDataApi {
     public void generateTestData() {
         List<User> users = generateUsers();
         userRepository.saveAll(users);
-        schnitzelHuntRepository.saveAll(generateSchnitzelHunts(users.get(1)));
+        List<SchnitzelHunt> schnitzelHunts = generateSchnitzelHunts(users.get(1));
+        schnitzelHuntRepository.saveAll(schnitzelHunts);
+        gameRepository.save(generateGame(users.get(0), schnitzelHunts.get(0)));
+    }
+
+    public Game generateGame(User user, SchnitzelHunt schnitzelHunt) {
+        return new Game(null, user, schnitzelHunt, emptyList(), emptyList());
     }
 
     public List<SchnitzelHunt> generateSchnitzelHunts(User user) {
