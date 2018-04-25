@@ -1,3 +1,6 @@
+import com.android.build.gradle.internal.cxx.stripping.createSymbolStripExecutableFinder
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
 group = "com.geoschnitzel"
 version = "1.0-SNAPSHOT"
 
@@ -15,6 +18,7 @@ buildscript {
 apply {
     plugin("io.spring.dependency-management")
     plugin("org.springframework.boot")
+    plugin("idea")
 }
 
 plugins {
@@ -38,6 +42,9 @@ dependencies {
     compile(project(":shared-treasurehunt"))
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.boot:spring-boot-starter-web")
+
+    compile("javax.xml.bind", "jaxb-api", "2.3.0")
+
     runtime("org.hsqldb:hsqldb")
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }

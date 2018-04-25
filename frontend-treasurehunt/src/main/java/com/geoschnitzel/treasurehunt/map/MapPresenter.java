@@ -1,5 +1,6 @@
 package com.geoschnitzel.treasurehunt.map;
 
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
 import com.geoschnitzel.treasurehunt.model.WebService;
@@ -18,12 +19,25 @@ public class MapPresenter implements MapContract.Presenter {
 
     @Override
     public void start() {
-        Message message = WebService.getHelloWorldMessage();
-        mView.showMessageText(String.format("Message: %s sent %s", message.getMessage(), message.getTimestamp()));
+        new HelloWorldTask().execute();
     }
 
     @Override
     public SearchParamItem GetSearchParams() {
         return new SearchParamItem("");
+    }
+
+
+    private class HelloWorldTask extends AsyncTask<Void, Void, Message> {
+
+        @Override
+        protected Message doInBackground(Void... voids) {
+            return WebService.getHelloWorldMessage();
+        }
+
+        @Override
+        protected void onPostExecute(Message message) {
+            mView.showMessageText(String.format("Message: %s sent %s", message.getMessage(), message.getTimestamp()));
+        }
     }
 }

@@ -1,11 +1,14 @@
 package com.geoschnitzel.treasurehunt.model;
 
+import com.fasterxml.jackson.module.kotlin.KotlinModule;
 import com.geoschnitzel.treasurehunt.rest.Message;
 import com.geoschnitzel.treasurehunt.rest.SHListItem;
 import com.geoschnitzel.treasurehunt.rest.SHPurchaseItem;
 
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class WebService {
@@ -38,6 +41,14 @@ public class WebService {
     }
 
     public static Message getHelloWorldMessage() {
-        return new Message("Hello (fake)", new Date());
+        String url = "http://10.0.2.2:8080/helloWorld";
+
+        RestTemplate restTemplate = new RestTemplate();
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        converter.getObjectMapper().registerModule(new KotlinModule());
+        restTemplate.getMessageConverters().add(converter);
+        Message greeting = restTemplate.getForObject(url, Message.class);
+
+        return greeting;
     }
 }
