@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".map.MapActivity">
+        <activity android:name=".main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,6 +19,10 @@
         <activity
             android:name=".shpurchase.SHPurchaseActivity"
             android:label="@string/title_activity_shpurchase"></activity>
+
+        <activity
+            android:name=".shlist.SHListActivity"
+            android:label="@string/title_activity_shlist"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

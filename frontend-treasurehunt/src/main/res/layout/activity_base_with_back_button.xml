@@ -4,9 +4,8 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.geoschnitzel.treasurehunt.shpurchase.SHPurchaseActivity"
+    tools:context="com.geoschnitzel.treasurehunt.base.BaseActivityWithBackButton"
     tools:openDrawer="start">
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,17 +13,14 @@
         android:orientation="vertical">
 
         <include
-            layout="@layout/base_toolbar"
+            layout="@layout/fragment_tool_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <include
-            layout="@layout/content_shpurchase"
+        <FrameLayout
+            android:id="@+id/contentFrame"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
+            android:layout_height="match_parent" />
     </LinearLayout>
-
-    <!-- Navigation Drawer -->
 
 </android.support.v4.widget.DrawerLayout>
