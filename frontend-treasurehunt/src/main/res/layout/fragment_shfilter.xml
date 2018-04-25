@@ -5,41 +5,33 @@
     android:layout_height="match_parent"
     tools:context=".shfilter.SHFilterFragment">
 
-    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width = "match_parent"
         android:layout_height = "wrap_content"
+        android:orientation="vertical"
         android:columnCount="2"
         android:rowCount="5">
-        <TextView
-            android:id="@+id/shfilter_label_name"
+        <EditText
+            android:id="@+id/shfilter_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="fill_horizontal|center_vertical"
-            android:layout_column="0"
             android:text="Name:"/>
 
-        <TextView
-            android:id="@+id/shfilter_label_author"
+        <EditText
+            android:id="@+id/shfilter_author"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="fill_horizontal|center_vertical"
-            android:layout_column="0"
             android:text="Author:" />
 
-        <TextView
-            android:id="@+id/shfilter_label_length"
+        <SeekBar
+            android:id="@+id/shfilter_length"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="fill_horizontal|center_vertical"
-            android:layout_column="0"
-            android:text="Length:" />
+            android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/shfilter_label_rating"
+        <SeekBar
+            android:id="@+id/shfilter_rating"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_column="0"
-            android:layout_gravity="fill_horizontal|center_vertical"
-            android:text="Rating:" />
-    </GridLayout>
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 </FrameLayout>
