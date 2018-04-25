@@ -12,6 +12,8 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.geoschnitzel.treasurehunt.R;
 
@@ -24,14 +26,55 @@ import com.geoschnitzel.treasurehunt.R;
  * Use the {@link SHFilterFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SHFilterFragment extends DialogFragment{
+public class SHFilterFragment extends DialogFragment {
     private static final String SEARCH_NAME = "search_name";
 
     private String mParam1;
 
     private OnFragmentInteractionListener mListener;
+    private SeekBar mDistanceSeekBar;
+    private SeekBar mRatingSeekBar;
+    private TextView mDistanceTextView;
+    private TextView mRatingTextView;
+    private SeekBar.OnSeekBarChangeListener mDistanceChangeListener;
+    private SeekBar.OnSeekBarChangeListener mRatingChangeListener;
 
     public SHFilterFragment() {
+        this.mDistanceChangeListener = new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mDistanceTextView.setText(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                mDistanceTextView.setText("999");
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mDistanceTextView.setText("999");
+            }
+        };
+
+        this.mRatingChangeListener = new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mRatingTextView.setText(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                mDistanceTextView.setText("999");
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mDistanceTextView.setText("999");
+
+            }
+        };
     }
 
     /**
@@ -55,6 +98,7 @@ public class SHFilterFragment extends DialogFragment{
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         builder.setView(inflater.inflate(R.layout.fragment_shfilter, null));
+        builder.setTitle("Filter");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -87,7 +131,16 @@ public class SHFilterFragment extends DialogFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shfilter, container, false);
+        View layout = inflater.inflate(R.layout.fragment_shfilter, container, false);
+
+        this.mDistanceSeekBar = (SeekBar) layout.findViewById(R.id.shfilter_distance);
+        this.mRatingSeekBar = (SeekBar) layout.findViewById(R.id.shfilter_rating);
+        this.mDistanceTextView = (TextView) layout.findViewById(R.id.shfilter_distance_text);
+        this.mRatingTextView = (TextView) layout.findViewById(R.id.shfilter_rating_text);
+
+        this.mDistanceSeekBar.setOnSeekBarChangeListener(this.mDistanceChangeListener);
+        this.mRatingSeekBar.setOnSeekBarChangeListener(this.mRatingChangeListener);
+        return layout;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

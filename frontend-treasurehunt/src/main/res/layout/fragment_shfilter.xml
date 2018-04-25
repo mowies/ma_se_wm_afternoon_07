@@ -1,37 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
     tools:context=".shfilter.SHFilterFragment">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width = "match_parent"
-        android:layout_height = "wrap_content"
-        android:orientation="vertical"
-        android:columnCount="2"
-        android:rowCount="5">
-        <EditText
-            android:id="@+id/shfilter_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Name:"/>
+    <EditText
+        android:id="@+id/shfilter_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:inputType="text" />
 
-        <EditText
-            android:id="@+id/shfilter_author"
-            android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/shfilter_author"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Author"
+        android:inputType="textPersonName" />
+
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="16">
+
+        <TextView
+            android:id="@+id/shfilter_distance_label"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="fill_horizontal|center_vertical"
-            android:text="Author:" />
+            android:layout_weight="3"
+            android:textSize="16dp"
+            android:text="Distance"/>
 
         <SeekBar
-            android:id="@+id/shfilter_length"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:id="@+id/shfilter_distance"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:tooltipText="Distance" />
+
+        <TextView
+            android:id="@+id/shfilter_distance_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:textSize="16dp"
+            android:text="123123123"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="16">
+
+        <TextView
+            android:id="@+id/shfilter_rating_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="Rating"
+            android:textSize="16dp"/>
 
         <SeekBar
             android:id="@+id/shfilter_rating"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"
+            android:tooltipText="Rating" />
+
+        <TextView
+            android:id="@+id/shfilter_rating_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:textSize="16dp" />
+
     </LinearLayout>
-</FrameLayout>
+</LinearLayout>
