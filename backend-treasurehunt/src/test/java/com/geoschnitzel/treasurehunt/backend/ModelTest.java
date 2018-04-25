@@ -1,11 +1,11 @@
 package com.geoschnitzel.treasurehunt.backend;
 
-import com.geoschnitzel.treasurehunt.backend.model.Hint;
-import com.geoschnitzel.treasurehunt.backend.model.SchnitzelHunt;
-import com.geoschnitzel.treasurehunt.backend.model.Target;
-import com.geoschnitzel.treasurehunt.backend.model.User;
-import com.geoschnitzel.treasurehunt.backend.repository.SchnitzelHuntRepository;
-import com.geoschnitzel.treasurehunt.backend.repository.UserRepository;
+import com.geoschnitzel.treasurehunt.backend.model.SchnitzelHuntRepository;
+import com.geoschnitzel.treasurehunt.backend.model.UserRepository;
+import com.geoschnitzel.treasurehunt.backend.schema.Hint;
+import com.geoschnitzel.treasurehunt.backend.schema.SchnitzelHunt;
+import com.geoschnitzel.treasurehunt.backend.schema.Target;
+import com.geoschnitzel.treasurehunt.backend.schema.User;
 import com.geoschnitzel.treasurehunt.backend.service.TestDataService;
 
 import org.junit.Before;

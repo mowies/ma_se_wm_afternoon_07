@@ -2,16 +2,16 @@ package com.geoschnitzel.treasurehunt.backend.service;
 
 
 import com.geoschnitzel.treasurehunt.backend.api.TestDataApi;
-import com.geoschnitzel.treasurehunt.backend.model.Area;
-import com.geoschnitzel.treasurehunt.backend.model.HintCoordinate;
-import com.geoschnitzel.treasurehunt.backend.model.HintDirection;
-import com.geoschnitzel.treasurehunt.backend.model.HintImage;
-import com.geoschnitzel.treasurehunt.backend.model.HintText;
-import com.geoschnitzel.treasurehunt.backend.model.SchnitzelHunt;
-import com.geoschnitzel.treasurehunt.backend.model.Target;
-import com.geoschnitzel.treasurehunt.backend.model.User;
-import com.geoschnitzel.treasurehunt.backend.repository.SchnitzelHuntRepository;
-import com.geoschnitzel.treasurehunt.backend.repository.UserRepository;
+import com.geoschnitzel.treasurehunt.backend.model.SchnitzelHuntRepository;
+import com.geoschnitzel.treasurehunt.backend.model.UserRepository;
+import com.geoschnitzel.treasurehunt.backend.schema.Area;
+import com.geoschnitzel.treasurehunt.backend.schema.HintCoordinate;
+import com.geoschnitzel.treasurehunt.backend.schema.HintDirection;
+import com.geoschnitzel.treasurehunt.backend.schema.HintImage;
+import com.geoschnitzel.treasurehunt.backend.schema.HintText;
+import com.geoschnitzel.treasurehunt.backend.schema.SchnitzelHunt;
+import com.geoschnitzel.treasurehunt.backend.schema.Target;
+import com.geoschnitzel.treasurehunt.backend.schema.User;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;

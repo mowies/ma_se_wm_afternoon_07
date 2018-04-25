@@ -1,7 +1,7 @@
 package com.geoschnitzel.treasurehunt.backend.api;
 
-import com.geoschnitzel.treasurehunt.backend.model.Message;
-import com.geoschnitzel.treasurehunt.backend.repository.MessageRepository;
+import com.geoschnitzel.treasurehunt.backend.model.MessageRepository;
+import com.geoschnitzel.treasurehunt.backend.schema.Message;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

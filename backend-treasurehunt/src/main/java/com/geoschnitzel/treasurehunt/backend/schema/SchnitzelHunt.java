@@ -1,4 +1,4 @@
-package com.geoschnitzel.treasurehunt.backend.model;
+package com.geoschnitzel.treasurehunt.backend.schema;
 
 import java.util.List;
 

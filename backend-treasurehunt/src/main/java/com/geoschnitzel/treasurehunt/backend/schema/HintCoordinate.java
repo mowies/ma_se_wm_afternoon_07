@@ -1,4 +1,4 @@
-package com.geoschnitzel.treasurehunt.backend.model;
+package com.geoschnitzel.treasurehunt.backend.schema;
 
 import javax.persistence.Entity;
 
@@ -8,12 +8,12 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-public class HintDirection extends Hint {
-    public HintDirection() {
+public class HintCoordinate extends Hint {
+    public HintCoordinate() {
         super();
     }
 
-    public HintDirection(Long id, int timeToUnlockHint) {
+    public HintCoordinate(Long id, int timeToUnlockHint) {
         super(id, timeToUnlockHint);
     }
 }

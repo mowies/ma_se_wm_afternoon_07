@@ -2,8 +2,8 @@ package com.geoschnitzel.treasurehunt.backend;
 
 import com.geoschnitzel.treasurehunt.backend.api.HelloDatabaseApi;
 import com.geoschnitzel.treasurehunt.backend.api.HelloWorldApi;
-import com.geoschnitzel.treasurehunt.backend.model.Message;
-import com.geoschnitzel.treasurehunt.backend.repository.MessageRepository;
+import com.geoschnitzel.treasurehunt.backend.model.MessageRepository;
+import com.geoschnitzel.treasurehunt.backend.schema.Message;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,6 +1,6 @@
-package com.geoschnitzel.treasurehunt.backend.repository;
+package com.geoschnitzel.treasurehunt.backend.model;
 
-import com.geoschnitzel.treasurehunt.backend.model.User;
+import com.geoschnitzel.treasurehunt.backend.schema.User;
 
 import org.springframework.data.repository.CrudRepository;
 

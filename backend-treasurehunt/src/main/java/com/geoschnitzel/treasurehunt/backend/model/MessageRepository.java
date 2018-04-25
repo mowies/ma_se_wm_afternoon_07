@@ -1,6 +1,6 @@
-package com.geoschnitzel.treasurehunt.backend.repository;
+package com.geoschnitzel.treasurehunt.backend.model;
 
-import com.geoschnitzel.treasurehunt.backend.model.Message;
+import com.geoschnitzel.treasurehunt.backend.schema.Message;
 
 import org.springframework.data.repository.CrudRepository;
 
