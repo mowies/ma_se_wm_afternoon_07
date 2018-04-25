@@ -2,6 +2,8 @@ package com.geoschnitzel.treasurehunt.map;
 
 import android.support.annotation.NonNull;
 
+import com.geoschnitzel.treasurehunt.model.WebService;
+import com.geoschnitzel.treasurehunt.rest.Message;
 import com.geoschnitzel.treasurehunt.rest.SearchParamItem;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -16,7 +18,8 @@ public class MapPresenter implements MapContract.Presenter {
 
     @Override
     public void start() {
-
+        Message message = WebService.getHelloWorldMessage();
+        mView.showMessageText(String.format("Message: %s sent %s", message.getMessage(), message.getTimestamp()));
     }
 
     @Override

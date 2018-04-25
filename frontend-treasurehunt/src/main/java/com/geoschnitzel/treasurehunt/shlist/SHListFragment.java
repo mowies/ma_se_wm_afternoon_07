@@ -1,7 +1,6 @@
 package com.geoschnitzel.treasurehunt.shlist;
 
 import android.os.Bundle;
-import javax.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.geoschnitzel.treasurehunt.R;
+
+import javax.annotation.Nullable;
 
 public class SHListFragment extends Fragment implements  SHListContract.View{
     private SHListContract.Presenter mPresenter;
@@ -27,6 +28,13 @@ public class SHListFragment extends Fragment implements  SHListContract.View{
 
         return root;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.start();
+    }
+
 
     @Override
     public void setPresenter(SHListContract.Presenter presenter) {

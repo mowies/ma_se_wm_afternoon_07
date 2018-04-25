@@ -1,9 +1,11 @@
 package com.geoschnitzel.treasurehunt.model;
 
+import com.geoschnitzel.treasurehunt.rest.Message;
 import com.geoschnitzel.treasurehunt.rest.SHListItem;
 import com.geoschnitzel.treasurehunt.rest.SHPurchaseItem;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class WebService {
@@ -33,5 +35,9 @@ public class WebService {
         testList.add(new SHListItem("München","Wolf Elias",120f,3.5f," Est ea minim scripta dissentiet",false));
         testList.add(new SHListItem("Leoben","Debora Conrad",475f,1.6f," Est ea minim scripta dissentiet",true));
         return testList;
+    }
+
+    public static Message getHelloWorldMessage() {
+        return new Message("Hello (fake)", new Date());
     }
 }

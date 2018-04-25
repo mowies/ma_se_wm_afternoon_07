@@ -29,6 +29,13 @@ public class SHPurchaseFragment extends Fragment implements SHPurchaseContract.V
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.start();
+    }
+
+
+    @Override
     public void setPresenter(SHPurchaseContract.Presenter presenter) {
         this.mPresenter = presenter;
     }
