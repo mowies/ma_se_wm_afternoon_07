@@ -30,7 +30,7 @@ import static org.hamcrest.Matchers.instanceOf;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class ModelTest {
+public class SchemaTest {
 
     @Autowired
     private TestDataService testDataService;
