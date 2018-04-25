@@ -10,7 +10,9 @@ import com.geoschnitzel.treasurehunt.backend.schema.HintDirection;
 import com.geoschnitzel.treasurehunt.backend.schema.HintImage;
 import com.geoschnitzel.treasurehunt.backend.schema.HintText;
 import com.geoschnitzel.treasurehunt.backend.schema.SchnitzelHunt;
+import com.geoschnitzel.treasurehunt.backend.schema.SchnitziEarnedTransaction;
 import com.geoschnitzel.treasurehunt.backend.schema.SchnitziTransaction;
+import com.geoschnitzel.treasurehunt.backend.schema.SchnitziUsedTransaction;
 import com.geoschnitzel.treasurehunt.backend.schema.Target;
 import com.geoschnitzel.treasurehunt.backend.schema.User;
 
@@ -19,11 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
-import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 
 @Service
 @RestController
@@ -41,17 +44,20 @@ public class TestDataService implements TestDataApi {
     @Override
     @Transactional
     public void generateTestData() {
-
-        List<User> users = getUserTestList();
+        List<User> users = generateUsers();
         userRepository.saveAll(users);
-        schnitzelHuntRepository.saveAll(getSchnitzelHuntTestList(users.get(1)));
+        schnitzelHuntRepository.saveAll(generateSchnitzelHunts(users.get(1)));
     }
 
-    public List<User> getUserTestList() {
-        return getUserTestList(5);
+    public List<SchnitzelHunt> generateSchnitzelHunts(User user) {
+        return generateSchnitzelHunts(user, 5);
     }
 
-    public List<User> getUserTestList(int usersToGenerate) {
+    public List<User> generateUsers() {
+        return generateUsers(5);
+    }
+
+    public List<User> generateUsers(int usersToGenerate) {
         List<User> generatedUsers = new ArrayList<>();
         for (int i = 0; i < usersToGenerate; i++) {
             generatedUsers.add(generateUser(i));
@@ -65,106 +71,38 @@ public class TestDataService implements TestDataApi {
     }
 
     private List<SchnitziTransaction> generateUserTransactions(int seed) {
-        return emptyList(); //TODO
+        return Arrays.asList(
+                new SchnitziEarnedTransaction(null, new Date(1524660129 + seed + 1), 5 + seed, "By testing"),
+                new SchnitziUsedTransaction(null, new Date(1524660129 + seed + 1000), 4 + seed, "For testing")
+        );
     }
 
-    public List<SchnitzelHunt> getSchnitzelHuntTestList(User user1) {
-        return Arrays.asList(
-                new SchnitzelHunt(
-                        null,
-                        "Schnitzelhunt 1",
-                        "A hunt for a schnitzel 1",
-                        10,
-                        user1,
-                        new Area(47.0748539, 15.4415758, 5),
-                        Arrays.asList(
-                                new Target(null, new Area(47.0748539, 15.4415758,
-                                        5),
-                                        Arrays.asList(
-                                                new HintText(null, 0, "Suche die höchste Uhr in Graz."),
-                                                new HintText(null, 2 * 60, "Es ist eine analoge Uhr."),
-                                                new HintImage(null, 5 * 60, "ccacb863-5897-485b-b822-ca119c7afcfb", "impage/jpeg"),
-                                                new HintDirection(null, 10 * 60),
-                                                new HintCoordinate(null, 15 * 60)
-                                        ))
-                        )
-                ),
-                new SchnitzelHunt(
-                        null,
-                        "Schnitzelhunt 2",
-                        "A hunt for a schnitzel 2",
-                        10,
-                        user1,
-                        new Area(47.0788539, 15.4418758, 5),
-                        Arrays.asList(
-                                new Target(null, new Area(47.0748539, 15.4415758,
-                                        5),
-                                        Arrays.asList(
-                                                new HintText(null, 0, "Suche die höchste Uhr in Graz."),
-                                                new HintText(null, 2 * 60, "Es ist eine analoge Uhr."),
-                                                new HintImage(null, 5 * 60, "ccacb863-5897-485b-b822-ca119c7afcfb", "impage/jpeg"),
-                                                new HintDirection(null, 10 * 60),
-                                                new HintCoordinate(null, 15 * 60)
-                                        ))
-                        )
-                ),
-                new SchnitzelHunt(
-                        null,
-                        "Schnitzelhunt 3",
-                        "A hunt for a schnitzel 3",
-                        10,
-                        user1,
-                        new Area(47.0948539, 15.4419758, 5),
-                        Arrays.asList(
-                                new Target(null, new Area(47.0748539, 15.4415758,
-                                        5),
-                                        Arrays.asList(
-                                                new HintText(null, 0, "Suche die höchste Uhr in Graz."),
-                                                new HintText(null, 2 * 60, "Es ist eine analoge Uhr."),
-                                                new HintImage(null, 5 * 60, "ccacb863-5897-485b-b822-ca119c7afcfb", "impage/jpeg"),
-                                                new HintDirection(null, 10 * 60),
-                                                new HintCoordinate(null, 15 * 60)
-                                        ))
-                        )
-                ),
-                new SchnitzelHunt(
-                        null,
-                        "Schnitzelhunt 4",
-                        "A hunt for a schnitzel 4",
-                        10,
-                        user1,
-                        new Area(47.0398539, 15.4454758, 5),
-                        Arrays.asList(
-                                new Target(null, new Area(47.0738539, 15.444758,
-                                        5),
-                                        Arrays.asList(
-                                                new HintText(null, 0, "Suche die höchste Uhr in Graz."),
-                                                new HintText(null, 2 * 60, "Es ist eine analoge Uhr."),
-                                                new HintImage(null, 5 * 60, "ccacb863-5897-485b-b822-ca119c7afcfb", "impage/jpeg"),
-                                                new HintDirection(null, 10 * 60),
-                                                new HintCoordinate(null, 15 * 60)
-                                        ))
-                        )
-                ),
-                new SchnitzelHunt(
-                        null,
-                        "Schnitzelhunt 5",
-                        "A hunt for a schnitzel 5",
-                        10,
-                        user1,
-                        new Area(47.0743139, 15.4415128, 12),
-                        Arrays.asList(
-                                new Target(null, new Area(47.0748239, 15.4315758, 5),
-                                        Arrays.asList(
-                                                new HintText(null, 0, "Suche die höchste Uhr in Graz."),
-                                                new HintText(null, 2 * 60, "Es ist eine analoge Uhr."),
-                                                new HintImage(null, 5 * 60, "ccacb863-5897-485b-b822-ca119c7afcfb", "impage/jpeg"),
-                                                new HintDirection(null, 10 * 60),
-                                                new HintCoordinate(null, 15 * 60)
-                                        ))
-                        )
-                )
-        );
+    public List<SchnitzelHunt> generateSchnitzelHunts(User user, int schnitzelHuntsToGenerate) {
+        List<SchnitzelHunt> schnitzelHunts = new ArrayList<>();
+
+        for (int i = 0; i < schnitzelHuntsToGenerate; i++) {
+            schnitzelHunts.add(new SchnitzelHunt(
+                            null,
+                            "Schnitzelhunt " + i,
+                            "A hunt for a schnitzel " + i,
+                            10 + i,
+                            user,
+                            new Area(47.0748539 + i * 0.001, 15.4415758 - i * 0.001, 5),
+                            singletonList(
+                                    new Target(null, new Area(47.0748539 + i * 0.001, 15.4415758 - i * 0.001, 5),
+                                            Arrays.asList(
+                                                    new HintText(null, 0, "Suche die höchste Uhr in Graz."),
+                                                    new HintText(null, 2 * 60, "Es ist eine analoge Uhr."),
+                                                    new HintImage(null, 5 * 60, "ccacb863-5897-485b-b822-ca119c7afcfb", "impage/jpeg"),
+                                                    new HintDirection(null, 10 * 60),
+                                                    new HintCoordinate(null, 15 * 60)
+                                            ))
+                            )
+                    )
+            );
+        }
+
+        return schnitzelHunts;
     }
 
 }

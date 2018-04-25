@@ -51,8 +51,8 @@ public class SchemaTest {
 
     @Test
     public void testDataExists() {
-        List<User> expectedUsers = testDataService.getUserTestList();
-        List<SchnitzelHunt> expectedHunts = testDataService.getSchnitzelHuntTestList(expectedUsers.get(1));
+        List<User> expectedUsers = testDataService.generateUsers();
+        List<SchnitzelHunt> expectedHunts = testDataService.generateSchnitzelHunts(expectedUsers.get(1));
 
         List<User> actualUsers = asList(userRepository.findAll());
         List<SchnitzelHunt> actualHunts = asList(schnitzelHuntRepository.findAll());
