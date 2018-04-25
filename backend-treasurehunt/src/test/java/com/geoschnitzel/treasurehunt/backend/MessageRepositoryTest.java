@@ -15,6 +15,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 
 
@@ -39,6 +40,16 @@ public class MessageRepositoryTest {
         assertThat(messageRepository.findMessageByMessage("doesntexist"), is(nullValue()));
         messageRepository.deleteAll();
         assertThat(asList(messageRepository.findAll()), hasSize(0));
+    }
+
+    @Test
+    public void customRepositoryMethodWorks() {
+        Message message = new Message("Hello Custom!");
+
+        Message returnedMessage = messageRepository.storeAndReturnMessage(message);
+
+        assertThat(returnedMessage.getId(), is(notNullValue()));
+        assertThat(returnedMessage.getMessage(), is(equalTo(message.getMessage())));
     }
 
 }
