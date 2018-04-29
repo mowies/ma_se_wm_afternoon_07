@@ -1,12 +1,14 @@
 package com.geoschnitzel.treasurehunt.shlist;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.geoschnitzel.treasurehunt.R;
 import com.geoschnitzel.treasurehunt.base.BaseActivityWithBackButton;
+import com.geoschnitzel.treasurehunt.shfilter.SHFilterFragment;
 import com.geoschnitzel.treasurehunt.utils.ActivityUtils;
 
-public class SHListActivity extends BaseActivityWithBackButton{
+public class SHListActivity extends BaseActivityWithBackButton implements SHFilterFragment.OnFragmentInteractionListener{
 
     SHListContract.Presenter mPresenter;
 
@@ -24,4 +26,8 @@ public class SHListActivity extends BaseActivityWithBackButton{
         mPresenter = new SHListPresenter(shListFragment);
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        
+    }
 }
