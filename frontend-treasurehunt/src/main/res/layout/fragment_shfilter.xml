@@ -62,22 +62,52 @@
         android:weightSum="16">
 
         <TextView
-            android:id="@+id/shfilter_length_hunt_label"
+            android:id="@+id/shfilter_length_hunt_min_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:textSize="16dp"
-            android:text="Hunt Length" />
+            android:text="Hunt Length Min" />
 
         <SeekBar
-            android:id="@+id/shfilter_length_hunt"
+            android:id="@+id/shfilter_length_hunt_min"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="9"
-            android:tooltipText="Distance" />
+            android:layout_weight="9" />
 
         <TextView
-            android:id="@+id/shfilter_length_hunt_text"
+            android:id="@+id/shfilter_length_hunt_min_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:textSize="16dp"
+            android:text="0 km" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="16">
+
+        <TextView
+            android:id="@+id/shfilter_length_hunt_max_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:textSize="16dp"
+            android:text="Hunt Length Max" />
+
+        <SeekBar
+            android:id="@+id/shfilter_length_hunt_max"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="9" />
+
+        <TextView
+            android:id="@+id/shfilter_length_hunt_max_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"

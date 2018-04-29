@@ -34,11 +34,13 @@ public class SHFilterFragment extends DialogFragment implements SeekBar.OnSeekBa
 
     private OnFragmentInteractionListener mListener;
     private SeekBar mDistanceToSeekBar;
-    private SeekBar mLengthHuntSeekBar;
+    private SeekBar mLengthHuntMinSeekBar;
+    private SeekBar mLengthHuntMaxSeekBar;
     private SeekBar mRatingMinSeekBar;
     private SeekBar mRatingMaxSeekBar;
     private TextView mDistanceToTextView;
-    private TextView mLengthHuntTextView;
+    private TextView mLengthHuntMinTextView;
+    private TextView mLengthHuntMaxTextView;
     private TextView mRatingMinTextView;
     private TextView mRatingMaxTextView;
     private EditText mNameEdit;
@@ -72,11 +74,13 @@ public class SHFilterFragment extends DialogFragment implements SeekBar.OnSeekBa
 
         this.mDistanceToSeekBar = (SeekBar) root.findViewById(R.id.shfilter_distance_to);
 
-        this.mLengthHuntSeekBar = (SeekBar) root.findViewById(R.id.shfilter_length_hunt);
+        this.mLengthHuntMinSeekBar = (SeekBar) root.findViewById(R.id.shfilter_length_hunt_min);
+        this.mLengthHuntMaxSeekBar = (SeekBar) root.findViewById(R.id.shfilter_length_hunt_max);
         this.mRatingMinSeekBar = (SeekBar) root.findViewById(R.id.shfilter_min_rating);
         this.mRatingMaxSeekBar = (SeekBar) root.findViewById(R.id.shfilter_max_rating);
         this.mDistanceToTextView = (TextView) root.findViewById(R.id.shfilter_distance_to_text);
-        this.mLengthHuntTextView = (TextView) root.findViewById(R.id.shfilter_length_hunt_text);
+        this.mLengthHuntMaxTextView = (TextView) root.findViewById(R.id.shfilter_length_hunt_max_text);
+        this.mLengthHuntMinTextView = (TextView) root.findViewById(R.id.shfilter_length_hunt_min_text);
         this.mRatingMinTextView = (TextView) root.findViewById(R.id.shfilter_rating_min_text);
         this.mRatingMaxTextView = (TextView) root.findViewById(R.id.shfilter_rating_max_text);
         this.mNameEdit = (EditText) root.findViewById(R.id.shfilter_name);
@@ -88,7 +92,8 @@ public class SHFilterFragment extends DialogFragment implements SeekBar.OnSeekBa
         this.mRatingMaxSeekBar.setProgress(4);
 
         this.mDistanceToSeekBar.setOnSeekBarChangeListener(this);
-        this.mLengthHuntSeekBar.setOnSeekBarChangeListener(this);
+        this.mLengthHuntMinSeekBar.setOnSeekBarChangeListener(this);
+        this.mLengthHuntMaxSeekBar.setOnSeekBarChangeListener(this);
         this.mRatingMinSeekBar.setOnSeekBarChangeListener(this);
         this.mRatingMaxSeekBar.setOnSeekBarChangeListener(this);
 
@@ -128,7 +133,8 @@ public class SHFilterFragment extends DialogFragment implements SeekBar.OnSeekBa
         this.mNameEdit.setText("");
         this.mAuthorEdit.setText("");
         this.mDistanceToSeekBar.setProgress(this.mDistanceToSeekBar.getMax());
-        this.mLengthHuntSeekBar.setProgress(this.mLengthHuntSeekBar.getMax());
+        this.mLengthHuntMinSeekBar.setProgress(0);
+        this.mLengthHuntMaxSeekBar.setProgress(this.mLengthHuntMaxSeekBar.getMax());
         this.mRatingMinSeekBar.setProgress(0);
         this.mRatingMaxSeekBar.setProgress(4);
     }
@@ -179,8 +185,17 @@ public class SHFilterFragment extends DialogFragment implements SeekBar.OnSeekBa
             case R.id.shfilter_distance_to:
                 this.mDistanceToTextView.setText(String.valueOf(progress) + " km");
                 break;
-            case R.id.shfilter_length_hunt:
-                this.mLengthHuntTextView.setText(String.valueOf(progress) + " km");
+            case R.id.shfilter_length_hunt_min:
+                if (this.mLengthHuntMaxSeekBar.getProgress() < progress) {
+                    this.mLengthHuntMaxSeekBar.setProgress(progress);
+                }
+                this.mLengthHuntMinTextView.setText(String.valueOf(progress) + " km");
+                break;
+            case R.id.shfilter_length_hunt_max:
+                if (this.mLengthHuntMinSeekBar.getProgress() > progress) {
+                    this.mLengthHuntMinSeekBar.setProgress(progress);
+                }
+                this.mLengthHuntMaxTextView.setText(String.valueOf(progress) + " km");
                 break;
             case R.id.shfilter_max_rating:
                 if (this.mRatingMinSeekBar.getProgress() > progress) {

@@ -37,7 +37,6 @@ public class SHFilterUITest {
         return new ViewAction() {
             @Override
             public void perform(UiController uiController, View view) {
-//                ((MyCustomSeekBar) view).setSelectedProgress(progress);
                 ((SeekBar) view).setProgress(progress);
             }
 
@@ -67,7 +66,7 @@ public class SHFilterUITest {
     }
 
     @Test
-    public void dragMinSeekbar_changesMaxSeekbar() {
+    public void dragMinRatingSeekbar_changesMaxSeekbar() {
         onView(withId(R.id.action_filter)).perform(click());
         onView(withId(R.id.shfilter_max_rating)).perform(setProgress(1));
         onView(withId(R.id.shfilter_min_rating)).perform(setProgress(3));
@@ -75,10 +74,45 @@ public class SHFilterUITest {
     }
 
     @Test
-    public void dragMaxSeekbar_changesMinSeekbar() {
+    public void dragMaxRatingSeekbar_changesMinSeekbar() {
         onView(withId(R.id.action_filter)).perform(click());
         onView(withId(R.id.shfilter_min_rating)).perform(setProgress(5));
         onView(withId(R.id.shfilter_max_rating)).perform(setProgress(2));
         onView(withId(R.id.shfilter_rating_min_text)).check(matches(withText("3")));
+    }
+
+    @Test
+    public void dragMinSHLengthSeekbar_changesMaxSeekbar() {
+        onView(withId(R.id.action_filter)).perform(click());
+        onView(withId(R.id.shfilter_length_hunt_max)).perform(setProgress(1));
+        onView(withId(R.id.shfilter_length_hunt_min)).perform(setProgress(20));
+        onView(withId(R.id.shfilter_length_hunt_max_text)).check(matches(withText("20 km")));
+    }
+
+    @Test
+    public void dragMaxSHLengthSeekbar_changesMinSeekbar() {
+        onView(withId(R.id.action_filter)).perform(click());
+        onView(withId(R.id.shfilter_length_hunt_min)).perform(setProgress(50));
+        onView(withId(R.id.shfilter_length_hunt_max)).perform(setProgress(20));
+        onView(withId(R.id.shfilter_length_hunt_min_text)).check(matches(withText("20 km")));
+    }
+
+    @Test
+    public void pressResetButton_resetsFilterOptions() {
+        onView(withId(R.id.action_filter)).perform(click());
+
+        onView(withId(R.id.shfilter_distance_to)).perform(setProgress(10));
+        onView(withId(R.id.shfilter_max_rating)).perform(setProgress(1));
+        onView(withId(R.id.shfilter_min_rating)).perform(setProgress(3));
+
+        onView(withId(android.R.id.button3)).perform(click());
+
+        onView(withId(R.id.shfilter_rating_min_text)).check(matches(withText("1")));
+        onView(withId(R.id.shfilter_rating_max_text)).check(matches(withText("5")));
+        onView(withId(R.id.shfilter_distance_to_text)).check(matches(withText("100 km")));
+        onView(withId(R.id.shfilter_length_hunt_max_text)).check(matches(withText("100 km")));
+        onView(withId(R.id.shfilter_length_hunt_min_text)).check(matches(withText("0 km")));
+        onView(withId(R.id.shfilter_name)).check(matches(withText("")));
+        onView(withId(R.id.shfilter_author)).check(matches(withText("")));
     }
 }
