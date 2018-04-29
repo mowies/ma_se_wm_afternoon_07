@@ -1,14 +1,14 @@
 package com.geoschnitzel.treasurehunt.shfilter;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,55 +26,20 @@ import com.geoschnitzel.treasurehunt.R;
  * Use the {@link SHFilterFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SHFilterFragment extends DialogFragment {
+public class SHFilterFragment extends DialogFragment implements SeekBar.OnSeekBarChangeListener {
     private static final String SEARCH_NAME = "search_name";
 
     private String mParam1;
 
     private OnFragmentInteractionListener mListener;
     private SeekBar mDistanceSeekBar;
-    private SeekBar mRatingSeekBar;
+    private SeekBar mRatingMinSeekBar;
+    private SeekBar mRatingMaxSeekBar;
     private TextView mDistanceTextView;
-    private TextView mRatingTextView;
-    private SeekBar.OnSeekBarChangeListener mDistanceChangeListener;
-    private SeekBar.OnSeekBarChangeListener mRatingChangeListener;
+    private TextView mRatingMinTextView;
+    private TextView mRatingMaxTextView;
 
     public SHFilterFragment() {
-        this.mDistanceChangeListener = new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mDistanceTextView.setText(progress);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                mDistanceTextView.setText("999");
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                mDistanceTextView.setText("999");
-            }
-        };
-
-        this.mRatingChangeListener = new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mRatingTextView.setText(progress);
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                mDistanceTextView.setText("999");
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                mDistanceTextView.setText("999");
-
-            }
-        };
     }
 
     /**
@@ -97,25 +62,44 @@ public class SHFilterFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.fragment_shfilter, null));
+        View root = inflater.inflate(R.layout.fragment_shfilter, null);
+        builder.setView(root);
+
+        this.mDistanceSeekBar = (SeekBar) root.findViewById(R.id.shfilter_distance);
+        this.mRatingMinSeekBar = (SeekBar) root.findViewById(R.id.shfilter_min_rating);
+        this.mRatingMaxSeekBar = (SeekBar) root.findViewById(R.id.shfilter_max_rating);
+        this.mDistanceTextView = (TextView) root.findViewById(R.id.shfilter_distance_text);
+        this.mRatingMinTextView = (TextView) root.findViewById(R.id.shfilter_rating_min_text);
+        this.mRatingMaxTextView = (TextView) root.findViewById(R.id.shfilter_rating_max_text);
+
+        this.mRatingMinSeekBar.setMax(5);
+        this.mRatingMaxSeekBar.setMax(5);
+
+        this.mDistanceSeekBar.setOnSeekBarChangeListener(this);
+        this.mRatingMinSeekBar.setOnSeekBarChangeListener(this);
+        this.mRatingMaxSeekBar.setOnSeekBarChangeListener(this);
+
         builder.setTitle("Filter");
+
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
             }
         });
+
         builder.setNeutralButton("Reset", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
             }
         });
+
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 SHFilterFragment.this.getDialog().cancel();
             }
         });
+
         return builder.create();
     }
 
@@ -131,16 +115,8 @@ public class SHFilterFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View layout = inflater.inflate(R.layout.fragment_shfilter, container, false);
 
-        this.mDistanceSeekBar = (SeekBar) layout.findViewById(R.id.shfilter_distance);
-        this.mRatingSeekBar = (SeekBar) layout.findViewById(R.id.shfilter_rating);
-        this.mDistanceTextView = (TextView) layout.findViewById(R.id.shfilter_distance_text);
-        this.mRatingTextView = (TextView) layout.findViewById(R.id.shfilter_rating_text);
-
-        this.mDistanceSeekBar.setOnSeekBarChangeListener(this.mDistanceChangeListener);
-        this.mRatingSeekBar.setOnSeekBarChangeListener(this.mRatingChangeListener);
-        return layout;
+        return inflater.inflate(R.layout.fragment_shfilter, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -165,6 +141,35 @@ public class SHFilterFragment extends DialogFragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        switch (seekBar.getId()) {
+            case R.id.shfilter_distance:
+                this.mDistanceTextView.setText(String.valueOf(progress));
+                break;
+            case R.id.shfilter_max_rating:
+                if (this.mRatingMinSeekBar.getProgress() > progress) {
+                    this.mRatingMinSeekBar.setProgress(progress);
+                }
+                this.mRatingMaxTextView.setText(String.valueOf(progress));
+                break;
+            case R.id.shfilter_min_rating:
+                if (this.mRatingMaxSeekBar.getProgress() < progress) {
+                    this.mRatingMaxSeekBar.setProgress(progress);
+                }
+                this.mRatingMinTextView.setText(String.valueOf(progress));
+                break;
+        }
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
     }
 
     /**

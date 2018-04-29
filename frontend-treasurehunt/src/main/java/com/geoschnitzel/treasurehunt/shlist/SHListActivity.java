@@ -1,9 +1,7 @@
 package com.geoschnitzel.treasurehunt.shlist;
 
-import android.app.DialogFragment;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 
 import com.geoschnitzel.treasurehunt.R;
 import com.geoschnitzel.treasurehunt.base.BaseActivityWithBackButton;

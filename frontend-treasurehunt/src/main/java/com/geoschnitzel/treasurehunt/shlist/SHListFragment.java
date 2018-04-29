@@ -1,8 +1,6 @@
 package com.geoschnitzel.treasurehunt.shlist;
 
 import android.os.Bundle;
-import javax.annotation.Nullable;
-
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,6 +13,8 @@ import android.widget.ListView;
 
 import com.geoschnitzel.treasurehunt.R;
 import com.geoschnitzel.treasurehunt.shfilter.SHFilterFragment;
+
+import javax.annotation.Nullable;
 
 public class SHListFragment extends Fragment implements  SHListContract.View{
     private SHListContract.Presenter mPresenter;
@@ -51,7 +51,7 @@ public class SHListFragment extends Fragment implements  SHListContract.View{
         switch (item.getItemId()){
             case R.id.action_filter:
                 DialogFragment filter_dialog = new SHFilterFragment();
-                filter_dialog.show(getActivity().getSupportFragmentManager(), "SHFilterFragment");
+                filter_dialog.show(this.getChildFragmentManager(), "SHFilterFragment");
                 return true;
         }
         return false;

@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:textSize="16dp"
-            android:text="123123123"/>
+            android:text="0" />
 
     </LinearLayout>
 
@@ -61,26 +61,56 @@
         android:weightSum="16">
 
         <TextView
-            android:id="@+id/shfilter_rating_label"
+            android:id="@+id/shfilter_rating_min_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:text="Rating"
+            android:text="Rating Min"
+            android:textSize="16dp" />
+
+        <SeekBar
+            android:id="@+id/shfilter_min_rating"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="10" />
+
+        <TextView
+            android:id="@+id/shfilter_rating_min_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:textSize="16dp"
+            android:text="1" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="16">
+
+        <TextView
+            android:id="@+id/shfilter_rating_max_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="Rating Max"
             android:textSize="16dp"/>
 
         <SeekBar
-            android:id="@+id/shfilter_rating"
+            android:id="@+id/shfilter_max_rating"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:tooltipText="Rating" />
+            android:layout_weight="10" />
 
         <TextView
-            android:id="@+id/shfilter_rating_text"
+            android:id="@+id/shfilter_rating_max_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:textSize="16dp" />
-
+            android:textSize="16dp"
+            android:text="5" />
     </LinearLayout>
 </LinearLayout>
