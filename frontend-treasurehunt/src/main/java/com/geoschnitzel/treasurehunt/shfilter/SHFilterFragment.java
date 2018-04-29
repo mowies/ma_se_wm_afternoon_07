@@ -12,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -32,12 +33,16 @@ public class SHFilterFragment extends DialogFragment implements SeekBar.OnSeekBa
     private String mParam1;
 
     private OnFragmentInteractionListener mListener;
-    private SeekBar mDistanceSeekBar;
+    private SeekBar mDistanceToSeekBar;
+    private SeekBar mLengthHuntSeekBar;
     private SeekBar mRatingMinSeekBar;
     private SeekBar mRatingMaxSeekBar;
-    private TextView mDistanceTextView;
+    private TextView mDistanceToTextView;
+    private TextView mLengthHuntTextView;
     private TextView mRatingMinTextView;
     private TextView mRatingMaxTextView;
+    private EditText mNameEdit;
+    private EditText mAuthorEdit;
 
     public SHFilterFragment() {
     }
@@ -65,17 +70,25 @@ public class SHFilterFragment extends DialogFragment implements SeekBar.OnSeekBa
         View root = inflater.inflate(R.layout.fragment_shfilter, null);
         builder.setView(root);
 
-        this.mDistanceSeekBar = (SeekBar) root.findViewById(R.id.shfilter_distance);
+        this.mDistanceToSeekBar = (SeekBar) root.findViewById(R.id.shfilter_distance_to);
+
+        this.mLengthHuntSeekBar = (SeekBar) root.findViewById(R.id.shfilter_length_hunt);
         this.mRatingMinSeekBar = (SeekBar) root.findViewById(R.id.shfilter_min_rating);
         this.mRatingMaxSeekBar = (SeekBar) root.findViewById(R.id.shfilter_max_rating);
-        this.mDistanceTextView = (TextView) root.findViewById(R.id.shfilter_distance_text);
+        this.mDistanceToTextView = (TextView) root.findViewById(R.id.shfilter_distance_to_text);
+        this.mLengthHuntTextView = (TextView) root.findViewById(R.id.shfilter_length_hunt_text);
         this.mRatingMinTextView = (TextView) root.findViewById(R.id.shfilter_rating_min_text);
         this.mRatingMaxTextView = (TextView) root.findViewById(R.id.shfilter_rating_max_text);
+        this.mNameEdit = (EditText) root.findViewById(R.id.shfilter_name);
+        this.mAuthorEdit = (EditText) root.findViewById(R.id.shfilter_author);
 
-        this.mRatingMinSeekBar.setMax(5);
-        this.mRatingMaxSeekBar.setMax(5);
+        this.mRatingMinSeekBar.setMax(4);
+        this.mRatingMinSeekBar.setProgress(0);
+        this.mRatingMaxSeekBar.setMax(4);
+        this.mRatingMaxSeekBar.setProgress(4);
 
-        this.mDistanceSeekBar.setOnSeekBarChangeListener(this);
+        this.mDistanceToSeekBar.setOnSeekBarChangeListener(this);
+        this.mLengthHuntSeekBar.setOnSeekBarChangeListener(this);
         this.mRatingMinSeekBar.setOnSeekBarChangeListener(this);
         this.mRatingMaxSeekBar.setOnSeekBarChangeListener(this);
 
@@ -87,11 +100,7 @@ public class SHFilterFragment extends DialogFragment implements SeekBar.OnSeekBa
             }
         });
 
-        builder.setNeutralButton("Reset", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-            }
-        });
+        builder.setNeutralButton("Reset", null);
 
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
@@ -100,7 +109,28 @@ public class SHFilterFragment extends DialogFragment implements SeekBar.OnSeekBa
             }
         });
 
-        return builder.create();
+        final AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog_interface) {
+                dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        cleanFilter();
+                    }
+                });
+            }
+        });
+        return dialog;
+    }
+
+    private void cleanFilter() {
+        this.mNameEdit.setText("");
+        this.mAuthorEdit.setText("");
+        this.mDistanceToSeekBar.setProgress(this.mDistanceToSeekBar.getMax());
+        this.mLengthHuntSeekBar.setProgress(this.mLengthHuntSeekBar.getMax());
+        this.mRatingMinSeekBar.setProgress(0);
+        this.mRatingMaxSeekBar.setProgress(4);
     }
 
     @Override
@@ -146,20 +176,23 @@ public class SHFilterFragment extends DialogFragment implements SeekBar.OnSeekBa
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         switch (seekBar.getId()) {
-            case R.id.shfilter_distance:
-                this.mDistanceTextView.setText(String.valueOf(progress));
+            case R.id.shfilter_distance_to:
+                this.mDistanceToTextView.setText(String.valueOf(progress) + " km");
+                break;
+            case R.id.shfilter_length_hunt:
+                this.mLengthHuntTextView.setText(String.valueOf(progress) + " km");
                 break;
             case R.id.shfilter_max_rating:
                 if (this.mRatingMinSeekBar.getProgress() > progress) {
                     this.mRatingMinSeekBar.setProgress(progress);
                 }
-                this.mRatingMaxTextView.setText(String.valueOf(progress));
+                this.mRatingMaxTextView.setText(String.valueOf(progress + 1));
                 break;
             case R.id.shfilter_min_rating:
                 if (this.mRatingMaxSeekBar.getProgress() < progress) {
                     this.mRatingMaxSeekBar.setProgress(progress);
                 }
-                this.mRatingMinTextView.setText(String.valueOf(progress));
+                this.mRatingMinTextView.setText(String.valueOf(progress + 1));
                 break;
         }
     }

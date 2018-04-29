@@ -2,7 +2,6 @@ package com.geoschnitzel.treasurehunt;
 
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
-import android.support.test.espresso.contrib.DrawerActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
@@ -21,7 +20,6 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -64,7 +62,22 @@ public class SHFilterUITest {
     @Test
     public void dragSeekBar_changesDistanceValue() {
         onView(withId(R.id.action_filter)).perform(click());
-        onView(withId(R.id.shfilter_distance)).perform(setProgress(10));
-        onView(withId(R.id.shfilter_distance_text)).check(matches(withText("10")));
+        onView(withId(R.id.shfilter_distance_to)).perform(setProgress(10));
+        onView(withId(R.id.shfilter_distance_to_text)).check(matches(withText("10")));
+    }
+
+    @Test
+    public void dragMinSeekbar_changesMaxSeekbar() {
+        onView(withId(R.id.action_filter)).perform(click());
+        onView(withId(R.id.shfilter_min_rating)).perform(setProgress(3));
+        onView(withId(R.id.shfilter_rating_max_text)).check(matches(withText("3")));
+    }
+
+    @Test
+    public void dragMaxSeekbar_changesMinSeekbar() {
+        onView(withId(R.id.action_filter)).perform(click());
+        onView(withId(R.id.shfilter_min_rating)).perform(setProgress(5));
+        onView(withId(R.id.shfilter_max_rating)).perform(setProgress(2));
+        onView(withId(R.id.shfilter_rating_min_text)).check(matches(withText("2")));
     }
 }
