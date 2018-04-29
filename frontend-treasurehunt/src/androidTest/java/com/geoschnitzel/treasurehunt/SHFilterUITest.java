@@ -63,14 +63,15 @@ public class SHFilterUITest {
     public void dragSeekBar_changesDistanceValue() {
         onView(withId(R.id.action_filter)).perform(click());
         onView(withId(R.id.shfilter_distance_to)).perform(setProgress(10));
-        onView(withId(R.id.shfilter_distance_to_text)).check(matches(withText("10")));
+        onView(withId(R.id.shfilter_distance_to_text)).check(matches(withText("10 km")));
     }
 
     @Test
     public void dragMinSeekbar_changesMaxSeekbar() {
         onView(withId(R.id.action_filter)).perform(click());
+        onView(withId(R.id.shfilter_max_rating)).perform(setProgress(1));
         onView(withId(R.id.shfilter_min_rating)).perform(setProgress(3));
-        onView(withId(R.id.shfilter_rating_max_text)).check(matches(withText("3")));
+        onView(withId(R.id.shfilter_rating_max_text)).check(matches(withText("4")));
     }
 
     @Test
@@ -78,6 +79,6 @@ public class SHFilterUITest {
         onView(withId(R.id.action_filter)).perform(click());
         onView(withId(R.id.shfilter_min_rating)).perform(setProgress(5));
         onView(withId(R.id.shfilter_max_rating)).perform(setProgress(2));
-        onView(withId(R.id.shfilter_rating_min_text)).check(matches(withText("2")));
+        onView(withId(R.id.shfilter_rating_min_text)).check(matches(withText("3")));
     }
 }
