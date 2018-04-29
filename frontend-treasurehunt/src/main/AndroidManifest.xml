@@ -24,6 +24,11 @@
             android:name=".shlist.SHListActivity"
             android:label="@string/title_activity_shlist"></activity>
 
+        <activity
+            android:name=".shcreatehunt.SHCreateActivity"
+            android:label="SHNewHunt"
+            android:windowSoftInputMode="adjustResize"></activity>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
