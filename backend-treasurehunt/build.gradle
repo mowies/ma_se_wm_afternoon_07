@@ -1,0 +1,33 @@
+plugins {
+    id 'application'
+    id("net.ltgt.apt").version("0.10")
+}
+
+apply plugin: "io.spring.dependency-management"
+apply plugin: "org.springframework.boot"
+apply plugin: "application"
+apply plugin: "kotlin"
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+group = "com.geoschnitzel"
+version = "1.0-SNAPSHOT"
+
+mainClassName = "com.geoschnitzel.treasurehunt.backend.TreasureHuntApplication"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly("org.projectlombok:lombok:1.16.20")
+    apt("org.projectlombok:lombok:1.16.20")
+
+    compile(project(":shared-treasurehunt"))
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("org.springframework.boot:spring-boot-starter-web")
+    runtime("org.hsqldb:hsqldb")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+}
