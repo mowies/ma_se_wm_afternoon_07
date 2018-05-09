@@ -1,6 +1,7 @@
 package com.geoschnitzel.treasurehunt.shlist;
 
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,7 +17,7 @@ import com.geoschnitzel.treasurehunt.shfilter.SHFilterFragment;
 
 import javax.annotation.Nullable;
 
-public class SHListFragment extends Fragment implements  SHListContract.View{
+public class SHListFragment extends BottomSheetDialogFragment implements  SHListContract.View {
     private SHListContract.Presenter mPresenter;
 
     public static SHListFragment newInstance() {
