@@ -36,7 +36,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/new_hunt_name_label"/>
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/new_hunt_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -46,6 +46,7 @@
                 android:minWidth="20dp"
                 android:layout_centerVertical="true"
                 android:clickable="true"
+                android:contentDescription="image"
                 android:src="@mipmap/ic_schnitzel_round"
                 android:layout_alignParentRight="true" />
         </RelativeLayout>

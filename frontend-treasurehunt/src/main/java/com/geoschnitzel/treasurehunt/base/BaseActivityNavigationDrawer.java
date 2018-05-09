@@ -58,6 +58,7 @@ public abstract class BaseActivityNavigationDrawer extends AppCompatActivity imp
             case R.id.nav_new:
                 Intent new_intent = new Intent(this, SHCreateActivity.class);
                 startActivity(new_intent);
+                break;
             case R.id.nav_logout:
                 Intent login_intent = new Intent(this, LoginActivity.class);
                 startActivity(login_intent);

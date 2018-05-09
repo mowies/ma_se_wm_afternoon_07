@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
+import android.widget.ImageButton;
 
 import com.geoschnitzel.treasurehunt.R;
 
@@ -21,8 +22,7 @@ public class SHCreateFragment extends Fragment implements SHCreateContract.View 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_shcreatehunt, container, false);
-
-
+        ImageButton image = (ImageButton)root.findViewById(R.id.new_hunt_image);
         return root;
     }
 
