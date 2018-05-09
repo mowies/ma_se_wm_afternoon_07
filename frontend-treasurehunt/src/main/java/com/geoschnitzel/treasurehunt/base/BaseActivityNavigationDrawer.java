@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.geoschnitzel.treasurehunt.R;
+import com.geoschnitzel.treasurehunt.shcreatehunt.SHCreateActivity;
 import com.geoschnitzel.treasurehunt.login.LoginActivity;
 import com.geoschnitzel.treasurehunt.shlist.SHListActivity;
 import com.geoschnitzel.treasurehunt.shpurchase.SHPurchaseActivity;
@@ -54,6 +55,10 @@ public abstract class BaseActivityNavigationDrawer extends AppCompatActivity imp
         int id = item.getItemId();
 
         switch (id) {
+            case R.id.nav_new:
+                Intent new_intent = new Intent(this, SHCreateActivity.class);
+                startActivity(new_intent);
+                break;
             case R.id.nav_logout:
                 Intent login_intent = new Intent(this, LoginActivity.class);
                 startActivity(login_intent);

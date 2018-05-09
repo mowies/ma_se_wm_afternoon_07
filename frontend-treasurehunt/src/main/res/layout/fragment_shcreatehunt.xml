@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/fragment_tool_bar"
+    android:padding="5px">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/new_hunt_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="5dp">
+            <TextView
+                android:id="@+id/new_hunt_name_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"/>
+
+            <EditText
+                android:id="@+id/new_hunt_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:maxLength="60"
+                android:minWidth="150dp"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/new_hunt_name_label"/>
+
+            <ImageButton
+                android:id="@+id/new_hunt_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxHeight="200dp"
+                android:maxWidth="200dp"
+                android:minHeight="20dp"
+                android:minWidth="20dp"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:contentDescription="image"
+                android:src="@mipmap/ic_schnitzel_round"
+                android:layout_alignParentRight="true" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/new_hunt_description_label"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#000"
+            android:layout_below="@+id/new_hunt_header"/>
+
+        <EditText
+            android:id="@+id/new_hunt_description"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:maxLines="40"
+            android:maxLength="1000"
+            android:gravity="start"
+            android:layout_above="@+id/new_hunt_buttons"
+            android:layout_below="@+id/new_hunt_description_label"/>
+
+        <RelativeLayout
+            android:id="@+id/new_hunt_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+            <Button
+                android:id="@+id/new_hunt_abort"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Abort"
+                android:layout_alignParentLeft="true"/>
+            <Button
+                android:id="@+id/new_hunt_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Forward"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>
+
