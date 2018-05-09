@@ -28,6 +28,9 @@
             android:name=".shcreatehunt.SHCreateActivity"
             android:label="SHNewHunt"
             android:windowSoftInputMode="adjustResize"></activity>
+        <activity
+            android:name=".login.LoginActivity"
+            android:label="LoginActivity"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

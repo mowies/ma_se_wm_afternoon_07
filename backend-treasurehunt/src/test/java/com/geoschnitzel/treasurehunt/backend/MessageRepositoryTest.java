@@ -1,5 +1,8 @@
 package com.geoschnitzel.treasurehunt.backend;
 
+import com.geoschnitzel.treasurehunt.backend.model.MessageRepository;
+import com.geoschnitzel.treasurehunt.backend.schema.Message;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,12 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
+import static com.geoschnitzel.treasurehunt.util.UtilsKt.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 
 
 @RunWith(SpringRunner.class)
@@ -38,7 +42,14 @@ public class MessageRepositoryTest {
         assertThat(asList(messageRepository.findAll()), hasSize(0));
     }
 
-    private <T> List<T> asList(Iterable<T> iterable) {
-        return StreamSupport.stream(iterable.spliterator(), false).collect(Collectors.toList());
+    @Test
+    public void customRepositoryMethodWorks() {
+        Message message = new Message("Hello Custom!");
+
+        Message returnedMessage = messageRepository.storeAndReturnMessage(message);
+
+        assertThat(returnedMessage.getId(), is(notNullValue()));
+        assertThat(returnedMessage.getMessage(), is(equalTo(message.getMessage())));
     }
+
 }

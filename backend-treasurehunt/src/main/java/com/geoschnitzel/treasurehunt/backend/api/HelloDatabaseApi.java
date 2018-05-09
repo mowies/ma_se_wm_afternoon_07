@@ -1,6 +1,14 @@
-package com.geoschnitzel.treasurehunt.backend;
+package com.geoschnitzel.treasurehunt.backend.api;
 
-import org.springframework.web.bind.annotation.*;
+import com.geoschnitzel.treasurehunt.backend.model.MessageRepository;
+import com.geoschnitzel.treasurehunt.backend.schema.Message;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Comparator;
 import java.util.List;
@@ -9,11 +17,11 @@ import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("/helloDb")
-public class HelloDatabaseController {
+public class HelloDatabaseApi {
 
     private final MessageRepository messageRepository;
 
-    public HelloDatabaseController(MessageRepository messageRepository) {
+    public HelloDatabaseApi(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;
     }
 
