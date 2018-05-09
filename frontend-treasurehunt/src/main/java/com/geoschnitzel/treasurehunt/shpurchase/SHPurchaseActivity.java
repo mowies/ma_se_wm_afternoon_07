@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.geoschnitzel.treasurehunt.R;
 import com.geoschnitzel.treasurehunt.base.BaseActivityWithBackButton;
+import com.geoschnitzel.treasurehunt.model.WebServiceImpl;
 import com.geoschnitzel.treasurehunt.utils.ActivityUtils;
 
 public class SHPurchaseActivity extends BaseActivityWithBackButton {
@@ -23,6 +24,6 @@ public class SHPurchaseActivity extends BaseActivityWithBackButton {
                     getSupportFragmentManager(), shPurchaseFragment, R.id.contentFrame);
         }
 
-        mPresenter = new SHPurchasePresenter(shPurchaseFragment);
+        mPresenter = new SHPurchasePresenter(shPurchaseFragment, WebServiceImpl.instance());
     }
 }

@@ -18,6 +18,7 @@ package com.geoschnitzel.treasurehunt;
 
 import com.geoschnitzel.treasurehunt.map.MapContract;
 import com.geoschnitzel.treasurehunt.map.MapPresenter;
+import com.geoschnitzel.treasurehunt.model.WebService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -25,12 +26,16 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.verify;
 
 public class MapPresenterTest {
 
     @Mock
     private MapContract.View mMapView;
+
+    @Mock
+    private WebService webService;
 
     /**
      * {@link ArgumentCaptor} is a powerful Mockito API to capture argument values and use them to
@@ -45,7 +50,7 @@ public class MapPresenterTest {
         MockitoAnnotations.initMocks(this);
 
         // Get a reference to the class under test
-        mMapPresenter = new MapPresenter(mMapView);
+        mMapPresenter = new MapPresenter(mMapView, webService);
 
         // The presenter won't update the view unless it's active.
 //        when(mMapView.isActive()).thenReturn(true);
@@ -57,4 +62,9 @@ public class MapPresenterTest {
         verify(mMapView).setPresenter(mMapPresenter);
     }
 
+    @Test
+    public void start_requestsHelloWorld() {
+        mMapPresenter.start();
+        verify(webService).retrieveHelloWorldMessage(anyObject());
+    }
 }
