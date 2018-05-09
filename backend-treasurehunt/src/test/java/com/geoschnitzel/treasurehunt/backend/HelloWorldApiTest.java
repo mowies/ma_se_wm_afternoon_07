@@ -1,5 +1,8 @@
 package com.geoschnitzel.treasurehunt.backend;
 
+import com.geoschnitzel.treasurehunt.backend.model.MessageRepository;
+import com.geoschnitzel.treasurehunt.backend.schema.Message;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class HelloWorldControllerTest {
+public class HelloWorldApiTest {
 
     @MockBean
     private MessageRepository messageRepository;
