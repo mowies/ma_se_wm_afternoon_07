@@ -11,6 +11,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class WebServiceImpl implements WebService {
@@ -47,16 +48,16 @@ public class WebServiceImpl implements WebService {
 
         @Override
         protected List<SHListItem> doInBackground(Void... voids) {
-            List<SHListItem> testList = new ArrayList<SHListItem>();
-            testList.add(new SHListItem("Graz", "Dominik Adelbert", 420f, 4.2f, "Lorem ipsum dolor sit amet, principes ", false));
-            testList.add(new SHListItem("Kärnten", "Yvonne Wendelin", 635f, 4.7f, "gubergren ei, vis id consul", true));
-            testList.add(new SHListItem("Lienz", "Heidi Niko", 507f, 1.5f, "Sea vidit maiorum nostrum no. ", true));
-            testList.add(new SHListItem("Linz", "Ingrid Margarethe", 752f, 3.1f, " Est ea minim scripta dissentiet", false));
-            testList.add(new SHListItem("Brixen", "Burkhard Walter", 109f, 2.0f, "Лорем ипсум долор сит амет, пер цлита поссит ех, ат мунере", true));
-            testList.add(new SHListItem("Wien", "Diederich Claudia", 614f, 0.3f, " Est ea minim scripta dissentiet", false));
-            testList.add(new SHListItem("München", "Wolf Elias", 120f, 3.5f, " Est ea minim scripta dissentiet", false));
-            testList.add(new SHListItem("Leoben", "Debora Conrad", 475f, 1.6f, " Est ea minim scripta dissentiet", true));
-            return testList;
+            String url = "http://10.0.2.2:8080/schnitzelHuntList";
+
+            RestTemplate restTemplate = new RestTemplate();
+            MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+            converter.getObjectMapper().registerModule(new KotlinModule());
+            restTemplate.getMessageConverters().add(converter);
+
+            SHListItem[] requestResult = restTemplate.getForObject(url, SHListItem[].class);
+
+            return Arrays.asList(requestResult);
         }
     }
 
