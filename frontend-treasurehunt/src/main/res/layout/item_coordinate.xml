@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.geoschnitzel.treasurehunt.shlist.SHListFragment">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content">
+        <TextView
+            android:id="@+id/shcoordinate_item_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="Number"/>
+
+        <LinearLayout
+            android:layout_toRightOf="@id/shcoordinate_item_count"
+            android:layout_toLeftOf="@id/shcoordinate_item_hint_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/shcoordinate_item_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Description" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Lon" />
+
+                <TextView
+                    android:id="@+id/shcoordinate_item_lon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lat"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/shcoordinate_item_lat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/shcoordinate_item_hint_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="1"/>
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
