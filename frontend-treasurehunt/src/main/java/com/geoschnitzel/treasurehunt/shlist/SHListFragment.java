@@ -16,7 +16,7 @@ import com.geoschnitzel.treasurehunt.shfilter.SHFilterFragment;
 
 import javax.annotation.Nullable;
 
-public class SHListFragment extends Fragment implements  SHListContract.View{
+public class SHListFragment extends Fragment implements SHListContract.View {
     private SHListContract.Presenter mPresenter;
 
     public static SHListFragment newInstance() {
@@ -35,12 +35,17 @@ public class SHListFragment extends Fragment implements  SHListContract.View{
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_shlist, container, false);
         ListView shlist = root.findViewById(R.id.sh_list);
-        shlist.setAdapter(new SHListAdapter(mPresenter.getSHListItems(), getActivity().getApplicationContext()));
+        mPresenter.retrieveSHListItems(result -> shlist.setAdapter(new SHListAdapter(result, getActivity().getApplicationContext())));
 
         return root;
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.start();
+    }
+
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_shlist, menu);
         super.onCreateOptionsMenu(menu, inflater);

@@ -23,10 +23,16 @@ public class SHPurchaseFragment extends Fragment implements SHPurchaseContract.V
         View root = inflater.inflate(R.layout.fragment_shpurchase, container, false);
 
         GridView glshpurchase = root.findViewById(R.id.shpurchase_gvitems);
-        glshpurchase.setAdapter(new SHPurchaseAdapter(mPresenter.getSHPurchaseItems(), getActivity().getApplicationContext()));
-
+        mPresenter.retrieveSHPurchaseItems(result -> glshpurchase.setAdapter(new SHPurchaseAdapter(result, getActivity().getApplicationContext())));
         return root;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.start();
+    }
+
 
     @Override
     public void setPresenter(SHPurchaseContract.Presenter presenter) {

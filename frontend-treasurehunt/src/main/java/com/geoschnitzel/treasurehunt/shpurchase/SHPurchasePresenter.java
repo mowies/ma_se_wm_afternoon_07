@@ -12,9 +12,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class SHPurchasePresenter implements SHPurchaseContract.Presenter {
     private final SHPurchaseContract.View mView;
 
-    public SHPurchasePresenter(@NonNull SHPurchaseContract.View view) {
+    private WebService webService;
+
+    public SHPurchasePresenter(@NonNull SHPurchaseContract.View view, WebService webService) {
         mView = checkNotNull(view, "tasksView cannot be null!");
         mView.setPresenter(this);
+
+        this.webService = webService;
     }
 
     @Override
@@ -23,7 +27,8 @@ public class SHPurchasePresenter implements SHPurchaseContract.Presenter {
     }
 
     @Override
-    public List<SHPurchaseItem> getSHPurchaseItems() {
-        return WebService.getSHPurchaseItems();
+    public void retrieveSHPurchaseItems(WebService.WebServiceCallback<List<SHPurchaseItem>> callback) {
+        webService.retrieveSHPurchaseItems(callback);
     }
+
 }

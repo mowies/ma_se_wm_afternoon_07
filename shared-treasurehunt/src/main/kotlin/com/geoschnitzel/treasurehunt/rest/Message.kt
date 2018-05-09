@@ -1,10 +1,12 @@
 package com.geoschnitzel.treasurehunt.rest
 
-import sun.security.krb5.internal.crypto.Des
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.text.MessageFormat
 import java.util.*
 
 data class Message(val message: String, val timestamp: Date) {
+
+    @get:JsonIgnore
     val messageUpperCase get() = message.toUpperCase()
 }
 
