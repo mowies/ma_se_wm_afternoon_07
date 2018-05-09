@@ -35,8 +35,8 @@ dependencies {
     implementation 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.5'
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.5'
-    implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '1.2.40'
-    implementation group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: '1.2.40'
+    implementation group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib'
+    implementation group: 'org.jetbrains.kotlin', name: 'kotlin-reflect'
 
     implementation project(':shared-treasurehunt')
 
