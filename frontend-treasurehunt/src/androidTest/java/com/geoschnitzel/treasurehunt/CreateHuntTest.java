@@ -26,15 +26,14 @@ public class CreateHuntTest {
     @Rule
     public ActivityTestRule<SHCreateActivity> mSHCreateActivityTestRule =
             new ActivityTestRule<SHCreateActivity>(SHCreateActivity.class) {
-
             };
 
 
     @Test
     public void inputIsDisplayed(){
-        onView(withId(R.id.new_hunt_description).check(matches(isDisplayed()));
-        onView(withId(R.id.new_hunt_abort).check(matches(isDisplayed()));
-        onView(withId(R.id.new_hunt_next).check(matches(isDisplayed()));
-        onView(withId(R.id.new_hunt_image).check(matches(isDisplayed()));
+        onView(withId(R.id.new_hunt_description)).check(matches(isDisplayed()));
+        onView(withId(R.id.new_hunt_abort)).check(matches(isDisplayed()));
+        onView(withId(R.id.new_hunt_next)).check(matches(isDisplayed()));
+        onView(withId(R.id.new_hunt_image)).check(matches(isDisplayed()));
     }
 }
