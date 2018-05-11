@@ -14,17 +14,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-
-    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/coordinator_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.geoschnitzel.treasurehunt.main.MainActivity">
-
-        <include layout="@layout/fragment_shlist" />
-    </android.support.design.widget.CoordinatorLayout>
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/bottom_sheet_content_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingSearchButton"

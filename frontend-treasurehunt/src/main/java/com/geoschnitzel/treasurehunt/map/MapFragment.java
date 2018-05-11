@@ -1,10 +1,7 @@
 package com.geoschnitzel.treasurehunt.map;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -27,7 +24,6 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     private MapContract.Presenter mPresenter;
     private SHListContract.Presenter mSHListPresenter;
     private SHListFragment mSHListFragment;
-    private BottomSheetBehavior mBottomSheetBehavior = null;
 
     public static MapFragment newInstance() {
         return new MapFragment();
@@ -53,59 +49,12 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
 
     private void setUpBottomSheetFragment(View root) {
         final FragmentManager fm = getChildFragmentManager();
-        this.mSHListFragment = (SHListFragment) fm.findFragmentById(R.id.sh_list_fragment_content);
+        this.mSHListFragment = (SHListFragment) fm.findFragmentById(R.id.main_sh_list_fragment);
 
         if (this.mSHListFragment == null) {
             this.mSHListFragment = SHListFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(fm, this.mSHListFragment, R.id.main_sh_list_fragment);
+            ActivityUtils.addFragmentToActivity(fm, this.mSHListFragment, R.id.bottom_sheet_content_frame);
             this.mSHListPresenter = new SHListPresenter(this.mSHListFragment);
-        }
-
-        View temp = root.findViewById(R.id.main_sh_list_fragment);
-        this.mBottomSheetBehavior = BottomSheetBehavior.from(temp);
-
-        if (this.mBottomSheetBehavior != null){
-            this.mBottomSheetBehavior.setHideable(false);
-            this.mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-
-            this.mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-                @Override public void onStateChanged(@NonNull final View bottomSheet, final int newState) {
-                    getActivity().invalidateOptionsMenu();
-
-//                    if (newState == BottomSheetBehavior.STATE_COLLAPSED){
-//                        final ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.sh_list_fragment_content);
-//                        final ConstraintLayout.LayoutParams layoutParams =  new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-//                                ViewGroup.LayoutParams.MATCH_PARENT);
-//                        layoutParams.setMargins(0,0,0,0);
-//                        layout.setLayoutParams(layoutParams);
-//                        layout.requestLayout();
-//
-//                    }
-//                    if (newState == BottomSheetBehavior.STATE_EXPANDED){
-//
-//                        final ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.sh_list_fragment_content);
-//                        final ConstraintLayout.LayoutParams layoutParams =  new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-//                                ViewGroup.LayoutParams.MATCH_PARENT);
-//                        final int toolbarSize = findViewById(R.id.toolbar).getHeight();
-//                        layoutParams.setMargins(0,toolbarSize,0,0);
-//                        layout.setLayoutParams(layoutParams);
-//                        layout.requestLayout();
-//                    }
-                }
-
-                @Override public void onSlide(@NonNull final View bottomSheet, final float slideOffset) {
-//                    final float scaleFactor = 1 - slideOffset;
-//                    if (mFab != null){
-//                        if (scaleFactor <= 1){
-//                            mFab.setVisibility(View.VISIBLE);
-//                            mFab.animate().scaleX(1 - slideOffset).scaleY(1 - slideOffset).setDuration(0).start();
-//                        }
-//                        if (slideOffset == 1.00f){
-//                            mFab.setVisibility(View.INVISIBLE);
-//                        }
-//                    }
-                }
-            });
         }
     }
 

@@ -1,9 +1,10 @@
 package com.geoschnitzel.treasurehunt.shlist;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,7 +19,8 @@ import com.geoschnitzel.treasurehunt.shfilter.SHFilterFragment;
 import javax.annotation.Nullable;
 
 public class SHListFragment extends BottomSheetDialogFragment implements  SHListContract.View {
-    private SHListContract.Presenter mPresenter;
+    private SHListContract.Presenter mPresenter = null;
+    private BottomSheetBehavior mBottomSheetBehavior = null;
 
     public static SHListFragment newInstance() {
         return new SHListFragment();
@@ -37,6 +39,55 @@ public class SHListFragment extends BottomSheetDialogFragment implements  SHList
         View root = inflater.inflate(R.layout.fragment_shlist, container, false);
         ListView shlist = root.findViewById(R.id.sh_list);
         shlist.setAdapter(new SHListAdapter(mPresenter.getSHListItems(), getActivity().getApplicationContext()));
+
+        View temp = root.findViewById(R.id.main_sh_list_fragment);
+        this.mBottomSheetBehavior = BottomSheetBehavior.from(temp);
+
+        if (this.mBottomSheetBehavior != null) {
+            this.mBottomSheetBehavior.setHideable(false);
+            this.mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+
+            this.mBottomSheetBehavior.setBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+                @Override
+                public void onStateChanged(@NonNull final View bottomSheet, final int newState) {
+                    getActivity().invalidateOptionsMenu();
+
+//                    if (newState == BottomSheetBehavior.STATE_COLLAPSED){
+//                        final ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.sh_list_fragment_content);
+//                        final ConstraintLayout.LayoutParams layoutParams =  new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                                ViewGroup.LayoutParams.MATCH_PARENT);
+//                        layoutParams.setMargins(0,0,0,0);
+//                        layout.setLayoutParams(layoutParams);
+//                        layout.requestLayout();
+//
+//                    }
+//                    if (newState == BottomSheetBehavior.STATE_EXPANDED){
+//
+//                        final ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.sh_list_fragment_content);
+//                        final ConstraintLayout.LayoutParams layoutParams =  new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                                ViewGroup.LayoutParams.MATCH_PARENT);
+//                        final int toolbarSize = findViewById(R.id.toolbar).getHeight();
+//                        layoutParams.setMargins(0,toolbarSize,0,0);
+//                        layout.setLayoutParams(layoutParams);
+//                        layout.requestLayout();
+//                    }
+                }
+
+                @Override
+                public void onSlide(@NonNull final View bottomSheet, final float slideOffset) {
+//                    final float scaleFactor = 1 - slideOffset;
+//                    if (mFab != null){
+//                        if (scaleFactor <= 1){
+//                            mFab.setVisibility(View.VISIBLE);
+//                            mFab.animate().scaleX(1 - slideOffset).scaleY(1 - slideOffset).setDuration(0).start();
+//                        }
+//                        if (slideOffset == 1.00f){
+//                            mFab.setVisibility(View.INVISIBLE);
+//                        }
+//                    }
+                }
+            });
+        }
 
         return root;
     }
