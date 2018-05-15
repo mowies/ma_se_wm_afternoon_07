@@ -2,6 +2,7 @@ package com.geoschnitzel.treasurehunt.backend.schema;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,7 +30,7 @@ public class Game {
     @ManyToOne
     private SchnitzelHunt schnitzelHunt;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<GameTarget> targets;
 
     @OneToMany

@@ -7,6 +7,7 @@ import com.geoschnitzel.treasurehunt.backend.model.SchnitzelHuntRepository;
 import com.geoschnitzel.treasurehunt.backend.model.UserRepository;
 import com.geoschnitzel.treasurehunt.backend.schema.Area;
 import com.geoschnitzel.treasurehunt.backend.schema.Game;
+import com.geoschnitzel.treasurehunt.backend.schema.GameTarget;
 import com.geoschnitzel.treasurehunt.backend.schema.HintCoordinate;
 import com.geoschnitzel.treasurehunt.backend.schema.HintDirection;
 import com.geoschnitzel.treasurehunt.backend.schema.HintImage;
@@ -33,14 +34,15 @@ import static java.util.Collections.singletonList;
 
 @Service
 @RestController
-public class TestDataService implements TestDataApi {
+public class TestDataService extends DataService implements TestDataApi {
 
     private final SchnitzelHuntRepository schnitzelHuntRepository;
     private final UserRepository userRepository;
     private final GameRepository gameRepository;
 
     public TestDataService(SchnitzelHuntRepository schnitzelHuntRepository,
-                           UserRepository userRepository, GameRepository gameRepository) {
+                           UserRepository userRepository,
+                           GameRepository gameRepository) {
         this.schnitzelHuntRepository = schnitzelHuntRepository;
         this.userRepository = userRepository;
         this.gameRepository = gameRepository;
@@ -53,11 +55,21 @@ public class TestDataService implements TestDataApi {
         userRepository.saveAll(users);
         List<SchnitzelHunt> schnitzelHunts = generateSchnitzelHunts(users.get(1));
         schnitzelHuntRepository.saveAll(schnitzelHunts);
-        gameRepository.save(generateGame(users.get(0), schnitzelHunts.get(0)));
+        Game game = generateGame(users.get(0), schnitzelHunts.get(0));
+        gameRepository.save(game);
     }
 
     public Game generateGame(User user, SchnitzelHunt schnitzelHunt) {
-        return new Game(null, user, schnitzelHunt, emptyList(), emptyList());
+        return new Game(null, user, schnitzelHunt, generateGameTarget(schnitzelHunt.getTargets()), emptyList());
+    }
+
+    public List<GameTarget> generateGameTarget(List<Target> targets) {
+        List<GameTarget> results = new ArrayList<>();
+        for (Target target : targets) {
+            results.add(new GameTarget(null, target, new Date(), null, emptyList()));
+        }
+        return results;
+
     }
 
     public List<SchnitzelHunt> generateSchnitzelHunts(User user) {
@@ -78,7 +90,7 @@ public class TestDataService implements TestDataApi {
     }
 
     private User generateUser(int userId) {
-        return new User(null, "User " + userId, "user" + userId + "@schnitzel.com", generateUserTransactions(userId));
+        return new User(null, "User " + userId, "user" + userId + "@schnitzel.com", generateUserTransactions(userId), null);
     }
 
     private List<SchnitziTransaction> generateUserTransactions(int seed) {
@@ -102,9 +114,9 @@ public class TestDataService implements TestDataApi {
                             singletonList(
                                     new Target(null, new Area(47.0748539 + i * 0.001, 15.4415758 - i * 0.001, 5),
                                             Arrays.asList(
-                                                    new HintText(null, 0, "Suche die höchste Uhr in Graz."),
-                                                    new HintText(null, 2 * 60, "Es ist eine analoge Uhr."),
-                                                    new HintImage(null, 5 * 60, "ccacb863-5897-485b-b822-ca119c7afcfb", "impage/jpeg"),
+                                                    new HintText(null, 0, 0, "Suche die höchste Uhr in Graz."),
+                                                    new HintText(null, 2 * 60, 10, "Es ist eine analoge Uhr."),
+                                                    new HintImage(null, 5 * 60, 20, "ccacb863-5897-485b-b822-ca119c7afcfb", "impage/jpeg"),
                                                     new HintDirection(null, 10 * 60),
                                                     new HintCoordinate(null, 15 * 60)
                                             ))
@@ -115,5 +127,4 @@ public class TestDataService implements TestDataApi {
 
         return schnitzelHunts;
     }
-
 }

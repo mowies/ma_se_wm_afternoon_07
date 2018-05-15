@@ -1,6 +1,5 @@
 package com.geoschnitzel.treasurehunt.rest
 
-import sun.security.krb5.internal.crypto.Des
 import java.text.MessageFormat
 import java.util.*
 
@@ -37,4 +36,41 @@ data class SHListItem(var Name: String,
     constructor(item: SHListItem) :
             this(item.Name, item.Author, item.Length, item.Rating, item.Description, item.Visited) {
     }
+}
+
+enum class HintType(val type: String) {
+    IMAGE("IMAGE"),
+    TEXT("TEXT"),
+    COORDINATE("COORDINATE"),
+    DIRECTION("DIRECTION")
+};
+
+data class Coordinate(val longitude: Double,
+                      val latitude: Double) {
+    constructor(item: Coordinate) :
+            this(item.longitude, item.latitude) {
+    }
+}
+
+data class HintItem(val id: Long,
+                    val type: HintType,
+                    val shValue: Int,
+                    val timeToUnlockHint: Int,
+                    val unlocked: Boolean,
+                    val description: String?,
+                    val url: String?,
+                    val coordinate: Coordinate?,
+                    val angle: Double?) {
+}
+
+data class GameTargetItem(
+        val id: Long,
+        val startTime: Date,
+        var hints: List<HintItem>) {
+
+}
+
+data class GameItem(
+        val id: Long,
+        val currentTarget: GameTargetItem) {
 }

@@ -1,6 +1,8 @@
 package com.geoschnitzel.treasurehunt.backend.schema;
 
 
+import com.geoschnitzel.treasurehunt.rest.HintType;
+
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -30,5 +32,7 @@ public abstract class Hint {
         in seconds
      */
     private int timeToUnlockHint;
+    private int shValue;
 
+    public abstract HintType getHintType();
 }

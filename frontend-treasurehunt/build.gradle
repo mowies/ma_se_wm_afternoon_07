@@ -29,6 +29,7 @@ dependencies {
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.google.android.gms:play-services-maps:15.0.0'
     implementation project(':shared-treasurehunt')
+    implementation 'com.android.support:leanback-v17:26.1.0'
 
     testImplementation 'junit:junit:4.12'
     testImplementation "org.mockito:mockito-all:1.10.19"
@@ -39,3 +40,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-contrib:3.0.1'
 
 }
+
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'

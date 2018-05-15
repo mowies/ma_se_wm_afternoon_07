@@ -1,9 +1,15 @@
 package com.geoschnitzel.treasurehunt.model;
 
+import com.geoschnitzel.treasurehunt.rest.GameItem;
+import com.geoschnitzel.treasurehunt.rest.GameTargetItem;
+import com.geoschnitzel.treasurehunt.rest.HintItem;
+import com.geoschnitzel.treasurehunt.rest.HintType;
 import com.geoschnitzel.treasurehunt.rest.SHListItem;
 import com.geoschnitzel.treasurehunt.rest.SHPurchaseItem;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class WebService {
@@ -33,5 +39,21 @@ public class WebService {
         testList.add(new SHListItem("München","Wolf Elias",120f,3.5f," Est ea minim scripta dissentiet",false));
         testList.add(new SHListItem("Leoben","Debora Conrad",475f,1.6f," Est ea minim scripta dissentiet",true));
         return testList;
+    }
+
+    public static List<HintItem> FetchHints() {
+        return Arrays.asList(
+                new HintItem(0, HintType.TEXT, 0, 0, true, "Hint #0", null, null, null),
+                new HintItem(1, HintType.TEXT, 10, 60, true, "Hint #1", null, null, null),
+                new HintItem(2, HintType.IMAGE, 20, 120, true, null, "ccacb863-5897-485b-b822-ca119c7afcfb", null, null),
+
+                new HintItem(3, HintType.DIRECTION, 50, 1000, true, "Hint #2", null, null, null),
+
+                new HintItem(4, HintType.COORDINATE, 100, 2000, true, "Hint #2", null, null, null)
+        );
+    }
+
+    public static GameItem startGame(long userID, long huntID) {
+        return new GameItem(0, new GameTargetItem(0, new Date(), FetchHints()));
     }
 }

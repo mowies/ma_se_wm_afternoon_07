@@ -7,6 +7,7 @@ import com.geoschnitzel.treasurehunt.backend.schema.SchnitzelHunt;
 import com.geoschnitzel.treasurehunt.backend.schema.Target;
 import com.geoschnitzel.treasurehunt.backend.schema.User;
 import com.geoschnitzel.treasurehunt.backend.service.TestDataService;
+import com.geoschnitzel.treasurehunt.rest.GameItem;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -71,6 +72,15 @@ public class SchemaTest {
         }
     }
 
+    @Test
+    public void startGame() {
+        User user = asList(userRepository.findAll()).get(0);
+        SchnitzelHunt hunt = asList(schnitzelHuntRepository.findAll()).get(0);
+
+        GameItem gameItem = testDataService.startGame(hunt.getId(), user.getId());
+        assertThat(gameItem.getCurrentTarget().getHints().get(0).getId(), is(hunt.getTargets().get(0).getHints().get(0).getId()));
+    }
+
     private void assertThatHuntsMatch(SchnitzelHunt actualHunt, SchnitzelHunt expectedHunt) {
         assertThatUsersMatch(actualHunt.getCreator(), expectedHunt.getCreator());
 
@@ -107,4 +117,6 @@ public class SchemaTest {
         assertThat(actualUser.getId(), is(notNullValue()));
         assertThat(expectedUser.getId(), is(nullValue()));
     }
+
+
 }

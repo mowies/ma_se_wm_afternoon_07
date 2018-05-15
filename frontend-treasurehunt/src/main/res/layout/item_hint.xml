@@ -1,0 +1,82 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="30dp"
+    android:gravity="center"
+    android:background="@drawable/layout_bg">
+
+    <LinearLayout
+        android:id="@+id/hint_item_show"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="Orientation"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/hint_item_description"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text=""
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/hint_item_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/hint_item_buy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/hint_item_buy_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <Chronometer
+                android:id="@+id/hint_item_buy_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text=""
+                android:countDown="true"
+                android:visibility="gone" />
+        </ImageView>
+
+        <Button
+            android:id="@+id/hint_item_buy_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buy"
+            android:textSize="@dimen/textTitle2">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/hint_item_shvalue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textSize="@dimen/textTitle1"
+                    android:text="shvalue" />
+
+                <android.support.v7.widget.AppCompatImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/ic_schnitzel_notlegal" />
+            </LinearLayout>
+        </Button>
+    </LinearLayout>
+
+</LinearLayout>

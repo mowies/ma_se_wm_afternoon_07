@@ -1,5 +1,7 @@
 package com.geoschnitzel.treasurehunt.backend.schema;
 
+import com.geoschnitzel.treasurehunt.rest.HintType;
+
 import javax.persistence.Entity;
 
 import lombok.Data;
@@ -18,9 +20,14 @@ public class HintImage extends Hint {
         super();
     }
 
-    public HintImage(Long id, int timeToUnlockHint, String imageFileName, String mimeType) {
-        super(id, timeToUnlockHint);
+    public HintImage(Long id, int timeToUnlockHint, int shValue, String imageFileName, String mimeType) {
+        super(id, timeToUnlockHint, shValue);
         this.imageFileName = imageFileName;
         this.mimeType = mimeType;
+    }
+
+    @Override
+    public HintType getHintType() {
+        return HintType.IMAGE;
     }
 }

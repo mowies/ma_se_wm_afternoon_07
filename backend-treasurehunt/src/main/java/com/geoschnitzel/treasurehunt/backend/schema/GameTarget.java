@@ -1,5 +1,7 @@
 package com.geoschnitzel.treasurehunt.backend.schema;
 
+import org.springframework.lang.Nullable;
+
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +30,8 @@ public class GameTarget {
     private Target target;
 
     private Date startTime;
+
+    @Nullable
     private Date timeReached;
 
     @OneToMany
