@@ -10,7 +10,7 @@
     android:background="@color/white"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
-    <ListView
+    <com.geoschnitzel.treasurehunt.utils.BottomSheetListView
         android:id="@+id/sh_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

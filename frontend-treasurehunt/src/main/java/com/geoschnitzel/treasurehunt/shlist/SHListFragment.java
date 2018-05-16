@@ -11,14 +11,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.geoschnitzel.treasurehunt.R;
 import com.geoschnitzel.treasurehunt.shfilter.SHFilterFragment;
+import com.geoschnitzel.treasurehunt.utils.BottomSheetListView;
 
 import javax.annotation.Nullable;
 
-public class SHListFragment extends BottomSheetDialogFragment implements  SHListContract.View {
+public class SHListFragment extends BottomSheetDialogFragment implements SHListContract.View {
     private SHListContract.Presenter mPresenter = null;
     private BottomSheetBehavior mBottomSheetBehavior = null;
 
@@ -37,7 +37,7 @@ public class SHListFragment extends BottomSheetDialogFragment implements  SHList
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_shlist, container, false);
-        ListView shlist = root.findViewById(R.id.sh_list);
+        BottomSheetListView shlist = root.findViewById(R.id.sh_list);
         shlist.setAdapter(new SHListAdapter(mPresenter.getSHListItems(), getActivity().getApplicationContext()));
 
         View temp = root.findViewById(R.id.main_sh_list_fragment);
@@ -52,22 +52,22 @@ public class SHListFragment extends BottomSheetDialogFragment implements  SHList
                 public void onStateChanged(@NonNull final View bottomSheet, final int newState) {
                     getActivity().invalidateOptionsMenu();
 
-//                    if (newState == BottomSheetBehavior.STATE_COLLAPSED){
+//                    if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
 //                        final ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.sh_list_fragment_content);
-//                        final ConstraintLayout.LayoutParams layoutParams =  new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                        final ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
 //                                ViewGroup.LayoutParams.MATCH_PARENT);
-//                        layoutParams.setMargins(0,0,0,0);
+//                        layoutParams.setMargins(0, 0, 0, 0);
 //                        layout.setLayoutParams(layoutParams);
 //                        layout.requestLayout();
 //
 //                    }
-//                    if (newState == BottomSheetBehavior.STATE_EXPANDED){
+//                    if (newState == BottomSheetBehavior.STATE_EXPANDED) {
 //
 //                        final ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.sh_list_fragment_content);
-//                        final ConstraintLayout.LayoutParams layoutParams =  new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+//                        final ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
 //                                ViewGroup.LayoutParams.MATCH_PARENT);
 //                        final int toolbarSize = findViewById(R.id.toolbar).getHeight();
-//                        layoutParams.setMargins(0,toolbarSize,0,0);
+//                        layoutParams.setMargins(0, toolbarSize, 0, 0);
 //                        layout.setLayoutParams(layoutParams);
 //                        layout.requestLayout();
 //                    }
@@ -100,7 +100,7 @@ public class SHListFragment extends BottomSheetDialogFragment implements  SHList
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_filter:
                 DialogFragment filter_dialog = new SHFilterFragment();
                 filter_dialog.show(this.getChildFragmentManager(), "SHFilterFragment");

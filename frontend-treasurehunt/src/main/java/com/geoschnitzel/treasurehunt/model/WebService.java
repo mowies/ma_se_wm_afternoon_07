@@ -32,6 +32,26 @@ public class WebService {
         testList.add(new SHListItem("Wien","Diederich Claudia",614f,0.3f," Est ea minim scripta dissentiet",false));
         testList.add(new SHListItem("München","Wolf Elias",120f,3.5f," Est ea minim scripta dissentiet",false));
         testList.add(new SHListItem("Leoben","Debora Conrad",475f,1.6f," Est ea minim scripta dissentiet",true));
+        testList.add(new SHListItem("Linz", "Ingrid Margarethe", 752f, 3.1f, " Est ea minim scripta dissentiet", false));
+        testList.add(new SHListItem("Brixen", "Burkhard Walter", 109f, 2.0f, "Лорем ипсум долор сит амет, пер цлита поссит ех, ат мунере", true));
+        testList.add(new SHListItem("Wien", "Diederich Claudia", 614f, 0.3f, " Est ea minim scripta dissentiet", false));
+        testList.add(new SHListItem("München", "Wolf Elias", 120f, 3.5f, " Est ea minim scripta dissentiet", false));
+        testList.add(new SHListItem("Leoben", "Debora Conrad", 475f, 1.6f, " Est ea minim scripta dissentiet", true));
+        testList.add(new SHListItem("Linz", "Ingrid Margarethe", 752f, 3.1f, " Est ea minim scripta dissentiet", false));
+        testList.add(new SHListItem("Brixen", "Burkhard Walter", 109f, 2.0f, "Лорем ипсум долор сит амет, пер цлита поссит ех, ат мунере", true));
+        testList.add(new SHListItem("Wien", "Diederich Claudia", 614f, 0.3f, " Est ea minim scripta dissentiet", false));
+        testList.add(new SHListItem("München", "Wolf Elias", 120f, 3.5f, " Est ea minim scripta dissentiet", false));
+        testList.add(new SHListItem("Leoben", "Debora Conrad", 475f, 1.6f, " Est ea minim scripta dissentiet", true));
+        testList.add(new SHListItem("Linz", "Ingrid Margarethe", 752f, 3.1f, " Est ea minim scripta dissentiet", false));
+        testList.add(new SHListItem("Brixen", "Burkhard Walter", 109f, 2.0f, "Лорем ипсум долор сит амет, пер цлита поссит ех, ат мунере", true));
+        testList.add(new SHListItem("Wien", "Diederich Claudia", 614f, 0.3f, " Est ea minim scripta dissentiet", false));
+        testList.add(new SHListItem("München", "Wolf Elias", 120f, 3.5f, " Est ea minim scripta dissentiet", false));
+        testList.add(new SHListItem("Leoben", "Debora Conrad", 475f, 1.6f, " Est ea minim scripta dissentiet", true));
+        testList.add(new SHListItem("Linz", "Ingrid Margarethe", 752f, 3.1f, " Est ea minim scripta dissentiet", false));
+        testList.add(new SHListItem("Brixen", "Burkhard Walter", 109f, 2.0f, "Лорем ипсум долор сит амет, пер цлита поссит ех, ат мунере", true));
+        testList.add(new SHListItem("Wien", "Diederich Claudia", 614f, 0.3f, " Est ea minim scripta dissentiet", false));
+        testList.add(new SHListItem("München", "Wolf Elias", 120f, 3.5f, " Est ea minim scripta dissentiet", false));
+        testList.add(new SHListItem("Leoben", "Debora Conrad", 475f, 1.6f, " Est ea minim scripta dissentiet", true));
         return testList;
     }
 }
