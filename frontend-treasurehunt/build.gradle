@@ -27,6 +27,7 @@ android {
     }
     packagingOptions{
         exclude "META-INF/license.txt"
+        exclude "META-INF/notice.txt"
     }
 
     flavorDimensions "default"
