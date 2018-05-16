@@ -1,10 +1,12 @@
 package com.geoschnitzel.treasurehunt.shlist;
 
-import java.util.List;
-
 import android.support.annotation.NonNull;
+
 import com.geoschnitzel.treasurehunt.model.WebService;
+import com.geoschnitzel.treasurehunt.model.WebserviceProvider;
 import com.geoschnitzel.treasurehunt.rest.SHListItem;
+
+import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -22,7 +24,8 @@ public class SHListPresenter implements SHListContract.Presenter {
     }
 
     @Override
-    public List<SHListItem> getSHListItems() {
-        return WebService.getSHListItems();
+    public void retrieveSHListItems(WebService.WebServiceCallback<List<SHListItem>> callback) {
+        WebserviceProvider.getWebservice()
+                .retrieveSHListItems(callback);
     }
 }

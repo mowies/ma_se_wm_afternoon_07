@@ -3,6 +3,7 @@ package com.geoschnitzel.treasurehunt.shpurchase;
 import android.support.annotation.NonNull;
 
 import com.geoschnitzel.treasurehunt.model.WebService;
+import com.geoschnitzel.treasurehunt.model.WebserviceProvider;
 import com.geoschnitzel.treasurehunt.rest.SHPurchaseItem;
 
 import java.util.List;
@@ -23,7 +24,9 @@ public class SHPurchasePresenter implements SHPurchaseContract.Presenter {
     }
 
     @Override
-    public List<SHPurchaseItem> getSHPurchaseItems() {
-        return WebService.getSHPurchaseItems();
+    public void retrieveSHPurchaseItems(WebService.WebServiceCallback<List<SHPurchaseItem>> callback) {
+        WebserviceProvider.getWebservice()
+                .retrieveSHPurchaseItems(callback);
     }
+
 }
