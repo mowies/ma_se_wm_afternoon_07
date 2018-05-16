@@ -5,7 +5,7 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.geoschnitzel.treasurehunt.model.WebService;
-import com.geoschnitzel.treasurehunt.model.WebServiceImpl;
+import com.geoschnitzel.treasurehunt.model.WebserviceProvider;
 import com.geoschnitzel.treasurehunt.rest.SHPurchaseItem;
 import com.geoschnitzel.treasurehunt.shpurchase.SHPurchaseActivity;
 
@@ -32,7 +32,7 @@ public class SHPurchaseUITest {
 
     @Before
     public void setup() {
-        webService = new WebServiceImpl();
+        webService = WebserviceProvider.getWebservice();
     }
 
     @Rule

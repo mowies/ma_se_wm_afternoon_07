@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.geoschnitzel.treasurehunt", appContext.getPackageName());
+        assertEquals("com.geoschnitzel.treasurehunt.uitest", appContext.getPackageName());
     }
 }
