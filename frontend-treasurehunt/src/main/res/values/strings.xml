@@ -17,4 +17,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="options_button_filter">Filter</string>
+    <string name="distance_to_start">Distance to start</string>
+    <string name="hunt_length">Hunt Length</string>
+    <string name="rating">Rating</string>
 </resources>

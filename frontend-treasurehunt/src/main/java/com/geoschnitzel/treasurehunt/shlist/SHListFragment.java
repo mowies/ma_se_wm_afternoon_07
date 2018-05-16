@@ -11,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.geoschnitzel.treasurehunt.R;
 import com.geoschnitzel.treasurehunt.shfilter.SHFilterFragment;
@@ -39,7 +38,6 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
                              Bundle savedInstanceState) {
         final View root = inflater.inflate(R.layout.fragment_shlist, container, false);
         final BottomSheetListView shlist = root.findViewById(R.id.sh_list);
-        final TextView temp = root.findViewById(R.id.temp_text_view);
 
         shlist.setAdapter(new SHListAdapter(mPresenter.getSHListItems(), getActivity().getApplicationContext()));
 
