@@ -3,6 +3,7 @@ package com.geoschnitzel.treasurehunt.shlist;
 import android.support.annotation.NonNull;
 
 import com.geoschnitzel.treasurehunt.model.WebService;
+import com.geoschnitzel.treasurehunt.model.WebserviceProvider;
 import com.geoschnitzel.treasurehunt.rest.SHListItem;
 
 import java.util.List;
@@ -12,13 +13,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class SHListPresenter implements SHListContract.Presenter {
     private final SHListContract.View mView;
 
-    private WebService webService;
-
-    public SHListPresenter(@NonNull SHListContract.View view, WebService webService) {
+    public SHListPresenter(@NonNull SHListContract.View view) {
         mView = checkNotNull(view, "tasksView cannot be null!");
         mView.setPresenter(this);
-
-        this.webService = webService;
     }
 
     @Override
@@ -28,6 +25,7 @@ public class SHListPresenter implements SHListContract.Presenter {
 
     @Override
     public void retrieveSHListItems(WebService.WebServiceCallback<List<SHListItem>> callback) {
-        webService.retrieveSHListItems(callback);
+        WebserviceProvider.getWebservice()
+                .retrieveSHListItems(callback);
     }
 }

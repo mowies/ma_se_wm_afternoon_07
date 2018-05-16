@@ -45,7 +45,7 @@ public class WebServiceTest implements WebService {
 
     @Override
     public void retrieveHelloWorldMessage(final WebServiceCallback<Message> callback) {
-        callback.onResult(new Message("Hello world", new Date(1524066200885L)));
+        callback.onResult(new Message("Hello world (from test webservice)", new Date(1524066200885L)));
     }
 
 }
