@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.geoschnitzel.treasurehunt.R;
 import com.geoschnitzel.treasurehunt.shfilter.SHFilterFragment;
@@ -18,7 +19,7 @@ import com.geoschnitzel.treasurehunt.utils.BottomSheetListView;
 
 import javax.annotation.Nullable;
 
-public class SHListFragment extends BottomSheetDialogFragment implements SHListContract.View {
+public class SHListFragment extends BottomSheetDialogFragment implements SHListContract.View, View.OnClickListener {
     private SHListContract.Presenter mPresenter = null;
     private BottomSheetBehavior mBottomSheetBehavior = null;
 
@@ -37,6 +38,7 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View root = inflater.inflate(R.layout.fragment_shlist, container, false);
+        final LinearLayout filter_info_layout = root.findViewById(R.id.filter_info);
         final BottomSheetListView shlist = root.findViewById(R.id.sh_list);
 
         shlist.setAdapter(new SHListAdapter(mPresenter.getSHListItems(), getActivity().getApplicationContext()));
@@ -69,6 +71,8 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
             });
         }
 
+        filter_info_layout.setOnClickListener(this);
+
         return root;
     }
 
@@ -92,5 +96,10 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
     @Override
     public void setPresenter(SHListContract.Presenter presenter) {
         this.mPresenter = presenter;
+    }
+
+    @Override
+    public void onClick(View v) {
+        this.mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
     }
 }
