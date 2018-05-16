@@ -10,16 +10,17 @@
     android:background="@color/white"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
+    <TextView
+        android:id="@+id/temp_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:height="60dp"
+        android:text="BBBBBBBBBBBBBBBBBB" />
+
     <com.geoschnitzel.treasurehunt.utils.BottomSheetListView
         android:id="@+id/sh_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:footerDividersEnabled="false"
-        android:listSelector="#d7dbdd"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        android:listSelector="#d7dbdd" />
 </LinearLayout>

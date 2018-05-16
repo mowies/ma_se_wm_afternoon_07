@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.geoschnitzel.treasurehunt.R;
 import com.geoschnitzel.treasurehunt.shfilter.SHFilterFragment;
@@ -36,12 +37,13 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_shlist, container, false);
-        BottomSheetListView shlist = root.findViewById(R.id.sh_list);
+        final View root = inflater.inflate(R.layout.fragment_shlist, container, false);
+        final BottomSheetListView shlist = root.findViewById(R.id.sh_list);
+        final TextView temp = root.findViewById(R.id.temp_text_view);
+
         shlist.setAdapter(new SHListAdapter(mPresenter.getSHListItems(), getActivity().getApplicationContext()));
 
-        View temp = root.findViewById(R.id.main_sh_list_fragment);
-        this.mBottomSheetBehavior = BottomSheetBehavior.from(temp);
+        this.mBottomSheetBehavior = BottomSheetBehavior.from(root.findViewById(R.id.main_sh_list_fragment));
 
         if (this.mBottomSheetBehavior != null) {
             this.mBottomSheetBehavior.setHideable(false);
@@ -51,26 +53,6 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
                 @Override
                 public void onStateChanged(@NonNull final View bottomSheet, final int newState) {
                     getActivity().invalidateOptionsMenu();
-
-//                    if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
-//                        final ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.sh_list_fragment_content);
-//                        final ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-//                                ViewGroup.LayoutParams.MATCH_PARENT);
-//                        layoutParams.setMargins(0, 0, 0, 0);
-//                        layout.setLayoutParams(layoutParams);
-//                        layout.requestLayout();
-//
-//                    }
-//                    if (newState == BottomSheetBehavior.STATE_EXPANDED) {
-//
-//                        final ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.sh_list_fragment_content);
-//                        final ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-//                                ViewGroup.LayoutParams.MATCH_PARENT);
-//                        final int toolbarSize = findViewById(R.id.toolbar).getHeight();
-//                        layoutParams.setMargins(0, toolbarSize, 0, 0);
-//                        layout.setLayoutParams(layoutParams);
-//                        layout.requestLayout();
-//                    }
                 }
 
                 @Override
