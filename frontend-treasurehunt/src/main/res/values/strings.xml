@@ -17,4 +17,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hint_unlock">Unlock</string>
+    <string name="item_hint_timeunlock">Time to unlock</string>
+    <string name="hint_item_unlock_button">Unlock</string>
+    <string name="hint_item_buy_button">Buy</string>
 </resources>

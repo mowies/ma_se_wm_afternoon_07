@@ -31,6 +31,9 @@
         <activity
             android:name=".login.LoginActivity"
             android:label="LoginActivity"></activity>
+        <activity
+            android:name=".game.GameActivity"
+            android:label="LoginActivity"></activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

@@ -35,7 +35,9 @@ public class SHListFragment extends Fragment implements  SHListContract.View{
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_shlist, container, false);
         ListView shlist = root.findViewById(R.id.sh_list);
-        shlist.setAdapter(new SHListAdapter(mPresenter.getSHListItems(), getActivity().getApplicationContext()));
+        SHListAdapter adpater = new SHListAdapter(mPresenter.getSHListItems(), getActivity().getApplicationContext());
+        shlist.setAdapter(adpater);
+        shlist.setOnItemClickListener(adpater);
 
         return root;
     }

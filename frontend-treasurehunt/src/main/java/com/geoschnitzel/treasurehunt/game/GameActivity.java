@@ -1,7 +1,7 @@
 package com.geoschnitzel.treasurehunt.game;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
 import com.geoschnitzel.treasurehunt.R;
 import com.geoschnitzel.treasurehunt.base.BaseActivityWithBackButton;
@@ -20,20 +20,25 @@ public class GameActivity extends BaseActivityWithBackButton {
         if (params != null)
             huntID = params.getLong("huntID");
 
-        Fragment contentFrame = getSupportFragmentManager().findFragmentById(R.id.contentFrame);
-        if (contentFrame != null && huntID != -1) {
-            // Create the fragment
-            GameMapFragment gameMap = GameMapFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), gameMap, R.id.contentFrame);
-            gameMap.setPresenter(mPresenter);
+        FragmentManager manager = getSupportFragmentManager();
+        //Check if Fragments arent generated yet
+        GameMapFragment gameMap = (GameMapFragment) manager.findFragmentByTag(R.id.fragement_game_map + "");
+        GameHintViewFragment gameHintView = (GameHintViewFragment) manager.findFragmentByTag(R.id.fragement_game_hintview + "");
 
+        if (gameMap == null && gameHintView == null && huntID != -1) {
 
-            GameHintViewFragment gameHintView = GameHintViewFragment.newInstance();
-            ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), gameMap, R.id.contentFrame);
-            gameMap.setPresenter(mPresenter);
+            // Create the fragments
+            gameMap = GameMapFragment.newInstance();
+            gameHintView = GameHintViewFragment.newInstance();
 
-            mPresenter = new GamePresenter(gameMap, gameHintView, huntID);
+            //Add Fragments into contentFrame
+            ActivityUtils.addFragmentToActivity(manager, gameMap, R.id.contentFrame, R.id.fragement_game_map + "");
+            ActivityUtils.addFragmentToActivity(manager, gameHintView, R.id.contentFrame, R.id.fragement_game_hintview + "");
+
         }
 
+        if (gameMap != null && gameHintView != null) {
+            mPresenter = new GamePresenter(gameMap, gameHintView, huntID);
+        }
     }
 }

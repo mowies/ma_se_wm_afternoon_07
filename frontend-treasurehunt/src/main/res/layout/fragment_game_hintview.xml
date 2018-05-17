@@ -2,15 +2,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.geoschnitzel.treasurehunt.game.GameHintViewFragment">
+    android:layout_height="@dimen/hintItemHeight"
+    android:layout_marginBottom="@dimen/hintItemMargin"
+    tools:context="com.geoschnitzel.treasurehunt.game.GameHintViewFragment"
+    android:id="@+id/fragement_game_hintview"
+    android:layout_gravity="bottom|right">
 
     <android.support.v17.leanback.widget.HorizontalGridView
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:columnWidth="90dp"
-        android:verticalSpacing="10dp"
-        android:padding="10dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:id="@+id/hgvhint" />
 

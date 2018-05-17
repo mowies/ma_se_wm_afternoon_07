@@ -1,9 +1,10 @@
 package com.geoschnitzel.treasurehunt.game;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v17.leanback.widget.HorizontalGridView;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,10 @@ public class GameHintViewFragment extends Fragment implements GameContract.HintV
 
         HorizontalGridView glshpurchase = root.findViewById(R.id.hgvhint);
         glshpurchase.setAdapter(new GameHintAdapter(hints, getActivity().getApplicationContext(), mPresenter));
+        // This needed to be added
+        HorizontalGridView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+        glshpurchase.setLayoutManager(layoutManager);
+        glshpurchase.setHasFixedSize(true);
     }
 }
 

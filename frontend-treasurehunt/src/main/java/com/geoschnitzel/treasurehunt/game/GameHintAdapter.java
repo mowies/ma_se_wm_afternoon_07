@@ -6,8 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,7 +38,7 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return 0;
+        return items.size();
     }
 
     @Override
@@ -57,7 +58,7 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
         if (item.getUnlocked()) {
             switch (item.getType()) {
                 case IMAGE:
-                    holder.image.setBackground(context.getResources().getDrawable(android.R.drawable.alert_dark_frame));
+                    holder.image.setImageResource(android.R.drawable.alert_dark_frame);
                     holder.image.setVisibility(View.VISIBLE);
                     break;
                 case TEXT:
@@ -86,34 +87,35 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
                     icon = context.getResources().getDrawable(android.R.drawable.alert_dark_frame);
                     break;
             }
+            holder.buy_icon.setImageDrawable(icon);
 
-            holder.buytime.setBase(game.getCurrentTarget().getStartTime().getTime() + item.getTimeToUnlockHint() * 1000);
-            holder.buytime.setOnChronometerTickListener(holder);
-
-            holder.buytime.start();
-            holder.buytime.setVisibility(View.VISIBLE);
-
+            holder.unlock_chrono.setBase(game.getCurrentTarget().getStartTime().getTime() + item.getTimeToUnlockHint() * 1000);
+            holder.unlock_chrono.setOnChronometerTickListener(holder);
+            holder.unlock_chrono.start();
+            holder.shValue.setText(String.format("%d", item.getShValue()));
             holder.lbuy.setVisibility(View.VISIBLE);
 
-            holder.bbuy.setOnClickListener(holder);
+            holder.buy_button.setOnClickListener(holder);
         }
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements
             Chronometer.OnChronometerTickListener,
             View.OnClickListener {
-        public LinearLayout lshow;
+        public FrameLayout lshow;
         public LinearLayout lbuy;
         public TextView description;
-        public TextView image;
+        public ImageView image;
+        public ImageView buy_icon;
         public TextView shValue;
-        public Button bbuy;
-        public Chronometer buytime;
+        public LinearLayout buy_button;
+        public LinearLayout unlock_button;
+        public TextView unlock_button_time;
+        public Chronometer unlock_chrono;
         public long hintID;
 
         ViewHolder(View view) {
             super(view);
-            this.hintID = hintID;
             lshow = view.findViewById(R.id.hint_item_show);
             lbuy = view.findViewById(R.id.hint_item_buy);
 
@@ -121,17 +123,26 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
             image = lshow.findViewById(R.id.hint_item_image);
 
             shValue = lbuy.findViewById(R.id.hint_item_shvalue);
-            bbuy = lbuy.findViewById(R.id.hint_item_buy_button);
-            buytime = lbuy.findViewById(R.id.hint_item_buy_time);
+            buy_button = lbuy.findViewById(R.id.hint_item_buy_button);
+            buy_icon = lbuy.findViewById(R.id.hint_item_buy_icon);
+            unlock_button = lbuy.findViewById(R.id.hint_item_unlock_button);
+            unlock_button_time = lbuy.findViewById(R.id.hint_item_unlock_button_time);
+            unlock_chrono = lbuy.findViewById(R.id.hint_item_unlock_button_time_chrono);
+            unlock_button.setEnabled(true);
         }
 
         @Override
         public void onChronometerTick(Chronometer chronometer) {
-            if (chronometer.getBase() >= new Date().getTime()) {
-                bbuy.setText(R.string.hint_unlock);
-                shValue.setVisibility(View.INVISIBLE);
-                buytime.setVisibility(View.GONE);
-                buytime.stop();
+            if (chronometer.getBase() < new Date().getTime()) {
+                unlock_button_time.setVisibility(View.GONE);
+                unlock_button.setEnabled(true);
+                unlock_chrono.stop();
+            } else {
+                long diff = chronometer.getBase() - new Date().getTime();
+                int seconds = ((int) (diff / 1000) % 60);
+                int minutes = (int) (diff / 1000 / 60);
+                String format = "%02d:%02d";
+                unlock_button_time.setText(String.format(format, minutes, seconds));
             }
         }
 

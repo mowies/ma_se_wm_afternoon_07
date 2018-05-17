@@ -26,6 +26,7 @@ public class GameMapFragment extends android.support.v4.app.Fragment implements 
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+
         return root;
     }
 

@@ -26,16 +26,13 @@ data class SHPurchaseItem(val shValue: Int,
     }
 }
 
-data class SHListItem(var Name: String,
+data class SHListItem(val huntID: Long,
+                      var Name: String,
                       var Author: String,
                       var Length: Float,
                       var Rating: Float,
                       var Description: String,
                       var Visited: Boolean) {
-
-    constructor(item: SHListItem) :
-            this(item.Name, item.Author, item.Length, item.Rating, item.Description, item.Visited) {
-    }
 }
 
 enum class HintType(val type: String) {
@@ -43,7 +40,7 @@ enum class HintType(val type: String) {
     TEXT("TEXT"),
     COORDINATE("COORDINATE"),
     DIRECTION("DIRECTION")
-};
+}
 
 data class Coordinate(val longitude: Double,
                       val latitude: Double) {
@@ -66,11 +63,11 @@ data class HintItem(val id: Long,
 data class GameTargetItem(
         val id: Long,
         val startTime: Date,
-        var hints: List<HintItem>) {
-
-}
+        var hints: List<HintItem>)
 
 data class GameItem(
         val id: Long,
-        val currentTarget: GameTargetItem) {
-}
+        val currentTarget: GameTargetItem)
+
+data class UserItem(
+        val id: Long)
