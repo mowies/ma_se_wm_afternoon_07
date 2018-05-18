@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.GridView;
 
 import com.geoschnitzel.treasurehunt.R;
+import com.geoschnitzel.treasurehunt.rest.SHPurchaseItem;
+
+import java.util.List;
 
 public class SHPurchaseFragment extends Fragment implements SHPurchaseContract.View {
     private SHPurchaseContract.Presenter mPresenter;
@@ -16,14 +19,15 @@ public class SHPurchaseFragment extends Fragment implements SHPurchaseContract.V
     public static SHPurchaseFragment newInstance() {
         return new SHPurchaseFragment();
     }
-
+    GridView glshpurchase = null;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_shpurchase, container, false);
 
-        GridView glshpurchase = root.findViewById(R.id.shpurchase_gvitems);
-        mPresenter.retrieveSHPurchaseItems(result -> glshpurchase.setAdapter(new SHPurchaseAdapter(result, getActivity().getApplicationContext())));
+        glshpurchase = root.findViewById(R.id.shpurchase_gvitems);
+        mPresenter.getSHPurchaseItems();
+
         return root;
     }
 
@@ -37,5 +41,10 @@ public class SHPurchaseFragment extends Fragment implements SHPurchaseContract.V
     @Override
     public void setPresenter(SHPurchaseContract.Presenter presenter) {
         this.mPresenter = presenter;
+    }
+
+    @Override
+    public void refreshSHPurchaseAdapter(List<SHPurchaseItem> items) {
+        glshpurchase.setAdapter(new SHPurchaseAdapter(items, getActivity().getApplicationContext()));
     }
 }

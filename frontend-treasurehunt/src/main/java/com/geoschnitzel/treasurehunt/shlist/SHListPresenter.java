@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.geoschnitzel.treasurehunt.model.WebService;
 import com.geoschnitzel.treasurehunt.rest.SHListItem;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -27,7 +28,12 @@ public class SHListPresenter implements SHListContract.Presenter {
     }
 
     @Override
-    public void retrieveSHListItems(WebService.WebServiceCallback<List<SHListItem>> callback) {
-        webService.retrieveSHListItems(callback);
+    public void retrieveSHListItems() {
+        webService.getSHListItems(new WebService.WebServiceCallback<SHListItem[]>() {
+            @Override
+            public void onResult(SHListItem[] result) {
+                mView.refreshSHListAdapter(Arrays.asList(result));
+            }
+        });
     }
 }

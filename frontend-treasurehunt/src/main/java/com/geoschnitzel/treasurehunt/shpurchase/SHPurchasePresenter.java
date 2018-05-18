@@ -27,8 +27,13 @@ public class SHPurchasePresenter implements SHPurchaseContract.Presenter {
     }
 
     @Override
-    public void retrieveSHPurchaseItems(WebService.WebServiceCallback<List<SHPurchaseItem>> callback) {
-        webService.retrieveSHPurchaseItems(callback);
+    public void getSHPurchaseItems() {
+        webService.getSHPurchaseItems(new WebService.WebServiceCallback<List<SHPurchaseItem>>() {
+            @Override
+            public void onResult(List<SHPurchaseItem> result) {
+                mView.refreshSHPurchaseAdapter(result);
+            }
+        });
     }
 
 }

@@ -16,6 +16,8 @@
 
 package com.geoschnitzel.treasurehunt;
 
+import android.util.Log;
+
 import com.geoschnitzel.treasurehunt.map.MapContract;
 import com.geoschnitzel.treasurehunt.map.MapPresenter;
 import com.geoschnitzel.treasurehunt.model.WebService;
@@ -65,6 +67,6 @@ public class MapPresenterTest {
     @Test
     public void start_requestsHelloWorld() {
         mMapPresenter.start();
-        verify(webService).retrieveHelloWorldMessage(anyObject());
+        verify(webService).getHelloWorldMessage(anyObject());
     }
 }

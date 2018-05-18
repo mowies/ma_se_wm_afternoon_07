@@ -3,7 +3,7 @@ package com.geoschnitzel.treasurehunt.backend.service;
 
 import com.geoschnitzel.treasurehunt.backend.api.TestDataApi;
 import com.geoschnitzel.treasurehunt.backend.model.GameRepository;
-import com.geoschnitzel.treasurehunt.backend.model.SchnitzelHuntRepository;
+import com.geoschnitzel.treasurehunt.backend.model.HuntRepository;
 import com.geoschnitzel.treasurehunt.backend.model.UserRepository;
 import com.geoschnitzel.treasurehunt.backend.schema.Area;
 import com.geoschnitzel.treasurehunt.backend.schema.Game;
@@ -11,7 +11,7 @@ import com.geoschnitzel.treasurehunt.backend.schema.HintCoordinate;
 import com.geoschnitzel.treasurehunt.backend.schema.HintDirection;
 import com.geoschnitzel.treasurehunt.backend.schema.HintImage;
 import com.geoschnitzel.treasurehunt.backend.schema.HintText;
-import com.geoschnitzel.treasurehunt.backend.schema.SchnitzelHunt;
+import com.geoschnitzel.treasurehunt.backend.schema.Hunt;
 import com.geoschnitzel.treasurehunt.backend.schema.SchnitziEarnedTransaction;
 import com.geoschnitzel.treasurehunt.backend.schema.SchnitziTransaction;
 import com.geoschnitzel.treasurehunt.backend.schema.SchnitziUsedTransaction;
@@ -19,6 +19,7 @@ import com.geoschnitzel.treasurehunt.backend.schema.Target;
 import com.geoschnitzel.treasurehunt.backend.schema.User;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -33,15 +34,17 @@ import static java.util.Collections.singletonList;
 
 @Service
 @RestController
+@RequestMapping("/api/test")
 public class TestDataService implements TestDataApi {
 
-    private final SchnitzelHuntRepository schnitzelHuntRepository;
+    public static boolean generateTestData = false;
+    private final HuntRepository huntRepository;
     private final UserRepository userRepository;
     private final GameRepository gameRepository;
 
-    public TestDataService(SchnitzelHuntRepository schnitzelHuntRepository,
+    public TestDataService(HuntRepository huntRepository,
                            UserRepository userRepository, GameRepository gameRepository) {
-        this.schnitzelHuntRepository = schnitzelHuntRepository;
+        this.huntRepository = huntRepository;
         this.userRepository = userRepository;
         this.gameRepository = gameRepository;
     }
@@ -49,18 +52,20 @@ public class TestDataService implements TestDataApi {
     @Override
     @Transactional
     public void generateTestData() {
-        List<User> users = generateUsers();
-        userRepository.saveAll(users);
-        List<SchnitzelHunt> schnitzelHunts = generateSchnitzelHunts(users.get(1));
-        schnitzelHuntRepository.saveAll(schnitzelHunts);
-        gameRepository.save(generateGame(users.get(0), schnitzelHunts.get(0)));
+        if(!generateTestData) {
+            List<User> users = generateUsers();
+            userRepository.saveAll(users);
+            List<Hunt> hunts = generateSchnitzelHunts(users.get(1));
+            huntRepository.saveAll(hunts);
+            gameRepository.save(generateGame(users.get(0), hunts.get(0)));
+        }
     }
 
-    public Game generateGame(User user, SchnitzelHunt schnitzelHunt) {
-        return new Game(null, user, schnitzelHunt, emptyList(), emptyList());
+    public Game generateGame(User user, Hunt hunt) {
+        return new Game(null, user, hunt, emptyList(), emptyList());
     }
 
-    public List<SchnitzelHunt> generateSchnitzelHunts(User user) {
+    public List<Hunt> generateSchnitzelHunts(User user) {
         return generateSchnitzelHunts(user, 5);
     }
 
@@ -88,11 +93,11 @@ public class TestDataService implements TestDataApi {
         );
     }
 
-    public List<SchnitzelHunt> generateSchnitzelHunts(User user, int schnitzelHuntsToGenerate) {
-        List<SchnitzelHunt> schnitzelHunts = new ArrayList<>();
+    public List<Hunt> generateSchnitzelHunts(User user, int schnitzelHuntsToGenerate) {
+        List<Hunt> hunts = new ArrayList<>();
 
         for (int i = 0; i < schnitzelHuntsToGenerate; i++) {
-            schnitzelHunts.add(new SchnitzelHunt(
+            hunts.add(new Hunt(
                             null,
                             "Schnitzelhunt " + i,
                             "A hunt for a schnitzel " + i,
@@ -113,7 +118,7 @@ public class TestDataService implements TestDataApi {
             );
         }
 
-        return schnitzelHunts;
+        return hunts;
     }
 
 }
