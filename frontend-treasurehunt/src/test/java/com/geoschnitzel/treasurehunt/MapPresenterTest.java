@@ -67,6 +67,6 @@ public class MapPresenterTest {
     @Test
     public void start_requestsHelloWorld() {
         mMapPresenter.start();
-        verify(webService).getHelloWorldMessage(anyObject());
+        verify(webService).getHelloWorldMessage();
     }
 }

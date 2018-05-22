@@ -13,14 +13,21 @@ import java.util.List;
 import static java.util.Arrays.asList;
 
 public class WebService {
-    private static WebService instance = new WebService();
+    private static WebService instance = null;
 
     public static WebService instance() {
+        if(instance == null)
+            instance = new WebService();
         return instance;
     }
-    public WebService()
+    private WebService()
     {
-        generateTestData();
+        generateTestData(new WebServiceCallback<Void>() {
+            @Override
+            public void onResult(Void result) {
+                System.out.println("Test data generation complete!");
+            }
+        });
     }
 
     public interface WebServiceCallback<T> {
@@ -33,7 +40,7 @@ public class WebService {
         public static String EndPoint = "http://192.168.1.104:8080";
         public static RequestParams
                 HelloWorld = new RequestParams(Message.class,EndPoint + "/helloWorld",HttpMethod.GET,null,null),
-                GetSHList = new RequestParams(SHListItem.class,EndPoint + "/api/hunt/getshlist",HttpMethod.GET,null,null),
+                GetSHList = new RequestParams(SHListItem[].class,EndPoint + "/api/hunt/getshlist",HttpMethod.GET,null,null),
                 //StartGame = new RequestParams(GameItem.class,EndPoint + "/api/hunt/startGame",HttpMethod.GET,null,null) ,
                 GenerateTestData = new RequestParams(Void.class,EndPoint + "/api/test/generateTestData",HttpMethod.GET,null,null);
     }
