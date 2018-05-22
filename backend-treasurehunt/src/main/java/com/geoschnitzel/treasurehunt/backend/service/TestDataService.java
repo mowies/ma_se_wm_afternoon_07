@@ -37,7 +37,7 @@ import static java.util.Collections.singletonList;
 @RequestMapping("/api/test")
 public class TestDataService implements TestDataApi {
 
-    public static boolean generateTestData = false;
+    public static boolean generatedTestData = false;
     private final HuntRepository huntRepository;
     private final UserRepository userRepository;
     private final GameRepository gameRepository;
@@ -52,12 +52,13 @@ public class TestDataService implements TestDataApi {
     @Override
     @Transactional
     public void generateTestData() {
-        if(!generateTestData) {
+        if(!generatedTestData) {
             List<User> users = generateUsers();
             userRepository.saveAll(users);
             List<Hunt> hunts = generateSchnitzelHunts(users.get(1));
             huntRepository.saveAll(hunts);
             gameRepository.save(generateGame(users.get(0), hunts.get(0)));
+            generatedTestData = true;
         }
     }
 
