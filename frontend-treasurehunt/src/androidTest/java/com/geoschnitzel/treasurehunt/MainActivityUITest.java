@@ -1,6 +1,7 @@
 package com.geoschnitzel.treasurehunt;
 
 import android.os.SystemClock;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.action.GeneralLocation;
 import android.support.test.espresso.action.GeneralSwipeAction;
@@ -38,15 +39,24 @@ public class MainActivityUITest {
         onView(withId(R.id.filter_info)).perform(click());
         SystemClock.sleep(200);
         onView(withId(R.id.filter_info)).perform(swipeFromTopToBottom());
-        SystemClock.sleep(500);
+        SystemClock.sleep(400);
         onView(withId(R.id.sh_list)).check(matches(not(isDisplayed())));
     }
 
     @Test
     public void swipeFromBottom_opensBottomSheet() {
         onView(withId(R.id.filter_info)).perform(swipeFromBottomToTop());
-        SystemClock.sleep(500);
+        SystemClock.sleep(400);
         onView(withId(R.id.sh_list)).check(matches((isDisplayed())));
+    }
+
+    @Test
+    public void pressBackButton_closesBottomSheet() {
+        onView(withId(R.id.filter_info)).perform(swipeFromBottomToTop());
+        SystemClock.sleep(200);
+        Espresso.pressBack();
+        SystemClock.sleep(400);
+        onView(withId(R.id.sh_list)).check(matches(not(isDisplayed())));
     }
 
     private static ViewAction swipeFromTopToBottom() {

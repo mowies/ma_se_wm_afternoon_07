@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".main.MainActivity">
+        <activity
+            android:name=".main.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,15 +20,18 @@
         </activity>
         <activity
             android:name=".shpurchase.SHPurchaseActivity"
-            android:label="@string/title_activity_shpurchase" />
+            android:label="@string/title_activity_shpurchase"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".shcreatehunt.SHCreateActivity"
             android:label="SHNewHunt"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".login.LoginActivity"
-            android:label="LoginActivity" />
+            android:label="LoginActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
