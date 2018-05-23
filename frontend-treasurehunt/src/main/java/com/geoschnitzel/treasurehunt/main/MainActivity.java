@@ -9,6 +9,7 @@ import com.geoschnitzel.treasurehunt.base.BaseActivityNavigationDrawer;
 import com.geoschnitzel.treasurehunt.map.MapContract;
 import com.geoschnitzel.treasurehunt.map.MapFragment;
 import com.geoschnitzel.treasurehunt.map.MapPresenter;
+import com.geoschnitzel.treasurehunt.model.WebService;
 import com.geoschnitzel.treasurehunt.shfilter.SHFilterFragment;
 import com.geoschnitzel.treasurehunt.shlist.SHListFragment;
 import com.geoschnitzel.treasurehunt.utils.ActivityUtils;
@@ -44,7 +45,7 @@ public class MainActivity extends BaseActivityNavigationDrawer implements SHFilt
         }
 
         // Create the presenter
-        this.mMapPresenter = new MapPresenter(this.mMapFragment);
+        this.mMapPresenter = new MapPresenter(this.mMapFragment, WebService.instance());
     }
 
     @Override

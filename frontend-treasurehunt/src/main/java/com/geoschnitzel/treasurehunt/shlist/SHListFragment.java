@@ -15,8 +15,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.geoschnitzel.treasurehunt.R;
+import com.geoschnitzel.treasurehunt.rest.SHListItem;
 import com.geoschnitzel.treasurehunt.shfilter.SHFilterFragment;
 import com.geoschnitzel.treasurehunt.utils.BottomSheetListView;
+
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -24,6 +27,7 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
     private SHListContract.Presenter mPresenter = null;
     public BottomSheetBehavior mBottomSheetBehavior = null;
     private FloatingActionButton mSearchFab = null;
+    private BottomSheetListView mSHList = null;
 
     public static SHListFragment newInstance() {
         return new SHListFragment();
@@ -41,10 +45,10 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
                              Bundle savedInstanceState) {
         final View root = inflater.inflate(R.layout.fragment_shlist, container, false);
         final LinearLayout filter_info_layout = root.findViewById(R.id.filter_info);
-        final BottomSheetListView shlist = root.findViewById(R.id.sh_list);
+        this.mSHList = root.findViewById(R.id.sh_list);
         this.mSearchFab = getActivity().findViewById(R.id.floatingSearchButton);
 
-        shlist.setAdapter(new SHListAdapter(mPresenter.getSHListItems(), getActivity().getApplicationContext()));
+        mPresenter.retrieveSHListItems();
 
         this.mBottomSheetBehavior = BottomSheetBehavior.from(root.findViewById(R.id.main_sh_list_fragment));
 
@@ -85,6 +89,11 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.start();
+    }
+
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_shlist, menu);
         super.onCreateOptionsMenu(menu, inflater);
@@ -109,5 +118,10 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
     @Override
     public void onClick(View v) {
         this.mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+    }
+
+    @Override
+    public void refreshSHListAdapter(List<SHListItem> items) {
+        this.mSHList.setAdapter(new SHListAdapter(items, getActivity().getApplicationContext()));
     }
 }

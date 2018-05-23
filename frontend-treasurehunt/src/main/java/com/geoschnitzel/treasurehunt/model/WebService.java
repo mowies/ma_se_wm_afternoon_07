@@ -1,47 +1,120 @@
 package com.geoschnitzel.treasurehunt.model;
 
-import com.geoschnitzel.treasurehunt.rest.SHListItem;
-import com.geoschnitzel.treasurehunt.rest.SHPurchaseItem;
+import android.os.AsyncTask;
 
-import java.util.ArrayList;
+import com.fasterxml.jackson.module.kotlin.KotlinModule;
+import com.geoschnitzel.treasurehunt.rest.*;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
 import java.util.List;
 
+import static java.util.Arrays.asList;
+
 public class WebService {
-    public static List<SHPurchaseItem> getSHPurchaseItems() {
+    private static WebService instance = null;
 
-        List<SHPurchaseItem> testList = new ArrayList<SHPurchaseItem>();
-        testList.add(new SHPurchaseItem(10, 2.99f, 1, "$", "{0} {1}", "Bronze"));
-        testList.add(new SHPurchaseItem(20, 4.99f, 1, "$", "{0} {1}", "Silber"));
-        testList.add(new SHPurchaseItem(100, 7.99f, 1, "$", "{0} {1}", "Gold"));
-        testList.add(new SHPurchaseItem(500, 12.99f, 1, "$", "{0} {1}", "Platin"));
-        testList.add(new SHPurchaseItem(1000, 17.99f, 1, "$", "{0} {1}", "Rodium"));
-        testList.add(new SHPurchaseItem(5000, 24.99f, 1, "$", "{0} {1}", "Plutonium"));
+    public static WebService instance() {
+        if(instance == null)
+            instance = new WebService();
+        return instance;
+    }
+    private WebService(){}
 
-        return testList;
+    public interface WebServiceCallback<T> {
+        void onResult(T result);
+    }
+
+    //In the RequestFunctions we can define the whole Api Call
+    public static class RequestFunctions
+    {
+        public static String EndPoint = "http://10.0.2.2:8080";
+
+        public static RequestParams<Message>        HelloWorld = new RequestParams<>(Message.class,EndPoint + "/helloWorld",HttpMethod.GET,null,null);
+        public static RequestParams<SHListItem[]>      GetSHList = new RequestParams<>(SHListItem[].class,EndPoint + "/api/hunt/getshlist",HttpMethod.GET,null,null);
+        // public static RequestParams<GameItem>        StartGame = new RequestParams<>(GameItem.class,EndPoint + "/api/hunt/startGame/{0}",HttpMethod.GET,null,null) ;
     }
 
 
-    public static List<SHListItem> getSHListItems() {
 
-        List<SHListItem> testList = new ArrayList<SHListItem>();
-        testList.add(new SHListItem("Graz","Dominik Adelbert",420f,4.2f,"Lorem ipsum dolor sit amet, principes ",false));
-        testList.add(new SHListItem("Kärnten","Yvonne Wendelin",635f,4.7f,"gubergren ei, vis id consul",true));
-        testList.add(new SHListItem("Lienz","Heidi Niko",507f,1.5f,"Sea vidit maiorum nostrum no. ",true));
-        testList.add(new SHListItem("Linz","Ingrid Margarethe",752f,3.1f," Est ea minim scripta dissentiet",false));
-        testList.add(new SHListItem("Brixen","Burkhard Walter",109f,2.0f,"Лорем ипсум долор сит амет, пер цлита поссит ех, ат мунере",true));
-        testList.add(new SHListItem("Wien","Diederich Claudia",614f,0.3f," Est ea minim scripta dissentiet",false));
-        testList.add(new SHListItem("München","Wolf Elias",120f,3.5f," Est ea minim scripta dissentiet",false));
-        testList.add(new SHListItem("Leoben","Debora Conrad",475f,1.6f," Est ea minim scripta dissentiet",true));
-        testList.add(new SHListItem("Zwing", "Ingrid Margarethe", 752f, 3.1f, " Est ea minim scripta dissentiet", false));
-        testList.add(new SHListItem("Prebensdorf", "Burkhard Walter", 109f, 2.0f, "Лорем ипсум долор сит амет, пер цлита поссит ех, ат мунере", true));
-        testList.add(new SHListItem("Tumbach", "Diederich Claudia", 614f, 0.3f, " Est ea minim scripta dissentiet", false));
-        testList.add(new SHListItem("Mattighofen", "Wolf Elias", 120f, 3.5f, " Est ea minim scripta dissentiet", false));
-        testList.add(new SHListItem("Vorderthiersee", "Debora Conrad", 475f, 1.6f, " Est ea minim scripta dissentiet", true));
-        testList.add(new SHListItem("Wiehalm", "Ingrid Margarethe", 752f, 3.1f, " Est ea minim scripta dissentiet", false));
-        testList.add(new SHListItem("Adlwang", "Burkhard Walter", 109f, 2.0f, "Лорем ипсум долор сит амет, пер цлита поссит ех, ат мунере", true));
-        testList.add(new SHListItem("Neunzen", "Diederich Claudia", 614f, 0.3f, " Est ea minim scripta dissentiet", false));
-        testList.add(new SHListItem("Dietrichshofen", "Wolf Elias", 120f, 3.5f, " Est ea minim scripta dissentiet", false));
-        testList.add(new SHListItem("Tollinggraben", "Debora Conrad", 475f, 1.6f, " Est ea minim scripta dissentiet", true));
-        return testList;
+    //----------------------------------------------------------------------------------------------
+    //Webservice functions for Synchronos and Asynchronos Call
+    //----------------------------------------------------------------------------------------------
+
+    public Message getHelloWorldMessage() {
+        return new WebserviceAsyncTask<Message>(null).doInBackground(RequestFunctions.HelloWorld);
     }
+    public void getHelloWorldMessage(WebServiceCallback<Message> callback) {
+        new WebserviceAsyncTask<Message>(callback).execute(RequestFunctions.HelloWorld);
+    }
+    public List<SHListItem> getSHListItems(){
+
+        return asList(new WebserviceAsyncTask<SHListItem[]>(null).doInBackground(RequestFunctions.GetSHList));
+    }
+    public void getSHListItems(WebServiceCallback<SHListItem[]> callback){
+        new WebserviceAsyncTask<SHListItem[]>(callback).execute(RequestFunctions.GetSHList);
+    }
+    public void getSHPurchaseItems(WebServiceCallback<List<SHPurchaseItem>> callback){
+
+        callback.onResult(
+                asList(new SHPurchaseItem(10, 2.99f, 1, "$", "{0} {1}", "Bronze"),
+                        new SHPurchaseItem(20, 4.99f, 1, "$", "{0} {1}", "Silber"),
+                        new SHPurchaseItem(100, 7.99f, 1, "$", "{0} {1}", "Gold"),
+                        new SHPurchaseItem(500, 12.99f, 1, "$", "{0} {1}", "Platin"),
+                        new SHPurchaseItem(1000, 17.99f, 1, "$", "{0} {1}", "Rodium"),
+                        new SHPurchaseItem(5000, 24.99f, 1, "$", "{0} {1}", "Plutonium")));
+    }
+
+
+
+    public class WebserviceAsyncTask<T> extends AsyncTask<RequestParams<T>, Void, T> {
+        private WebService.WebServiceCallback<T> callback = null;
+
+        public WebserviceAsyncTask(WebServiceCallback<T> callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        protected T doInBackground(RequestParams<T>... requestParams) {
+            RequestParams<T> params = requestParams[0];
+            RestTemplate restTemplate = new RestTemplate();
+            MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+            converter.getObjectMapper().registerModule(new KotlinModule());
+            restTemplate.getMessageConverters().add(converter);
+            switch (params.method) {
+                case GET:
+                    return params.params == null ?
+                            restTemplate.getForObject(params.url, params.returnType) :
+                            restTemplate.getForObject(params.url, params.returnType, params.params);
+                case DELETE:
+                    if (params.params == null)
+                        restTemplate.delete(params.url);
+                    else
+                        restTemplate.delete(params.url, params.params);
+                    return null;
+                case POST:
+
+                    return params.params == null ?
+                            restTemplate.postForObject(params.url, params.postObject, params.returnType) :
+                            restTemplate.postForObject(params.url, params.postObject, params.returnType, params.params);
+                case PUT:
+                    if (params.params == null)
+                        restTemplate.put(params.url, params.postObject);
+                    else
+                        restTemplate.put(params.url, params.postObject, params.params);
+                    return null;
+                default:
+                    return null;
+
+            }
+        }
+
+        @Override
+        protected void onPostExecute(T result) {
+            super.onPostExecute(result);
+            this.callback.onResult(result);
+        }
+    }
+
 }
