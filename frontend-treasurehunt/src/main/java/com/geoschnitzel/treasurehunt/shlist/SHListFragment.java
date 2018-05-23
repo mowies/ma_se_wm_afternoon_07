@@ -22,7 +22,7 @@ import javax.annotation.Nullable;
 
 public class SHListFragment extends BottomSheetDialogFragment implements SHListContract.View, View.OnClickListener {
     private SHListContract.Presenter mPresenter = null;
-    private BottomSheetBehavior mBottomSheetBehavior = null;
+    public BottomSheetBehavior mBottomSheetBehavior = null;
     private FloatingActionButton mSearchFab = null;
 
     public static SHListFragment newInstance() {

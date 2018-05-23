@@ -2,6 +2,7 @@ package com.geoschnitzel.treasurehunt.main;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
 
 import com.geoschnitzel.treasurehunt.R;
 import com.geoschnitzel.treasurehunt.base.BaseActivityNavigationDrawer;
@@ -16,14 +17,16 @@ public class MainActivity extends BaseActivityNavigationDrawer implements SHFilt
 
     private MapContract.Presenter mMapPresenter;
     private MapFragment mMapFragment;
-    private SHListFragment mShListFragment;
+    private SHListFragment mSHListFragment;
 
     @Override
     public void onBackPressed() {
-        mShListFragment = (SHListFragment) mMapFragment.getChildFragmentManager().findFragmentByTag(getString(R.string.fragment_tag_shlist));
+        mSHListFragment = (SHListFragment) mMapFragment.getChildFragmentManager().findFragmentByTag(getString(R.string.fragment_tag_shlist));
 
-        if (mShListFragment != null) {
-            mShListFragment.closeBottomSheet();
+        if (mSHListFragment != null && mSHListFragment.mBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_EXPANDED) {
+            mSHListFragment.closeBottomSheet();
+        } else {
+            super.onBackPressed();
         }
     }
 
