@@ -1,7 +1,6 @@
 package com.geoschnitzel.treasurehunt.backend.service;
 
 
-import com.geoschnitzel.treasurehunt.backend.api.TestDataApi;
 import com.geoschnitzel.treasurehunt.backend.model.GameRepository;
 import com.geoschnitzel.treasurehunt.backend.model.HuntRepository;
 import com.geoschnitzel.treasurehunt.backend.model.UserRepository;
@@ -18,6 +17,8 @@ import com.geoschnitzel.treasurehunt.backend.schema.SchnitziUsedTransaction;
 import com.geoschnitzel.treasurehunt.backend.schema.Target;
 import com.geoschnitzel.treasurehunt.backend.schema.User;
 
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,9 +34,7 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
 @Service
-@RestController
-@RequestMapping("/api/test")
-public class TestDataService implements TestDataApi {
+public class TestDataService {
 
     public static boolean generatedTestData = false;
     private final HuntRepository huntRepository;
@@ -49,8 +48,8 @@ public class TestDataService implements TestDataApi {
         this.gameRepository = gameRepository;
     }
 
-    @Override
     @Transactional
+    @EventListener(ApplicationReadyEvent.class)
     public void generateTestData() {
         if(!generatedTestData) {
             List<User> users = generateUsers();

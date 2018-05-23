@@ -20,10 +20,7 @@ public class WebService {
             instance = new WebService();
         return instance;
     }
-    private WebService()
-    {
-        generateTestData(result -> System.out.println("Test data generation complete!"));
-    }
+    private WebService(){}
 
     public interface WebServiceCallback<T> {
         void onResult(T result);
@@ -32,12 +29,11 @@ public class WebService {
     //In the RequestFunctions we can define the whole Api Call
     public static class RequestFunctions
     {
-        public static String EndPoint = "http://192.168.1.104:8080";
+        public static String EndPoint = "http://10.0.2.2:8080";
 
         public static RequestParams<Message>        HelloWorld = new RequestParams<>(Message.class,EndPoint + "/helloWorld",HttpMethod.GET,null,null);
         public static RequestParams<SHListItem[]>      GetSHList = new RequestParams<>(SHListItem[].class,EndPoint + "/api/hunt/getshlist",HttpMethod.GET,null,null);
         // public static RequestParams<GameItem>        StartGame = new RequestParams<>(GameItem.class,EndPoint + "/api/hunt/startGame/{0}",HttpMethod.GET,null,null) ;
-        public static RequestParams<Void>        GenerateTestData = new RequestParams<>(Void.class,EndPoint + "/api/test/generateTestData",HttpMethod.GET,null,null);
     }
 
 
@@ -46,21 +42,15 @@ public class WebService {
     //Webservice functions for Synchronos and Asynchronos Call
     //----------------------------------------------------------------------------------------------
 
-    private void generateTestData() {
-        new WebserviceTask<Void>().execute(RequestFunctions.GenerateTestData);
-    }
-    private void generateTestData(WebServiceCallback<Void> callback) {
-        new WebserviceAsyncTask<Void>(callback).execute(RequestFunctions.GenerateTestData);
-    }
     public Message getHelloWorldMessage() {
-        return new WebserviceTask<Message>().execute(RequestFunctions.HelloWorld);
+        return new WebserviceAsyncTask<Message>(null).doInBackground(RequestFunctions.HelloWorld);
     }
     public void getHelloWorldMessage(WebServiceCallback<Message> callback) {
         new WebserviceAsyncTask<Message>(callback).execute(RequestFunctions.HelloWorld);
     }
     public List<SHListItem> getSHListItems(){
 
-        return asList(new WebserviceTask<SHListItem[]>().execute(RequestFunctions.GetSHList));
+        return asList(new WebserviceAsyncTask<SHListItem[]>(null).doInBackground(RequestFunctions.GetSHList));
     }
     public void getSHListItems(WebServiceCallback<SHListItem[]> callback){
         new WebserviceAsyncTask<SHListItem[]>(callback).execute(RequestFunctions.GetSHList);
@@ -127,38 +117,4 @@ public class WebService {
         }
     }
 
-    public class WebserviceTask<T> {
-        protected T execute(RequestParams<T> params) {
-            RestTemplate restTemplate = new RestTemplate();
-            MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-            converter.getObjectMapper().registerModule(new KotlinModule());
-            restTemplate.getMessageConverters().add(converter);
-            switch (params.method) {
-                case GET:
-                    return params.params == null ?
-                            restTemplate.getForObject(params.url, params.returnType) :
-                            restTemplate.getForObject(params.url, params.returnType, params.params);
-                case DELETE:
-                    if (params.params == null)
-                        restTemplate.delete(params.url);
-                    else
-                        restTemplate.delete(params.url, params.params);
-                    return null;
-                case POST:
-
-                    return params.params == null ?
-                            restTemplate.postForObject(params.url, params.postObject, params.returnType) :
-                            restTemplate.postForObject(params.url, params.postObject, params.returnType, params.params);
-                case PUT:
-                    if (params.params == null)
-                        restTemplate.put(params.url, params.postObject);
-                    else
-                        restTemplate.put(params.url, params.postObject, params.params);
-                    return null;
-                default:
-                    return null;
-
-            }
-        }
-    }
 }
