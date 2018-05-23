@@ -4,38 +4,37 @@ import com.geoschnitzel.treasurehunt.backend.api.HuntApi;
 import com.geoschnitzel.treasurehunt.backend.model.HuntRepository;
 import com.geoschnitzel.treasurehunt.backend.schema.Hunt;
 import com.geoschnitzel.treasurehunt.rest.SHListItem;
-import com.geoschnitzel.treasurehunt.util.UtilsKt;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static com.geoschnitzel.treasurehunt.util.UtilsKt.asList;
+import static java.util.stream.Collectors.toList;
 
 @Service
 @RestController
-@RequestMapping("/api/hunt")
 public class HuntService implements HuntApi {
 
-    @Autowired
     private HuntRepository huntRepository;
 
+    public HuntService(HuntRepository huntRepository) {
+        this.huntRepository = huntRepository;
+    }
+
     @Override
-    public List<SHListItem> getSHList() {
-        List<Hunt> actualHunts = UtilsKt.asList(huntRepository.findAll());
-        List<SHListItem> results = new ArrayList<>();
-        for (Hunt hunt : actualHunts) {
-            results.add(new SHListItem(
+    public List<SHListItem> retrieveSchnitzelHunts() {
+        List<Hunt> hunts = asList(huntRepository.findAll());
+        return hunts.stream().map(hunt -> {
+            return new SHListItem(
                     hunt.getName(),
                     hunt.getCreator().getDisplayName(),
-                    0,
-                    (float) 4.5,
+                    -1.0f,
+                    2.5f,
                     hunt.getDescription(),
-                    false));
-
-        }
-        return results;
+                    false
+            ); //TODO calculate values that are hardcoded now
+        }).collect(toList());
     }
 }
