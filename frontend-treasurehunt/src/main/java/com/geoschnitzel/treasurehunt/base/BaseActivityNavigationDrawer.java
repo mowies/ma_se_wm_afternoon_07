@@ -11,8 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.geoschnitzel.treasurehunt.R;
-import com.geoschnitzel.treasurehunt.shcreatehunt.SHCreateActivity;
 import com.geoschnitzel.treasurehunt.login.LoginActivity;
+import com.geoschnitzel.treasurehunt.shcreatehunt.SHCreateActivity;
 import com.geoschnitzel.treasurehunt.shpurchase.SHPurchaseActivity;
 
 public abstract class BaseActivityNavigationDrawer extends AppCompatActivity implements

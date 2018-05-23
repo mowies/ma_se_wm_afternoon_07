@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.geoschnitzel.treasurehunt.R;
+import com.geoschnitzel.treasurehunt.model.WebService;
 import com.geoschnitzel.treasurehunt.rest.SearchParamItem;
 import com.geoschnitzel.treasurehunt.shlist.SHListContract;
 import com.geoschnitzel.treasurehunt.shlist.SHListFragment;
@@ -55,7 +56,7 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
         if (this.mSHListFragment == null) {
             this.mSHListFragment = SHListFragment.newInstance();
             ActivityUtils.addFragmentToActivity(fm, this.mSHListFragment, R.id.bottom_sheet_content_frame, getString(R.string.fragment_tag_shlist));
-            this.mSHListPresenter = new SHListPresenter(this.mSHListFragment);
+            this.mSHListPresenter = new SHListPresenter(this.mSHListFragment, WebService.instance());
         }
     }
 

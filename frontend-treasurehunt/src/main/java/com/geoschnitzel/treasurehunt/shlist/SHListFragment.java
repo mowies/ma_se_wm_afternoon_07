@@ -19,6 +19,7 @@ import com.geoschnitzel.treasurehunt.rest.SHListItem;
 import com.geoschnitzel.treasurehunt.shfilter.SHFilterFragment;
 import com.geoschnitzel.treasurehunt.utils.BottomSheetListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -49,6 +50,7 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
         this.mSearchFab = getActivity().findViewById(R.id.floatingSearchButton);
 
         mPresenter.retrieveSHListItems();
+        this.refreshSHListAdapter(new ArrayList<>());
 
         this.mBottomSheetBehavior = BottomSheetBehavior.from(root.findViewById(R.id.main_sh_list_fragment));
 
