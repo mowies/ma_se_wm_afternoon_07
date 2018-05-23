@@ -9,10 +9,10 @@ import java.util.List;
 
 public interface SHListContract {
     interface View extends IBaseView<Presenter> {
-
+        void refreshSHListAdapter(List<SHListItem> items);
     }
 
     interface Presenter extends IBasePresenter {
-        void retrieveSHListItems(WebService.WebServiceCallback<List<SHListItem>> callback);
+        void retrieveSHListItems();
     }
 }
