@@ -44,11 +44,11 @@ android {
             versionNameSuffix "-prod"
             dimension "default"
         }
-        uiTest {
+        /*uiTest {
             applicationIdSuffix ".uitest"
             versionNameSuffix "-uitest"
             dimension "default"
-        }
+        }*/
     }
 
     // Remove mockRelease as it's not needed.

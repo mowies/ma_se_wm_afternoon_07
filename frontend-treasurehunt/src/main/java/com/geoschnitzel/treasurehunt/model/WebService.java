@@ -22,12 +22,7 @@ public class WebService {
     }
     private WebService()
     {
-        generateTestData(new WebServiceCallback<Void>() {
-            @Override
-            public void onResult(Void result) {
-                System.out.println("Test data generation complete!");
-            }
-        });
+        generateTestData(result -> System.out.println("Test data generation complete!"));
     }
 
     public interface WebServiceCallback<T> {
@@ -38,11 +33,11 @@ public class WebService {
     public static class RequestFunctions
     {
         public static String EndPoint = "http://192.168.1.104:8080";
-        public static RequestParams
-                HelloWorld = new RequestParams(Message.class,EndPoint + "/helloWorld",HttpMethod.GET,null,null),
-                GetSHList = new RequestParams(SHListItem[].class,EndPoint + "/api/hunt/getshlist",HttpMethod.GET,null,null),
-                //StartGame = new RequestParams(GameItem.class,EndPoint + "/api/hunt/startGame",HttpMethod.GET,null,null) ,
-                GenerateTestData = new RequestParams(Void.class,EndPoint + "/api/test/generateTestData",HttpMethod.GET,null,null);
+
+        public static RequestParams<Message>        HelloWorld = new RequestParams<>(Message.class,EndPoint + "/helloWorld",HttpMethod.GET,null,null);
+        public static RequestParams<SHListItem[]>      GetSHList = new RequestParams<>(SHListItem[].class,EndPoint + "/api/hunt/getshlist",HttpMethod.GET,null,null);
+        // public static RequestParams<GameItem>        StartGame = new RequestParams<>(GameItem.class,EndPoint + "/api/hunt/startGame/{0}",HttpMethod.GET,null,null) ;
+        public static RequestParams<Void>        GenerateTestData = new RequestParams<>(Void.class,EndPoint + "/api/test/generateTestData",HttpMethod.GET,null,null);
     }
 
 
