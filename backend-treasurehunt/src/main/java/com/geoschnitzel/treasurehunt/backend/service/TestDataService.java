@@ -20,8 +20,6 @@ import com.geoschnitzel.treasurehunt.backend.schema.User;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +34,6 @@ import static java.util.Collections.singletonList;
 @Service
 public class TestDataService {
 
-    public static boolean generatedTestData = false;
     private final HuntRepository huntRepository;
     private final UserRepository userRepository;
     private final GameRepository gameRepository;
@@ -51,14 +48,15 @@ public class TestDataService {
     @Transactional
     @EventListener(ApplicationReadyEvent.class)
     public void generateTestData() {
-        if(!generatedTestData) {
-            List<User> users = generateUsers();
-            userRepository.saveAll(users);
-            List<Hunt> hunts = generateSchnitzelHunts(users.get(1));
-            huntRepository.saveAll(hunts);
-            gameRepository.save(generateGame(users.get(0), hunts.get(0)));
-            generatedTestData = true;
+        if (userRepository.count() >= 0) {
+            return;
         }
+
+        List<User> users = generateUsers();
+        userRepository.saveAll(users);
+        List<Hunt> hunts = generateSchnitzelHunts(users.get(1));
+        huntRepository.saveAll(hunts);
+        gameRepository.save(generateGame(users.get(0), hunts.get(0)));
     }
 
     public Game generateGame(User user, Hunt hunt) {
