@@ -12,7 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.geoschnitzel.treasurehunt.R;
+import com.geoschnitzel.treasurehunt.rest.SHListItem;
 import com.geoschnitzel.treasurehunt.shfilter.SHFilterFragment;
+
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -22,7 +25,7 @@ public class SHListFragment extends Fragment implements SHListContract.View {
     public static SHListFragment newInstance() {
         return new SHListFragment();
     }
-
+    private ListView shlist = null;
     @Override
     public void onCreate(@android.support.annotation.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,9 +37,8 @@ public class SHListFragment extends Fragment implements SHListContract.View {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_shlist, container, false);
-        ListView shlist = root.findViewById(R.id.sh_list);
-        mPresenter.retrieveSHListItems(result -> shlist.setAdapter(new SHListAdapter(result, getActivity().getApplicationContext())));
-
+        shlist = root.findViewById(R.id.sh_list);
+        mPresenter.retrieveSHListItems();
         return root;
     }
 
@@ -65,5 +67,11 @@ public class SHListFragment extends Fragment implements SHListContract.View {
     @Override
     public void setPresenter(SHListContract.Presenter presenter) {
         this.mPresenter = presenter;
+    }
+
+    @Override
+    public void refreshSHListAdapter(List<SHListItem> items) {
+
+        shlist.setAdapter(new SHListAdapter(items, getActivity().getApplicationContext()));
     }
 }

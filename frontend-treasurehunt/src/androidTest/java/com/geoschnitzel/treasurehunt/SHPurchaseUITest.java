@@ -5,7 +5,6 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.geoschnitzel.treasurehunt.model.WebService;
-import com.geoschnitzel.treasurehunt.model.WebserviceProvider;
 import com.geoschnitzel.treasurehunt.rest.SHPurchaseItem;
 import com.geoschnitzel.treasurehunt.shpurchase.SHPurchaseActivity;
 
@@ -17,6 +16,7 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -32,7 +32,7 @@ public class SHPurchaseUITest {
 
     @Before
     public void setup() {
-        webService = WebserviceProvider.getWebservice();
+        webService = WebService.instance();
     }
 
     @Rule
@@ -42,19 +42,13 @@ public class SHPurchaseUITest {
 
     @Test
     public void clickBuyButton_ShowsMessage() {
-        webService.retrieveSHPurchaseItems(dataList -> {
+        webService.getSHPurchaseItems(dataList -> {
             for (int index = 0; index < dataList.size(); index++) {
                 onData(anything())
                         .inAdapterView(withId(R.id.shpurchase_gvitems))
                         .atPosition(index)
                         .onChildView(withId(R.id.shpurchase_item_buy))
                         .perform(click());
-                onView(withText("Replace with your own action")).check(matches(isDisplayed()));
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
 
         });
@@ -62,7 +56,7 @@ public class SHPurchaseUITest {
 
     @Test
     public void LoadData_CheckVisible() {
-        webService.retrieveSHPurchaseItems(dataList -> {
+        webService.getSHPurchaseItems(dataList -> {
             for (int index = 0; index < dataList.size(); index++) {
                 SHPurchaseItem data = dataList.get(index);
                 onData(anything())

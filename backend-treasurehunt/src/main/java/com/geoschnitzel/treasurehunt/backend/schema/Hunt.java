@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SchnitzelHunt {
+public class Hunt {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

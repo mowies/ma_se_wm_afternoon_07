@@ -1,9 +1,9 @@
 package com.geoschnitzel.treasurehunt.backend;
 
-import com.geoschnitzel.treasurehunt.backend.model.SchnitzelHuntRepository;
+import com.geoschnitzel.treasurehunt.backend.model.HuntRepository;
 import com.geoschnitzel.treasurehunt.backend.model.UserRepository;
 import com.geoschnitzel.treasurehunt.backend.schema.Hint;
-import com.geoschnitzel.treasurehunt.backend.schema.SchnitzelHunt;
+import com.geoschnitzel.treasurehunt.backend.schema.Hunt;
 import com.geoschnitzel.treasurehunt.backend.schema.Target;
 import com.geoschnitzel.treasurehunt.backend.schema.User;
 import com.geoschnitzel.treasurehunt.backend.service.TestDataService;
@@ -39,7 +39,7 @@ public class SchemaTest {
     private TestDataService testDataService;
 
     @Autowired
-    private SchnitzelHuntRepository schnitzelHuntRepository;
+    private HuntRepository huntRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -52,10 +52,10 @@ public class SchemaTest {
     @Test
     public void testDataExists() {
         List<User> expectedUsers = testDataService.generateUsers();
-        List<SchnitzelHunt> expectedHunts = testDataService.generateSchnitzelHunts(expectedUsers.get(1));
+        List<Hunt> expectedHunts = testDataService.generateSchnitzelHunts(expectedUsers.get(1));
 
         List<User> actualUsers = asList(userRepository.findAll());
-        List<SchnitzelHunt> actualHunts = asList(schnitzelHuntRepository.findAll());
+        List<Hunt> actualHunts = asList(huntRepository.findAll());
 
         assertThat(actualUsers, is(not(empty())));
         assertThat(actualHunts, is(not(empty())));
@@ -71,7 +71,7 @@ public class SchemaTest {
         }
     }
 
-    private void assertThatHuntsMatch(SchnitzelHunt actualHunt, SchnitzelHunt expectedHunt) {
+    private void assertThatHuntsMatch(Hunt actualHunt, Hunt expectedHunt) {
         assertThatUsersMatch(actualHunt.getCreator(), expectedHunt.getCreator());
 
         assertThat(actualHunt.getDescription(), is(equalTo(expectedHunt.getDescription())));
