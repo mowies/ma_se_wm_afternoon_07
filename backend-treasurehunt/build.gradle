@@ -26,8 +26,11 @@ dependencies {
     apt("org.projectlombok:lombok:1.16.20")
 
     compile(project(":shared-treasurehunt"))
+
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-security")
+
     runtime("org.hsqldb:hsqldb")
     compile("javax.xml.bind:jaxb-api:2.3.0")
     testCompile("org.springframework.boot:spring-boot-starter-test")
