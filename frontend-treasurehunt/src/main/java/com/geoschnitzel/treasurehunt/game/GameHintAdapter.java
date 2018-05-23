@@ -137,6 +137,8 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
                 unlock_button_time.setVisibility(View.GONE);
                 unlock_button.setEnabled(true);
                 unlock_chrono.stop();
+                unlock_button.setBackground(context.getResources().getDrawable(R.drawable.layout_button_selector));
+                buy_button.setVisibility(View.GONE);
             } else {
                 long diff = chronometer.getBase() - new Date().getTime();
                 int seconds = ((int) (diff / 1000) % 60);

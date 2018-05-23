@@ -63,12 +63,12 @@
                 <LinearLayout
                     android:id="@+id/hint_item_unlock_button"
                     android:orientation="vertical"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:clickable="true"
                     android:focusable="true"
-                    android:background="@drawable/layout_border_button_left"
+                    android:background="@drawable/layout_button_selector_left"
                     android:paddingTop="@dimen/hintItemPadding"
                     android:paddingBottom="@dimen/hintItemPadding">
 
@@ -99,14 +99,15 @@
                     android:id="@+id/hint_item_buy_button"
                     android:enabled="false"
                     android:orientation="vertical"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:clickable="true"
                     android:focusable="true"
-                    android:background="@drawable/layout_border_button_right"
+                    android:background="@drawable/layout_button_selector_right"
                     android:paddingTop="@dimen/hintItemPadding"
-                    android:paddingBottom="@dimen/hintItemPadding">
+                    android:paddingBottom="@dimen/hintItemPadding"
+                    >
 
                     <TextView
                         android:layout_width="wrap_content"
