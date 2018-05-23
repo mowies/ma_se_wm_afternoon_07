@@ -48,14 +48,12 @@ public class TestDataService {
     @Transactional
     @EventListener(ApplicationReadyEvent.class)
     public void generateTestData() {
-        if (userRepository.count() >= 0) {
+        if (userRepository.count() > 0) {
             return;
         }
 
         List<User> users = generateUsers();
         userRepository.saveAll(users);
-        System.out.println("Users: " + userRepository.count());
-        System.out.println("Generated users: " + users.size());
         List<Hunt> hunts = generateSchnitzelHunts(users.get(1));
         huntRepository.saveAll(hunts);
         gameRepository.save(generateGame(users.get(0), hunts.get(0)));
