@@ -9,12 +9,23 @@ import com.geoschnitzel.treasurehunt.map.MapContract;
 import com.geoschnitzel.treasurehunt.map.MapFragment;
 import com.geoschnitzel.treasurehunt.map.MapPresenter;
 import com.geoschnitzel.treasurehunt.shfilter.SHFilterFragment;
+import com.geoschnitzel.treasurehunt.shlist.SHListFragment;
 import com.geoschnitzel.treasurehunt.utils.ActivityUtils;
 
 public class MainActivity extends BaseActivityNavigationDrawer implements SHFilterFragment.OnFragmentInteractionListener {
 
     private MapContract.Presenter mMapPresenter;
     private MapFragment mMapFragment;
+    private SHListFragment mShListFragment;
+
+    @Override
+    public void onBackPressed() {
+        mShListFragment = (SHListFragment) mMapFragment.getChildFragmentManager().findFragmentByTag(getString(R.string.fragment_tag_shlist));
+
+        if (mShListFragment != null) {
+            mShListFragment.closeBottomSheet();
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -26,7 +37,7 @@ public class MainActivity extends BaseActivityNavigationDrawer implements SHFilt
             // Create the fragment
             this.mMapFragment = MapFragment.newInstance();
             ActivityUtils.addFragmentToActivity(
-                    getSupportFragmentManager(), this.mMapFragment, R.id.contentFrame);
+                    getSupportFragmentManager(), this.mMapFragment, R.id.contentFrame, getString(R.string.fragment_tag_map));
         }
 
         // Create the presenter

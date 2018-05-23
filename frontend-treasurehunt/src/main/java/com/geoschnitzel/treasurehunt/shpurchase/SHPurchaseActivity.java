@@ -20,7 +20,7 @@ public class SHPurchaseActivity extends BaseActivityWithBackButton {
             // Create the fragment
             shPurchaseFragment = SHPurchaseFragment.newInstance();
             ActivityUtils.addFragmentToActivity(
-                    getSupportFragmentManager(), shPurchaseFragment, R.id.contentFrame);
+                    getSupportFragmentManager(), shPurchaseFragment, R.id.contentFrame, getString(R.string.fragment_tag_purchase_sh));
         }
 
         mPresenter = new SHPurchasePresenter(shPurchaseFragment);

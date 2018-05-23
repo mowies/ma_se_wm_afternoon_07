@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +23,7 @@ import javax.annotation.Nullable;
 public class SHListFragment extends BottomSheetDialogFragment implements SHListContract.View, View.OnClickListener {
     private SHListContract.Presenter mPresenter = null;
     private BottomSheetBehavior mBottomSheetBehavior = null;
+    private FloatingActionButton mSearchFab = null;
 
     public static SHListFragment newInstance() {
         return new SHListFragment();
@@ -40,6 +42,7 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
         final View root = inflater.inflate(R.layout.fragment_shlist, container, false);
         final LinearLayout filter_info_layout = root.findViewById(R.id.filter_info);
         final BottomSheetListView shlist = root.findViewById(R.id.sh_list);
+        this.mSearchFab = getActivity().findViewById(R.id.floatingSearchButton);
 
         shlist.setAdapter(new SHListAdapter(mPresenter.getSHListItems(), getActivity().getApplicationContext()));
 
@@ -57,16 +60,17 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
 
                 @Override
                 public void onSlide(@NonNull final View bottomSheet, final float slideOffset) {
-//                    final float scaleFactor = 1 - slideOffset;
-//                    if (mFab != null){
-//                        if (scaleFactor <= 1){
-//                            mFab.setVisibility(View.VISIBLE);
-//                            mFab.animate().scaleX(1 - slideOffset).scaleY(1 - slideOffset).setDuration(0).start();
-//                        }
-//                        if (slideOffset == 1.00f){
-//                            mFab.setVisibility(View.INVISIBLE);
-//                        }
-//                    }
+
+                    final float scaleFactor = 1 - slideOffset;
+                    if (mSearchFab != null) {
+                        if (scaleFactor <= 1) {
+                            mSearchFab.setVisibility(View.VISIBLE);
+                            mSearchFab.animate().scaleX(1 - slideOffset).scaleY(1 - slideOffset).setDuration(0).start();
+                        }
+                        if (slideOffset == 1.00f) {
+                            mSearchFab.setVisibility(View.INVISIBLE);
+                        }
+                    }
                 }
             });
         }
@@ -74,6 +78,10 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
         filter_info_layout.setOnClickListener(this);
 
         return root;
+    }
+
+    public void closeBottomSheet() {
+        this.mBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
     }
 
     @Override

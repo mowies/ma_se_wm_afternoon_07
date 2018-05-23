@@ -1,5 +1,11 @@
 package com.geoschnitzel.treasurehunt;
 
+import android.os.SystemClock;
+import android.support.test.espresso.ViewAction;
+import android.support.test.espresso.action.GeneralLocation;
+import android.support.test.espresso.action.GeneralSwipeAction;
+import android.support.test.espresso.action.Press;
+import android.support.test.espresso.action.Swipe;
 import android.support.test.rule.ActivityTestRule;
 
 import com.geoschnitzel.treasurehunt.main.MainActivity;
@@ -11,9 +17,8 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.not;
 
 public class MainActivityUITest {
     @Rule
@@ -25,12 +30,32 @@ public class MainActivityUITest {
     @Test
     public void clickOnBottomSheet_expandsBottomSheet() {
         onView(withId(R.id.filter_info)).perform(click());
-        onView(withChild(withText("München"))).check(matches(isDisplayed()));
+        onView(withId(R.id.sh_list)).check(matches(isDisplayed()));
     }
 
     @Test
     public void swipeFromTop_closesBottomSheet() {
         onView(withId(R.id.filter_info)).perform(click());
+        SystemClock.sleep(200);
+        onView(withId(R.id.filter_info)).perform(swipeFromTopToBottom());
+        SystemClock.sleep(500);
+        onView(withId(R.id.sh_list)).check(matches(not(isDisplayed())));
+    }
 
+    @Test
+    public void swipeFromBottom_opensBottomSheet() {
+        onView(withId(R.id.filter_info)).perform(swipeFromBottomToTop());
+        SystemClock.sleep(500);
+        onView(withId(R.id.sh_list)).check(matches((isDisplayed())));
+    }
+
+    private static ViewAction swipeFromTopToBottom() {
+        return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.TOP_CENTER,
+                GeneralLocation.BOTTOM_CENTER, Press.FINGER);
+    }
+
+    private static ViewAction swipeFromBottomToTop() {
+        return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.BOTTOM_CENTER,
+                GeneralLocation.TOP_CENTER, Press.FINGER);
     }
 }

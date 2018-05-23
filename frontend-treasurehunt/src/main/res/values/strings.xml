@@ -20,4 +20,9 @@
     <string name="distance_to_start">Distance to start</string>
     <string name="hunt_length">Hunt Length</string>
     <string name="rating">Rating</string>
+    <string name="fragment_tag_map">fragment_map</string>
+    <string name="fragment_tag_login">fragment_login</string>
+    <string name="fragment_tag_shlist">fragment_shlist</string>
+    <string name="fragment_tag_create_sh">fragment_create_sh</string>
+    <string name="fragment_tag_purchase_sh">fragment_purchase_sh</string>
 </resources>

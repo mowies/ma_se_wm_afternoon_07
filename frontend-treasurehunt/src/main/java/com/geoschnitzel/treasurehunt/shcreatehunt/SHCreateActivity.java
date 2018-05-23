@@ -20,7 +20,7 @@ public class SHCreateActivity extends BaseActivityWithBackButton {
             // Create the fragment
             shCreateFragment = SHCreateFragment.newInstance();
             ActivityUtils.addFragmentToActivity(
-                    getSupportFragmentManager(), shCreateFragment, R.id.contentFrame);
+                    getSupportFragmentManager(), shCreateFragment, R.id.contentFrame, getString(R.string.fragment_tag_create_sh));
         }
 
         mPresenter = new SHCreatePresenter(shCreateFragment);
