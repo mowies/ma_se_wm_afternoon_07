@@ -1,7 +1,8 @@
 package com.geoschnitzel.treasurehunt;
 
-import android.os.SystemClock;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.action.GeneralLocation;
 import android.support.test.espresso.action.GeneralSwipeAction;
@@ -10,7 +11,11 @@ import android.support.test.espresso.action.Swipe;
 import android.support.test.rule.ActivityTestRule;
 
 import com.geoschnitzel.treasurehunt.main.MainActivity;
+import com.geoschnitzel.treasurehunt.map.MapFragment;
+import com.geoschnitzel.treasurehunt.shlist.SHListFragment;
+import com.geoschnitzel.treasurehunt.utils.BottomSheetStateIdlingResource;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -22,11 +27,26 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.not;
 
 public class MainActivityUITest {
+    private IdlingRegistry mIdlingRegistry = IdlingRegistry.getInstance();
+    private MapFragment mMapFragment = null;
+    private SHListFragment mSHListFragment = null;
+
     @Rule
     public ActivityTestRule<MainActivity> mMainActivityTestRule =
             new ActivityTestRule<MainActivity>(MainActivity.class) {
             };
 
+    @Before
+    public void setUp() {
+        this.mMapFragment = (MapFragment) this.mMainActivityTestRule
+                .getActivity()
+                .getSupportFragmentManager()
+                .findFragmentByTag(this.getStringResource(R.string.fragment_tag_map));
+
+        this.mSHListFragment = (SHListFragment) this.mMapFragment
+                .getChildFragmentManager()
+                .findFragmentByTag(this.getStringResource(R.string.fragment_tag_shlist));
+    }
 
     @Test
     public void clickOnBottomSheet_expandsBottomSheet() {
@@ -36,27 +56,50 @@ public class MainActivityUITest {
 
     @Test
     public void swipeFromTop_closesBottomSheet() {
+        BottomSheetStateIdlingResource bssir = new BottomSheetStateIdlingResource(this.mSHListFragment.mBottomSheetBehavior, BottomSheetBehavior.STATE_EXPANDED);
+
         onView(withId(R.id.filter_info)).perform(click());
-        SystemClock.sleep(200);
+        this.mIdlingRegistry.register(bssir);
+
+        onView(withId(R.id.sh_list)).check(matches(isDisplayed()));
+        this.mIdlingRegistry.unregister(bssir);
+
         onView(withId(R.id.filter_info)).perform(swipeFromTopToBottom());
-        SystemClock.sleep(400);
+
+        bssir = new BottomSheetStateIdlingResource(this.mSHListFragment.mBottomSheetBehavior, BottomSheetBehavior.STATE_COLLAPSED);
+        this.mIdlingRegistry.register(bssir);
+
         onView(withId(R.id.sh_list)).check(matches(not(isDisplayed())));
+        this.mIdlingRegistry.unregister(bssir);
     }
 
     @Test
     public void swipeFromBottom_opensBottomSheet() {
+        BottomSheetStateIdlingResource bssir = new BottomSheetStateIdlingResource(this.mSHListFragment.mBottomSheetBehavior, BottomSheetBehavior.STATE_EXPANDED);
+
         onView(withId(R.id.filter_info)).perform(swipeFromBottomToTop());
-        SystemClock.sleep(400);
-        onView(withId(R.id.sh_list)).check(matches((isDisplayed())));
+        this.mIdlingRegistry.register(bssir);
+
+        onView(withId(R.id.sh_list)).check(matches(isDisplayed()));
+        this.mIdlingRegistry.unregister(bssir);
     }
 
     @Test
     public void pressBackButton_closesBottomSheet() {
+        BottomSheetStateIdlingResource bssir = new BottomSheetStateIdlingResource(this.mSHListFragment.mBottomSheetBehavior, BottomSheetBehavior.STATE_EXPANDED);
+
         onView(withId(R.id.filter_info)).perform(swipeFromBottomToTop());
-        SystemClock.sleep(200);
+        this.mIdlingRegistry.register(bssir);
+
+        onView(withId(R.id.sh_list)).check(matches(isDisplayed()));
+        this.mIdlingRegistry.unregister(bssir);
+
+        bssir = new BottomSheetStateIdlingResource(this.mSHListFragment.mBottomSheetBehavior, BottomSheetBehavior.STATE_COLLAPSED);
+
         Espresso.pressBack();
-        SystemClock.sleep(400);
+        this.mIdlingRegistry.register(bssir);
         onView(withId(R.id.sh_list)).check(matches(not(isDisplayed())));
+        this.mIdlingRegistry.unregister(bssir);
     }
 
     private static ViewAction swipeFromTopToBottom() {
@@ -67,5 +110,9 @@ public class MainActivityUITest {
     private static ViewAction swipeFromBottomToTop() {
         return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.BOTTOM_CENTER,
                 GeneralLocation.TOP_CENTER, Press.FINGER);
+    }
+
+    private String getStringResource(int id) {
+        return this.mMainActivityTestRule.getActivity().getString(id);
     }
 }
