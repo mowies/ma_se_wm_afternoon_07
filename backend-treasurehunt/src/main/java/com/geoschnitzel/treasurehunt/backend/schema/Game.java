@@ -28,7 +28,7 @@ public class Game {
     private User user;
 
     @ManyToOne
-    private SchnitzelHunt schnitzelHunt;
+    private Hunt hunt;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<GameTarget> targets;

@@ -1,7 +1,6 @@
 package com.geoschnitzel.treasurehunt.shlist;
-
-import android.content.Context;
 import android.content.Intent;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -41,9 +40,8 @@ public class SHListAdapter extends BaseAdapter implements AdapterView.OnItemClic
 
     @Override
     public long getItemId(int i) {
-        return items.get(i).getHuntID();
+        return items.get(i).getHuntid();
     }
-
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {

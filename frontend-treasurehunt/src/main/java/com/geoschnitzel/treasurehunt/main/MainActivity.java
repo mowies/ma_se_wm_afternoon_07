@@ -7,6 +7,7 @@ import com.geoschnitzel.treasurehunt.base.BaseActivityNavigationDrawer;
 import com.geoschnitzel.treasurehunt.map.MapContract;
 import com.geoschnitzel.treasurehunt.map.MapFragment;
 import com.geoschnitzel.treasurehunt.map.MapPresenter;
+import com.geoschnitzel.treasurehunt.model.WebService;
 import com.geoschnitzel.treasurehunt.utils.ActivityUtils;
 
 public class MainActivity extends BaseActivityNavigationDrawer {
@@ -28,6 +29,6 @@ public class MainActivity extends BaseActivityNavigationDrawer {
         }
 
         // Create the presenter
-        this.mMapPresenter = new MapPresenter(mapFragment);
+        this.mMapPresenter = new MapPresenter(mapFragment, WebService.instance());
     }
 }

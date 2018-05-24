@@ -8,6 +8,8 @@ public interface MapContract {
 
     interface View extends IBaseView<Presenter> {
         void openSearch(SearchParamItem sParam);
+
+        void showMessageText(String message);
     }
 
     interface Presenter extends IBasePresenter {

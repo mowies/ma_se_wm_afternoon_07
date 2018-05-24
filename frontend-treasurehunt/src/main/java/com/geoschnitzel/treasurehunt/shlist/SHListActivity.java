@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.geoschnitzel.treasurehunt.R;
 import com.geoschnitzel.treasurehunt.base.BaseActivityWithBackButton;
+import com.geoschnitzel.treasurehunt.model.WebService;
 import com.geoschnitzel.treasurehunt.shfilter.SHFilterFragment;
 import com.geoschnitzel.treasurehunt.utils.ActivityUtils;
 
@@ -23,7 +24,7 @@ public class SHListActivity extends BaseActivityWithBackButton implements SHFilt
             ActivityUtils.addFragmentToActivity(
                     getSupportFragmentManager(), shListFragment, R.id.contentFrame);
         }
-        mPresenter = new SHListPresenter(shListFragment);
+        mPresenter = new SHListPresenter(shListFragment, WebService.instance());
     }
 
     @Override
