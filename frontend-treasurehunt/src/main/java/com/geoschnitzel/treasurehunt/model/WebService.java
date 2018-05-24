@@ -3,7 +3,10 @@ package com.geoschnitzel.treasurehunt.model;
 import android.os.AsyncTask;
 
 import com.fasterxml.jackson.module.kotlin.KotlinModule;
-import com.geoschnitzel.treasurehunt.rest.*;
+import com.geoschnitzel.treasurehunt.rest.Message;
+import com.geoschnitzel.treasurehunt.rest.SHListItem;
+import com.geoschnitzel.treasurehunt.rest.SHPurchaseItem;
+
 import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -31,8 +34,8 @@ public class WebService {
     {
         public static String EndPoint = "http://10.0.2.2:8080";
 
-        public static RequestParams<Message>        HelloWorld = new RequestParams<>(Message.class,EndPoint + "/helloWorld",HttpMethod.GET,null,null);
-        public static RequestParams<SHListItem[]>      GetSHList = new RequestParams<>(SHListItem[].class,EndPoint + "/api/hunt/getshlist",HttpMethod.GET,null,null);
+        public static RequestParams<Message> HelloWorld = new RequestParams<>(Message.class, EndPoint + "/api/helloWorld", HttpMethod.GET, null, null);
+        public static RequestParams<SHListItem[]> GetSHList = new RequestParams<>(SHListItem[].class, EndPoint + "/api/hunt/list", HttpMethod.GET, null, null);
         // public static RequestParams<GameItem>        StartGame = new RequestParams<>(GameItem.class,EndPoint + "/api/hunt/startGame/{0}",HttpMethod.GET,null,null) ;
     }
 
