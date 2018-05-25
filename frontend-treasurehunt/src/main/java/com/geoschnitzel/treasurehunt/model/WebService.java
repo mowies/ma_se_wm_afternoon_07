@@ -3,10 +3,10 @@ package com.geoschnitzel.treasurehunt.model;
 import android.os.AsyncTask;
 
 import com.fasterxml.jackson.module.kotlin.KotlinModule;
+import com.geoschnitzel.treasurehunt.BuildConfig;
 import com.geoschnitzel.treasurehunt.rest.Message;
 import com.geoschnitzel.treasurehunt.rest.SHListItem;
 import com.geoschnitzel.treasurehunt.rest.SHPurchaseItem;
-
 import org.springframework.http.HttpMethod;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
@@ -32,8 +32,9 @@ public class WebService {
     }
 
     //In the RequestFunctions we can define the whole Api Call
-    public static class RequestFunctions {
-        public static String EndPoint = "http://10.0.2.2:8080";
+    public static class RequestFunctions
+    {
+        public static String EndPoint = BuildConfig.ENDPOINT;
 
         public static RequestParams<Message> HelloWorld = new RequestParams<>(Message.class, EndPoint + "/helloWorld", HttpMethod.GET, null, null);
         public static RequestParams<SHListItem[]> GetSHList = new RequestParams<>(SHListItem[].class, EndPoint + "/api/hunt/getshlist", HttpMethod.GET, null, null);
