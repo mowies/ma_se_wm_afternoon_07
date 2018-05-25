@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @RestController
-@RequestMapping("/helloDb")
+@RequestMapping("/api/helloDb")
 public class HelloDatabaseApi {
 
     private final MessageRepository messageRepository;
