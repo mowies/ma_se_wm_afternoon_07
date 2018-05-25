@@ -6,6 +6,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -124,6 +125,9 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
 
     @Override
     public void refreshSHListAdapter(List<SHListItem> items) {
-        this.mSHList.setAdapter(new SHListAdapter(items, getActivity().getApplicationContext()));
+
+        SHListAdapter adpater = new SHListAdapter(items, getActivity().getApplicationContext());
+        shlist.setAdapter(adpater);
+        shlist.setOnItemClickListener(adpater);
     }
 }

@@ -97,7 +97,6 @@ public class SchemaTest {
         assertThat(actualHunt.getId(), is(notNullValue()));
         assertThat(expectedHunt.getId(), is(nullValue()));
     }
-
     private void assertThatTargetsMatch(Target actualTarget, Target expectedTarget) {
         assertThat(actualTarget.getArea(), is(equalTo(expectedTarget.getArea())));
 

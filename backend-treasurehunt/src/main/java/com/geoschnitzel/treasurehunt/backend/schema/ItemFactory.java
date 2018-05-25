@@ -13,7 +13,14 @@ public class ItemFactory {
     }
 
     public static GameTargetItem CreateGameTargetItem(GameTarget gameTarget) {
-        return new GameTargetItem(gameTarget.getId(), gameTarget.getStartTime(), CreateHintItem(gameTarget.getUnlockedHints(), true));
+        List<HintItem> hints = new ArrayList<>();
+        hints.addAll(CreateHintItem(gameTarget.getUnlockedHints(), true));
+        for(Hint hint : gameTarget.getTarget().getHints()) {
+            if(!gameTarget.getUnlockedHints().contains(hint))
+                hints.add(CreateHintItem(hint, false));
+        }
+
+        return new GameTargetItem(gameTarget.getId(), gameTarget.getStartTime(),hints );
     }
 
     public static List<HintItem> CreateHintItem(List<Hint> hints, boolean unlocked) {

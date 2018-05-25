@@ -1,5 +1,8 @@
 package com.geoschnitzel.treasurehunt.backend.schema;
 
+import com.geoschnitzel.treasurehunt.rest.HintType;
+import com.geoschnitzel.treasurehunt.rest.TransactionType;
+
 import java.util.Date;
 
 import javax.persistence.DiscriminatorColumn;
@@ -9,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.spi.PersistenceUnitTransactionType;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,4 +35,10 @@ public abstract class SchnitziTransaction {
 
     private int amount;
 
+    public abstract TransactionType getHintType();
+
+    public String toString()
+    {
+        return getHintType().getType() + " " + amount + " at " + time;
+    }
 }

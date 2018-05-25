@@ -14,14 +14,23 @@ public class GamePresenter implements GameContract.Presenter {
     private GameContract.MapView mapView = null;
     private GameContract.HintView hintView = null;
     private GameItem game = null;
+    private WebService webService = null;
 
 
-    public GamePresenter(@NonNull GameContract.MapView mapView, GameContract.HintView hintView, long huntID) {
+    public GamePresenter(@NonNull GameContract.MapView mapView, GameContract.HintView hintView, long huntID,WebService webService) {
         this.mapView = checkNotNull(mapView, "mapView cannot be null!");
         this.hintView = checkNotNull(hintView, "hintView cannot be null!");
         this.mapView.setPresenter(this);
         this.hintView.setPresenter(this);
-        game = WebService.startGame(huntID);
+        this.webService = webService;
+        webService.startGame(new WebService.WebServiceCallback<GameItem>() {
+            @Override
+            public void onResult(GameItem result) {
+                game = result;
+                List<HintItem> hints = game.getCurrenttarget().getHints();
+                hintView.ReloadHints(hints);
+            }
+        },huntID);
     }
 
     @Override
@@ -36,13 +45,23 @@ public class GamePresenter implements GameContract.Presenter {
 
     @Override
     public void fetchHints() {
-        List<HintItem> hints = WebService.FetchHints();
-        game.getCurrentTarget().setHints(hints);
-        hintView.ReloadHints(hints);
+        webService.getGame(new WebService.WebServiceCallback<GameItem>() {
+            @Override
+            public void onResult(GameItem result) {
+                game = result;
+                List<HintItem> hints = game.getCurrenttarget().getHints();
+                hintView.ReloadHints(hints);
+            }
+        });
     }
 
     @Override
     public void buyHint(long hintID) {
-
+        webService.buyHint(new WebService.WebServiceCallback<Boolean>() {
+            @Override
+            public void onResult(Boolean result) {
+                fetchHints();
+            }
+        },hintID);
     }
 }
