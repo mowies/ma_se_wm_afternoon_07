@@ -10,6 +10,6 @@ import java.util.List;
 @RequestMapping("/api/hunt")
 public interface HuntApi {
 
-    @GetMapping("list")
+    @GetMapping("getshlist")
     List<SHListItem> retrieveSchnitzelHunts();
 }
