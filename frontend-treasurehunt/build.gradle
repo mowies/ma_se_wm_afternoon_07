@@ -98,7 +98,7 @@ def getIP() {
         Enumeration<InetAddress> addresses = interfaces.nextElement().getInetAddresses();
         while (addresses.hasMoreElements()) {
             InetAddress address = addresses.nextElement();
-            if (!address.isLoopbackAddress()) {
+            if (!address.isLoopbackAddress() && (address instanceof Inet4Address)) {
                 if (address.isSiteLocalAddress()) {
                     return address.getHostAddress();
                 } else if (result == null) {
