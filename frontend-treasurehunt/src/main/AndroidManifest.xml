@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.geoschnitzel.treasurehunt">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <application
@@ -10,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".main.MainActivity">
+        <activity
+            android:name=".main.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,19 +22,18 @@
         </activity>
         <activity
             android:name=".shpurchase.SHPurchaseActivity"
-            android:label="@string/title_activity_shpurchase"></activity>
-
-        <activity
-            android:name=".shlist.SHListActivity"
-            android:label="@string/title_activity_shlist"></activity>
+            android:label="@string/title_activity_shpurchase"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".shcreatehunt.SHCreateActivity"
             android:label="SHNewHunt"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".login.LoginActivity"
-            android:label="LoginActivity"></activity>
+            android:label="LoginActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

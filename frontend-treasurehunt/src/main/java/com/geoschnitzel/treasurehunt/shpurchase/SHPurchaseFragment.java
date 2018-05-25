@@ -19,6 +19,7 @@ public class SHPurchaseFragment extends Fragment implements SHPurchaseContract.V
     public static SHPurchaseFragment newInstance() {
         return new SHPurchaseFragment();
     }
+
     GridView glshpurchase = null;
     @Nullable
     @Override

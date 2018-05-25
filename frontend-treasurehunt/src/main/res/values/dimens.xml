@@ -9,4 +9,5 @@
     <dimen name="textTitle2">24dp</dimen>
     <dimen name="textTitle3">16dp</dimen>
     <dimen name="textTitle4">12dp</dimen>
+    <dimen name="bottom_sheet_height_collapsed">47dp</dimen>
 </resources>
