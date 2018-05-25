@@ -19,26 +19,26 @@ public class WebService {
     private static WebService instance = null;
 
     public static WebService instance() {
-        if(instance == null)
+        if (instance == null)
             instance = new WebService();
         return instance;
     }
-    private WebService(){}
+
+    private WebService() {
+    }
 
     public interface WebServiceCallback<T> {
         void onResult(T result);
     }
 
     //In the RequestFunctions we can define the whole Api Call
-    public static class RequestFunctions
-    {
+    public static class RequestFunctions {
         public static String EndPoint = "http://10.0.2.2:8080";
 
-        public static RequestParams<Message> HelloWorld = new RequestParams<>(Message.class, EndPoint + "/api/helloWorld", HttpMethod.GET, null, null);
-        public static RequestParams<SHListItem[]> GetSHList = new RequestParams<>(SHListItem[].class, EndPoint + "/api/hunt/list", HttpMethod.GET, null, null);
+        public static RequestParams<Message> HelloWorld = new RequestParams<>(Message.class, EndPoint + "/helloWorld", HttpMethod.GET, null, null);
+        public static RequestParams<SHListItem[]> GetSHList = new RequestParams<>(SHListItem[].class, EndPoint + "/api/hunt/getshlist", HttpMethod.GET, null, null);
         // public static RequestParams<GameItem>        StartGame = new RequestParams<>(GameItem.class,EndPoint + "/api/hunt/startGame/{0}",HttpMethod.GET,null,null) ;
     }
-
 
 
     //----------------------------------------------------------------------------------------------
@@ -48,17 +48,21 @@ public class WebService {
     public Message getHelloWorldMessage() {
         return new WebserviceAsyncTask<Message>(null).doInBackground(RequestFunctions.HelloWorld);
     }
+
     public void getHelloWorldMessage(WebServiceCallback<Message> callback) {
         new WebserviceAsyncTask<Message>(callback).execute(RequestFunctions.HelloWorld);
     }
-    public List<SHListItem> getSHListItems(){
+
+    public List<SHListItem> getSHListItems() {
 
         return asList(new WebserviceAsyncTask<SHListItem[]>(null).doInBackground(RequestFunctions.GetSHList));
     }
-    public void getSHListItems(WebServiceCallback<SHListItem[]> callback){
+
+    public void getSHListItems(WebServiceCallback<SHListItem[]> callback) {
         new WebserviceAsyncTask<SHListItem[]>(callback).execute(RequestFunctions.GetSHList);
     }
-    public void getSHPurchaseItems(WebServiceCallback<List<SHPurchaseItem>> callback){
+
+    public void getSHPurchaseItems(WebServiceCallback<List<SHPurchaseItem>> callback) {
 
         callback.onResult(
                 asList(new SHPurchaseItem(10, 2.99f, 1, "$", "{0} {1}", "Bronze"),
@@ -68,7 +72,6 @@ public class WebService {
                         new SHPurchaseItem(1000, 17.99f, 1, "$", "{0} {1}", "Rodium"),
                         new SHPurchaseItem(5000, 24.99f, 1, "$", "{0} {1}", "Plutonium")));
     }
-
 
 
     public class WebserviceAsyncTask<T> extends AsyncTask<RequestParams<T>, Void, T> {
