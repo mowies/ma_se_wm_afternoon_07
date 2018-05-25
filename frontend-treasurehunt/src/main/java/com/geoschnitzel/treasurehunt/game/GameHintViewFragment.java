@@ -26,9 +26,6 @@ public class GameHintViewFragment extends Fragment implements GameContract.HintV
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_game_hintview, container, false);
-
-        mPresenter.fetchHints();
-
         return root;
     }
 

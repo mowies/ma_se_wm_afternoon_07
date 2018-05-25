@@ -28,6 +28,7 @@ public class HuntService implements HuntApi {
         List<SHListItem> results = new ArrayList<>();
         for (Hunt hunt : actualHunts) {
             results.add(new SHListItem(
+                    hunt.getId(),
                     hunt.getName(),
                     hunt.getCreator().getDisplayName(),
                     0,

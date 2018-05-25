@@ -6,6 +6,7 @@ import com.geoschnitzel.treasurehunt.backend.model.HuntRepository;
 import com.geoschnitzel.treasurehunt.backend.model.UserRepository;
 import com.geoschnitzel.treasurehunt.backend.schema.Area;
 import com.geoschnitzel.treasurehunt.backend.schema.Game;
+import com.geoschnitzel.treasurehunt.backend.schema.GameTarget;
 import com.geoschnitzel.treasurehunt.backend.schema.HintCoordinate;
 import com.geoschnitzel.treasurehunt.backend.schema.HintDirection;
 import com.geoschnitzel.treasurehunt.backend.schema.HintImage;
@@ -60,9 +61,7 @@ public class TestDataService {
     }
 
     public Game generateGame(User user, Hunt hunt) {
-        return new Game(null, user, hunt, emptyList(), emptyList());
-    public Game generateGame(User user, SchnitzelHunt schnitzelHunt) {
-        return new Game(null, user, schnitzelHunt, generateGameTarget(schnitzelHunt.getTargets()), emptyList());
+        return new Game(null, user, hunt, generateGameTarget(hunt.getTargets()), emptyList());
     }
 
     public List<GameTarget> generateGameTarget(List<Target> targets) {
@@ -116,9 +115,9 @@ public class TestDataService {
                             singletonList(
                                     new Target(null, new Area(47.0748539 + i * 0.001, 15.4415758 - i * 0.001, 5),
                                             Arrays.asList(
-                                                    new HintText(null, 0, "Suche die höchste Uhr in Graz."),
-                                                    new HintText(null, 2 * 60, "Es ist eine analoge Uhr."),
-                                                    new HintImage(null, 5 * 60, "ccacb863-5897-485b-b822-ca119c7afcfb", "impage/jpeg"),
+                                                    new HintText(null, 0,0, "Suche die höchste Uhr in Graz."),
+                                                    new HintText(null, 2 * 60,10, "Es ist eine analoge Uhr."),
+                                                    new HintImage(null, 5 * 60,20, "ccacb863-5897-485b-b822-ca119c7afcfb", "impage/jpeg"),
                                                     new HintDirection(null, 10 * 60),
                                                     new HintCoordinate(null, 15 * 60)
                                             ))

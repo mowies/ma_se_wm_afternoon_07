@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 
 import com.geoschnitzel.treasurehunt.R;
 import com.geoschnitzel.treasurehunt.base.BaseActivityWithBackButton;
+import com.geoschnitzel.treasurehunt.model.WebService;
 import com.geoschnitzel.treasurehunt.utils.ActivityUtils;
 
 public class GameActivity extends BaseActivityWithBackButton {
@@ -38,7 +39,7 @@ public class GameActivity extends BaseActivityWithBackButton {
         }
 
         if (gameMap != null && gameHintView != null) {
-            mPresenter = new GamePresenter(gameMap, gameHintView, huntID);
+            mPresenter = new GamePresenter(gameMap, gameHintView, huntID, WebService.instance());
         }
     }
 }

@@ -41,4 +41,40 @@ enum class HintType(val type: String) {
     TEXT("TEXT"),
     COORDINATE("COORDINATE"),
     DIRECTION("DIRECTION")
+};
+
+data class Coordinate(val longitude: Double,
+                      val latitude: Double) {
+    constructor(item: Coordinate) :
+            this(item.longitude, item.latitude) {
+    }
 }
+
+data class HintItem(val id: Long,
+                    val type: HintType,
+                    val shvalue: Int,
+                    val timetounlockhint: Int,
+                    val unlocked: Boolean,
+                    val description: String?,
+                    val url: String?,
+                    val coordinate: Coordinate?,
+                    val angle: Double?) {
+}
+
+data class GameTargetItem(
+        val id: Long,
+        val starttime: Date,
+        var hints: List<HintItem>) {
+
+}
+
+data class GameItem(
+        val id: Long,
+        val currenttarget: GameTargetItem) {
+}
+
+enum class TransactionType(val type: String) {
+    Purchase("PURCHASE"),
+    Earned("EARNED"),
+    Used("USED")
+};

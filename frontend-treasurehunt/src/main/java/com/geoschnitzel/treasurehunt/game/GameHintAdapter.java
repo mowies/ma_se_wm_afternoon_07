@@ -89,10 +89,10 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
             }
             holder.buy_icon.setImageDrawable(icon);
 
-            holder.unlock_chrono.setBase(game.getCurrentTarget().getStartTime().getTime() + item.getTimeToUnlockHint() * 1000);
+            holder.unlock_chrono.setBase(game.getCurrenttarget().getStarttime().getTime() + item.getTimetounlockhint() * 1000);
             holder.unlock_chrono.setOnChronometerTickListener(holder);
             holder.unlock_chrono.start();
-            holder.shValue.setText(String.format("%d", item.getShValue()));
+            holder.shValue.setText(String.format("%d", item.getShvalue()));
             holder.lbuy.setVisibility(View.VISIBLE);
 
             holder.buy_button.setOnClickListener(holder);

@@ -1,5 +1,7 @@
 package com.geoschnitzel.treasurehunt.backend.schema;
 
+import com.geoschnitzel.treasurehunt.rest.TransactionType;
+
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -24,5 +26,10 @@ public class SchnitziEarnedTransaction extends SchnitziTransaction {
     public SchnitziEarnedTransaction(Long id, Date time, int amount, String earnedByDoing) {
         super(id, time, amount);
         this.earnedByDoing = earnedByDoing;
+    }
+
+    @Override
+    public TransactionType getHintType() {
+        return TransactionType.Earned;
     }
 }

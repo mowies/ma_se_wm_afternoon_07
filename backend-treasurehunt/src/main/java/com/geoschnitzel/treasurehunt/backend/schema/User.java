@@ -35,6 +35,27 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     private List<SchnitziTransaction> transactions;
 
+    public int getBalance()
+    {
+        int balance = 0;
+        for(SchnitziTransaction transaction : transactions)
+        {
+            switch (transaction.getHintType())
+            {
+                case Purchase:
+                    balance += transaction.getAmount();
+                    break;
+                case Earned:
+                    balance += transaction.getAmount();
+                    break;
+                case Used:
+                    balance -= transaction.getAmount();
+                    break;
+            }
+        }
+        return balance;
+    }
+
     @Nullable
     @OneToOne
     Game currentGame;
