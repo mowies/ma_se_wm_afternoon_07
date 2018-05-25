@@ -46,7 +46,7 @@ public class WebService {
     {
         public static String EndPoint = BuildConfig.ENDPOINT;
         public static RequestParams<Long>        Login = new RequestParams<>(Long.class,EndPoint + "/api/user/login",HttpMethod.GET);
-        public static RequestParams<Message>        HelloWorld = new RequestParams<>(Message.class,EndPoint + "/helloWorld",HttpMethod.GET);
+        public static RequestParams<Message>        HelloWorld = new RequestParams<>(Message.class,EndPoint + "/api/helloWorld",HttpMethod.GET);
         public static RequestParams<SHListItem[]>      GetSHList = new RequestParams<>(SHListItem[].class,EndPoint + "/api/hunt/getshlist",HttpMethod.GET);
         public static RequestParams<GameItem>        StartGame = new RequestParams<>(GameItem.class,EndPoint + "/api/user/{userID}/game/startGame/{huntID}",HttpMethod.GET) ;
         public static RequestParams<GameItem>        GetGame = new RequestParams<>(GameItem.class,EndPoint + "/api/user/{userID}/game/",HttpMethod.GET) ;
