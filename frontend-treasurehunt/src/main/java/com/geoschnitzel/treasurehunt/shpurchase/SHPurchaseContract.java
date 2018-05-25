@@ -9,11 +9,11 @@ import java.util.List;
 public interface SHPurchaseContract {
 
     interface View extends IBaseView<Presenter> {
-
+        void refreshSHPurchaseAdapter(List<SHPurchaseItem> items);
     }
 
     interface Presenter extends IBasePresenter {
-        List<SHPurchaseItem> getSHPurchaseItems();
+        void getSHPurchaseItems();
     }
 
 }

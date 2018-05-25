@@ -16,4 +16,5 @@
     <dimen name="hint_item_button_width">100dp</dimen>
     <dimen name="hintItemPadding">10dp</dimen>
     <dimen name="layout_bg_border_radius">10dp</dimen>
+    <dimen name="bottom_sheet_height_collapsed">47dp</dimen>
 </resources>

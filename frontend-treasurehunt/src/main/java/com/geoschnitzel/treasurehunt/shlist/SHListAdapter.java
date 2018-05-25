@@ -44,7 +44,6 @@ public class SHListAdapter extends BaseAdapter implements AdapterView.OnItemClic
         return items.get(i).getHuntID();
     }
 
-
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         SHListItem item = items.get(i);

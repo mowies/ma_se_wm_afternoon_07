@@ -9,7 +9,7 @@ import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 import android.widget.SeekBar;
 
-import com.geoschnitzel.treasurehunt.shlist.SHListActivity;
+import com.geoschnitzel.treasurehunt.main.MainActivity;
 
 import org.hamcrest.Matcher;
 import org.junit.Rule;
@@ -28,8 +28,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 @LargeTest
 public class SHFilterUITest {
     @Rule
-    public ActivityTestRule<SHListActivity> mTasksActivityTestRule =
-            new ActivityTestRule<SHListActivity>(SHListActivity.class) {
+    public ActivityTestRule<MainActivity> mTasksActivityTestRule =
+            new ActivityTestRule<MainActivity>(MainActivity.class) {
 
             };
 

@@ -20,7 +20,7 @@ public class LoginActivity extends BaseActivityWithBackButton {
             // Create the fragment
             loginFragment = LoginFragment.newInstance();
             ActivityUtils.addFragmentToActivity(
-                    getSupportFragmentManager(), loginFragment, R.id.contentFrame);
+                    getSupportFragmentManager(), loginFragment, R.id.contentFrame, getString(R.string.fragment_tag_login));
         }
 
         mPresenter = new LoginPresenter(loginFragment);

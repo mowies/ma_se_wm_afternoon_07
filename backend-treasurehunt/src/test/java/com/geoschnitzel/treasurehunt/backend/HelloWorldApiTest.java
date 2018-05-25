@@ -1,7 +1,5 @@
 package com.geoschnitzel.treasurehunt.backend;
 
-import com.geoschnitzel.treasurehunt.backend.api.HelloDatabaseApi;
-import com.geoschnitzel.treasurehunt.backend.api.HelloWorldApi;
 import com.geoschnitzel.treasurehunt.backend.model.MessageRepository;
 import com.geoschnitzel.treasurehunt.backend.schema.Message;
 
@@ -16,10 +14,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.given;
@@ -31,12 +29,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = {HelloWorldApi.class, HelloDatabaseApi.class})
-@EnableWebMvc
+@SpringBootTest
 public class HelloWorldApiTest {
 
     @MockBean
     private MessageRepository messageRepository;
+
+    @MockBean
+    private DateProvider dateProvider;
 
     private MockMvc mvc;
 
@@ -50,48 +50,53 @@ public class HelloWorldApiTest {
 
     @Test
     public void helloWorldReturnsGreeting() throws Exception {
-        mvc.perform(get("/helloWorld").contentType(MediaType.TEXT_PLAIN))
+        given(dateProvider.currentDate()).willReturn(new Date(1524066200885L));
+
+        mvc.perform(get("/api/helloWorld").contentType(MediaType.TEXT_PLAIN))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Hello World!"));
+                .andExpect(content().json("{\n" +
+                        "  \"message\": \"Hello World\",\n" +
+                        "  \"timestamp\": \"2018-04-18T15:43:20.885+0000\"\n" +
+                        "}"));
     }
 
     @Test
     public void restControllerCanOutputJson() throws Exception {
-        mvc.perform(get("/helloDb").contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(get("/api/helloDb").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void databaseEndpointCanCrud() throws Exception {
         given(messageRepository.findAll()).willReturn(Arrays.asList(new Message[0]));
-        mvc.perform(put("/helloDb").param("message", "message one").contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(put("/api/helloDb").param("message", "message one").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(""));
         verify(messageRepository).save(argThat(argument -> argument.getMessage().equals("message one")));
 
         given(messageRepository.findAll()).willReturn(Collections.singletonList(new Message(1L, "message one")));
-        mvc.perform(get("/helloDb").contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(get("/api/helloDb").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[\"message one\"]"));
 
-        mvc.perform(put("/helloDb").param("message", "message two").contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(put("/api/helloDb").param("message", "message two").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(""));
         verify(messageRepository).save(argThat(argument -> argument.getMessage().equals("message two")));
 
         given(messageRepository.findAll()).willReturn(Arrays.asList(new Message(1L, "message one"), new Message(2L, "message two")));
-        mvc.perform(get("/helloDb").contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(get("/api/helloDb").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[\"message one\",\"message two\"]"));
 
 
-        mvc.perform(delete("/helloDb").contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(delete("/api/helloDb").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().string(""));
         verify(messageRepository).deleteAll();
 
         given(messageRepository.findAll()).willReturn(Collections.emptyList());
-        mvc.perform(get("/helloDb").contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(get("/api/helloDb").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
     }
