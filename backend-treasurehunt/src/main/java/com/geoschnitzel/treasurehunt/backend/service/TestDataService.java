@@ -21,6 +21,7 @@ import com.geoschnitzel.treasurehunt.backend.schema.User;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,7 +35,7 @@ import static java.util.Collections.singletonList;
 
 @Service
 @RestController
-public class TestDataService extends DataService implements TestDataApi {
+public class TestDataService {
 
     private final HuntRepository huntRepository;
     private final UserRepository userRepository;

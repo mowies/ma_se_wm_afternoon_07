@@ -127,7 +127,7 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
     public void refreshSHListAdapter(List<SHListItem> items) {
 
         SHListAdapter adpater = new SHListAdapter(items, getActivity().getApplicationContext());
-        shlist.setAdapter(adpater);
-        shlist.setOnItemClickListener(adpater);
+        mSHList.setAdapter(adpater);
+        mSHList.setOnItemClickListener(adpater);
     }
 }

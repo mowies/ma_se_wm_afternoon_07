@@ -24,14 +24,11 @@ data class SHPurchaseItem(val shValue: Int,
     }
 }
 
-data class SHListItem(var name: String,
+data class SHListItem(var huntid:Long,
+                      var name: String,
                       var author: String,
                       var length: Float,
                       var rating: Float,
                       var description: String,
                       var visited: Boolean) {
-
-    constructor(item: SHListItem) :
-            this(item.name, item.author, item.length, item.rating, item.description, item.visited) {
-    }
 }

@@ -27,15 +27,6 @@ public class ActivityUtils {
         transaction.commit();
     }
 
-    public static void addFragmentToActivity(@NonNull FragmentManager fragmentManager,
-                                             @NonNull Fragment fragment, int frameId, String tag) {
-        checkNotNull(fragmentManager);
-        checkNotNull(fragment);
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(frameId, fragment, tag);
-        transaction.commit();
-    }
-
     public static void showCoordinates(View root) {
         Snackbar.make(root, "X: " + root.getX() + " Y: " + root.getY() + " width: " + root.getWidth() + " height: " + root.getHeight(), Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();

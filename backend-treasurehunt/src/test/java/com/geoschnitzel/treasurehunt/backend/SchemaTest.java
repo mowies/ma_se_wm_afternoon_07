@@ -1,11 +1,13 @@
 package com.geoschnitzel.treasurehunt.backend;
 
+import com.geoschnitzel.treasurehunt.backend.model.GameRepository;
 import com.geoschnitzel.treasurehunt.backend.model.HuntRepository;
 import com.geoschnitzel.treasurehunt.backend.model.UserRepository;
 import com.geoschnitzel.treasurehunt.backend.schema.Hint;
 import com.geoschnitzel.treasurehunt.backend.schema.Hunt;
 import com.geoschnitzel.treasurehunt.backend.schema.Target;
 import com.geoschnitzel.treasurehunt.backend.schema.User;
+import com.geoschnitzel.treasurehunt.backend.service.GameService;
 import com.geoschnitzel.treasurehunt.backend.service.TestDataService;
 import com.geoschnitzel.treasurehunt.rest.GameItem;
 
@@ -45,6 +47,9 @@ public class SchemaTest {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private GameService gameService;
+
     @Before
     public void generateTestData() {
         testDataService.generateTestData();
@@ -77,8 +82,8 @@ public class SchemaTest {
         User user = asList(userRepository.findAll()).get(0);
         Hunt hunt = asList(huntRepository.findAll()).get(0);
 
-        GameItem gameItem = testDataService.startGame(hunt.getId(), user.getId());
-        assertThat(gameItem.getCurrentTarget().getHints().get(0).getId(), is(hunt.getTargets().get(0).getHints().get(0).getId()));
+        GameItem gameItem = gameService.startGame(hunt.getId(), user.getId());
+        assertThat(gameItem.getCurrenttarget().getHints().get(0).getId(), is(hunt.getTargets().get(0).getHints().get(0).getId()));
     }
 
     private void assertThatHuntsMatch(Hunt actualHunt, Hunt expectedHunt) {
