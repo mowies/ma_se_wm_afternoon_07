@@ -30,5 +30,6 @@ data class SHListItem(var huntid:Long,
                       var length: Float,
                       var rating: Float,
                       var description: String,
-                      var visited: Boolean) {
+                      var visited: Boolean,
+                      var targetcount: Long   ) {
 }

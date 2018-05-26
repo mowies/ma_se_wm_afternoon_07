@@ -1,5 +1,8 @@
 package com.geoschnitzel.treasurehunt.backend.schema;
 
+import org.springframework.lang.Nullable;
+
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -35,5 +38,13 @@ public class Game {
 
     @OneToMany
     private List<UserPosition> userPositions;
+
+    private Date started;
+
+    @Nullable
+    private Date ended;
+
+    @Nullable
+    private Date paused;
 
 }

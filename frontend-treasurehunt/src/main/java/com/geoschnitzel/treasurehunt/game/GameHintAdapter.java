@@ -16,6 +16,7 @@ import com.geoschnitzel.treasurehunt.R;
 import com.geoschnitzel.treasurehunt.rest.GameItem;
 import com.geoschnitzel.treasurehunt.rest.HintItem;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -25,10 +26,15 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
     List<HintItem> items;
     Context context;
 
-    public GameHintAdapter(List<HintItem> items, Context context, GameContract.Presenter mPresenter) {
-        this.items = items;
+    public GameHintAdapter(Context context, GameContract.Presenter mPresenter) {
+        this.items = new ArrayList<>();
         this.context = context;
         this.mPresenter = mPresenter;
+    }
+    public void updateItems(List<HintItem> items)
+    {
+        this.items = items;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -45,8 +51,6 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
     public GameHintAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View vItem = LayoutInflater.from(context).inflate(R.layout.item_hint, null, false);
-
-
         return new GameHintAdapter.ViewHolder(vItem);
     }
 
@@ -70,6 +74,7 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
                 case DIRECTION:
                     break;
             }
+            holder.lbuy.setVisibility(View.GONE);
             holder.lshow.setVisibility(View.VISIBLE);
         } else {
             Drawable icon = null;
@@ -90,12 +95,11 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
             holder.buy_icon.setImageDrawable(icon);
 
             holder.unlock_chrono.setBase(game.getCurrenttarget().getStarttime().getTime() + item.getTimetounlockhint() * 1000);
-            holder.unlock_chrono.setOnChronometerTickListener(holder);
             holder.unlock_chrono.start();
             holder.shValue.setText(String.format("%d", item.getShvalue()));
+            holder.lshow.setVisibility(View.GONE);
             holder.lbuy.setVisibility(View.VISIBLE);
 
-            holder.buy_button.setOnClickListener(holder);
         }
     }
 
@@ -128,15 +132,19 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
             unlock_button = lbuy.findViewById(R.id.hint_item_unlock_button);
             unlock_button_time = lbuy.findViewById(R.id.hint_item_unlock_button_time);
             unlock_chrono = lbuy.findViewById(R.id.hint_item_unlock_button_time_chrono);
-            unlock_button.setEnabled(true);
+
+            buy_button.setOnClickListener(this);
+            unlock_button.setOnClickListener(this);
+            unlock_chrono.setOnChronometerTickListener(this);
         }
 
         @Override
         public void onChronometerTick(Chronometer chronometer) {
             if (chronometer.getBase() < new Date().getTime()) {
                 unlock_button_time.setVisibility(View.GONE);
-                unlock_button.setEnabled(true);
                 unlock_chrono.stop();
+
+                unlock_button.setEnabled(true);
                 unlock_button.setBackground(context.getResources().getDrawable(R.drawable.layout_button_selector));
                 buy_button.setVisibility(View.GONE);
             } else {
@@ -154,6 +162,11 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
                 case R.id.hint_item_buy_button:
                     mPresenter.buyHint(this.hintID);
                     mPresenter.fetchHints();
+                    break;
+                case R.id.hint_item_unlock_button:
+                    mPresenter.unlockHint(this.hintID);
+                    mPresenter.fetchHints();
+                    break;
             }
         }
     }

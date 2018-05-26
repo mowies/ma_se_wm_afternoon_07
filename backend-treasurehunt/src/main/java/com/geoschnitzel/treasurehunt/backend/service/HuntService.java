@@ -1,13 +1,16 @@
 package com.geoschnitzel.treasurehunt.backend.service;
 
-import com.geoschnitzel.treasurehunt.backend.api.HuntApi;
 import com.geoschnitzel.treasurehunt.backend.model.HuntRepository;
 import com.geoschnitzel.treasurehunt.backend.schema.Hunt;
+import com.geoschnitzel.treasurehunt.backend.schema.ItemFactory;
 import com.geoschnitzel.treasurehunt.rest.SHListItem;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -18,28 +21,24 @@ import static java.util.stream.Collectors.toList;
 @Service
 @RestController
 @RequestMapping("/api/hunt")
-public class HuntService implements HuntApi {
+public class HuntService {
 
     @Autowired
     private HuntRepository huntRepository;
 
-    public HuntService(HuntRepository huntRepository) {
-        this.huntRepository = huntRepository;
-    }
-
-    @Override
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public List<SHListItem> retrieveSchnitzelHunts() {
         List<Hunt> hunts = asList(huntRepository.findAll());
         return hunts.stream().map(hunt -> {
-            return new SHListItem(
-                    hunt.getId(),
-                    hunt.getName(),
-                    hunt.getCreator().getDisplayName(),
-                    0,
-                    (float) 4.5,
-                    hunt.getDescription(),
-                    false
-            ); //TODO calculate values that are hardcoded now
+            return ItemFactory.CreateSHListItem(hunt);
         }).collect(toList());
+    }
+
+    @RequestMapping(value = "/{huntID}", method = RequestMethod.GET)
+    public SHListItem retrieveSchnitzelHunts(@PathVariable long huntID) {
+        if(!huntRepository.findById(huntID).isPresent())
+            return null;
+        Hunt hunt = huntRepository.findById(huntID).get();
+        return ItemFactory.CreateSHListItem(hunt);
     }
 }

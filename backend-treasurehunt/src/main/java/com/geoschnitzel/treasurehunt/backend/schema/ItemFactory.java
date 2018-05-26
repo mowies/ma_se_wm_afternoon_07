@@ -3,15 +3,30 @@ package com.geoschnitzel.treasurehunt.backend.schema;
 import com.geoschnitzel.treasurehunt.rest.GameItem;
 import com.geoschnitzel.treasurehunt.rest.GameTargetItem;
 import com.geoschnitzel.treasurehunt.rest.HintItem;
+import com.geoschnitzel.treasurehunt.rest.SHListItem;
+import com.geoschnitzel.treasurehunt.rest.UserItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ItemFactory {
     public static GameItem CreateGameItem(Game game) {
-        return new GameItem(game.getId(), CreateGameTargetItem(game.getTargets().get(game.getTargets().size() - 1)));
+        return new GameItem(
+                game.getId(),
+                game.getUser().getId(),
+                game.getHunt().getId(),
+                CreateGameTargetItem(game.getTargets()),
+                game.getStarted(),
+                game.getPaused(),
+                game.getEnded()
+                );
     }
-
+    public static List<GameTargetItem> CreateGameTargetItem(List<GameTarget> gameTargets) {
+        List<GameTargetItem> result = new ArrayList<>();
+        for(GameTarget gameTarget : gameTargets)
+            result.add(CreateGameTargetItem(gameTarget));
+        return result;
+    }
     public static GameTargetItem CreateGameTargetItem(GameTarget gameTarget) {
         List<HintItem> hints = new ArrayList<>();
         hints.addAll(CreateHintItem(gameTarget.getUnlockedHints(), true));
@@ -48,5 +63,22 @@ public class ItemFactory {
             default:
                 return null;
         }
+    }
+
+    public static UserItem CreateUserItem(User user) {
+        return new UserItem(user.getId(),user.getBalance());
+    }
+
+    public static SHListItem CreateSHListItem(Hunt hunt) {
+        return new SHListItem(
+                hunt.getId(),
+                hunt.getName(),
+                hunt.getCreator().getDisplayName(),
+                0,
+                (float) 4.5,
+                hunt.getDescription(),
+                false,
+                hunt.getTargets().size()
+        ); //TODO calculate values that are hardcoded now
     }
 }

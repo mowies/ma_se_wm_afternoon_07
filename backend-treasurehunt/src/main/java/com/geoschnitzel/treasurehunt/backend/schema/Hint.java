@@ -25,7 +25,7 @@ public abstract class Hint {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    protected Long id;
+    private Long id;
 
     /*
         The time until the Hint gets unlocked without buying it

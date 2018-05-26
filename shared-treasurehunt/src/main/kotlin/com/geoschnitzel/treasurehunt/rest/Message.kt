@@ -40,15 +40,33 @@ data class GameTargetItem(
         val starttime: Date,
         var hints: List<HintItem>) {
 
+    @JsonIgnore
+    fun getUnlockedHints():List<HintItem>{
+        return this.hints.filter{ it.unlocked }
+    }
+    @JsonIgnore
+    fun getLockedHints():List<HintItem>{
+        return this.hints.filter { !it.unlocked }
+    }
 }
 
 data class GameItem(
         val id: Long,
-        val currenttarget: GameTargetItem) {
+        val userid:Long,
+        val huntid:Long,
+        val targets: List<GameTargetItem>,
+        val started: Date,
+        val paused: Date?,
+        val ended: Date?) {
+    @JsonIgnore
+    fun getCurrenttarget():GameTargetItem{
+        return this.targets.get(this.targets.size - 1);
+    }
 }
 
 data class UserItem(
-        val id: Long)
+        val id: Long,
+        val balance:Int)
 
 enum class TransactionType(val type: String) {
     Purchase("PURCHASE"),

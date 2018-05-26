@@ -16,5 +16,9 @@ public class RequestParams<T> {
         this.postObject = null;
         this.params = null;
     }
+    public String toString()
+    {
+        return method.toString() + " " + url + " " + params;
+    }
 }
 

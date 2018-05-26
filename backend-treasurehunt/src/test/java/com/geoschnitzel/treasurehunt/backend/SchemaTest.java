@@ -77,14 +77,6 @@ public class SchemaTest {
         }
     }
 
-    @Test
-    public void startGame() {
-        User user = asList(userRepository.findAll()).get(0);
-        Hunt hunt = asList(huntRepository.findAll()).get(0);
-
-        GameItem gameItem = gameService.startGame(hunt.getId(), user.getId());
-        assertThat(gameItem.getCurrenttarget().getHints().get(0).getId(), is(hunt.getTargets().get(0).getHints().get(0).getId()));
-    }
 
     private void assertThatHuntsMatch(Hunt actualHunt, Hunt expectedHunt) {
         assertThatUsersMatch(actualHunt.getCreator(), expectedHunt.getCreator());

@@ -1,16 +1,22 @@
 package com.geoschnitzel.treasurehunt.backend.service;
 
 import com.geoschnitzel.treasurehunt.backend.model.UserRepository;
+import com.geoschnitzel.treasurehunt.backend.schema.ItemFactory;
 import com.geoschnitzel.treasurehunt.backend.schema.SchnitziEarnedTransaction;
+import com.geoschnitzel.treasurehunt.backend.schema.SchnitziTransaction;
 import com.geoschnitzel.treasurehunt.backend.schema.User;
+import com.geoschnitzel.treasurehunt.rest.UserItem;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static java.util.Arrays.asList;
 
@@ -24,9 +30,21 @@ public class UserService {
     private UserRepository userRepository;
 
     @GetMapping("/login")
-    public Long login()
+    public UserItem login()
     {
-        User user = userRepository.save(new User(null,"Guest User","Guest@example.com",asList(new SchnitziEarnedTransaction(null,new Date(),100,"Registered")),null));
-        return user.getId();
+        List<SchnitziTransaction> transactions = new ArrayList<>();
+        transactions.add(new SchnitziEarnedTransaction(null,new Date(),100,"Registered"));
+        User user = userRepository.save(new User(null,"Guest User","Guest@example.com",transactions));
+        if(user == null)
+            return null;
+        return ItemFactory.CreateUserItem(user);
     }
+    @GetMapping("/{userID}")
+    public UserItem getUser(@PathVariable long userID) {
+        User user = userRepository.findById(userID).get();
+        if(user == null)
+            return null;
+        return ItemFactory.CreateUserItem(user);
+    }
+
 }

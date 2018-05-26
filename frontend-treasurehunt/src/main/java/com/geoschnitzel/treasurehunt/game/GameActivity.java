@@ -1,16 +1,23 @@
 package com.geoschnitzel.treasurehunt.game;
 
 import android.os.Bundle;
+import android.support.test.espresso.IdlingResource;
 import android.support.v4.app.FragmentManager;
 
 import com.geoschnitzel.treasurehunt.R;
 import com.geoschnitzel.treasurehunt.base.BaseActivityWithBackButton;
 import com.geoschnitzel.treasurehunt.model.WebService;
 import com.geoschnitzel.treasurehunt.utils.ActivityUtils;
+import com.geoschnitzel.treasurehunt.utils.SimpleIdlingResource;
+
+import org.jetbrains.annotations.TestOnly;
 
 public class GameActivity extends BaseActivityWithBackButton {
 
     GameContract.Presenter mPresenter;
+    public Long getGameID() { return mPresenter.getCurrentGame().getId(); }
+    @TestOnly
+    public IdlingResource getIdlingResource(){return mPresenter.getIdlingResource();};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
