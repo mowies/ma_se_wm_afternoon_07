@@ -8,6 +8,7 @@ import com.geoschnitzel.treasurehunt.rest.GameItem;
 import com.geoschnitzel.treasurehunt.rest.HintItem;
 import com.geoschnitzel.treasurehunt.rest.UserItem;
 import com.geoschnitzel.treasurehunt.utils.SimpleIdlingResource;
+import com.geoschnitzel.treasurehunt.utils.Webservice.WebServiceCallback;
 
 import java.util.List;
 
@@ -29,14 +30,11 @@ public class GamePresenter implements GameContract.Presenter {
         this.hintView.setPresenter(this);
         this.webService = webService;
         mIdlingResource.setIdleState(false);
-        webService.startGame(new WebService.WebServiceCallback<GameItem>() {
-            @Override
-            public void onResult(GameItem result) {
-                game = result;
-                List<HintItem> hints = game.getCurrenttarget().getHints();
-                hintView.ReloadHints(hints);
-                mIdlingResource.setIdleState(true);
-            }
+        webService.startGame(result -> {
+            game = result;
+            List<HintItem> hints = game.getCurrenttarget().getHints();
+            hintView.ReloadHints(hints);
+            mIdlingResource.setIdleState(true);
         },huntID);
     }
 
@@ -53,14 +51,11 @@ public class GamePresenter implements GameContract.Presenter {
     @Override
     public void fetchHints() {
         mIdlingResource.setIdleState(false);
-        webService.getGame(new WebService.WebServiceCallback<GameItem>() {
-            @Override
-            public void onResult(GameItem result) {
-                game = result;
-                List<HintItem> hints = game.getCurrenttarget().getHints();
-                hintView.ReloadHints(hints);
-                mIdlingResource.setIdleState(true);
-            }
+        webService.getGame(result -> {
+            game = result;
+            List<HintItem> hints = game.getCurrenttarget().getHints();
+            hintView.ReloadHints(hints);
+            mIdlingResource.setIdleState(true);
         },game.getId());
     }
 
@@ -68,29 +63,16 @@ public class GamePresenter implements GameContract.Presenter {
     @Override
     public void buyHint(long hintID) {
         mIdlingResource.setIdleState(false);
-        webService.buyHint(new WebService.WebServiceCallback<Boolean>() {
-            @Override
-            public void onResult(Boolean result) {
-                //Reload Balance
-                webService.getUser(new WebService.WebServiceCallback<UserItem>() {
-                    @Override
-                    public void onResult(UserItem result) {
-                        fetchHints();
-                    }
-                });
-            }
+        webService.buyHint(result -> {
+            //Reload Balance
+            webService.getUser(result1 -> fetchHints());
         },game.getId(),hintID);
     }
 
     @Override
     public void unlockHint(long hintID) {
         mIdlingResource.setIdleState(false);
-        webService.unlockHint(new WebService.WebServiceCallback<Boolean>() {
-            @Override
-            public void onResult(Boolean result) {
-                fetchHints();
-            }
-        },game.getId(),hintID);
+        webService.unlockHint(result -> fetchHints(),game.getId(),hintID);
     }
 
     public IdlingResource getIdlingResource() {

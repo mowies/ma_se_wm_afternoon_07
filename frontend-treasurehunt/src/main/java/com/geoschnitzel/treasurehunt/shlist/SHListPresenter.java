@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.geoschnitzel.treasurehunt.model.WebService;
 import com.geoschnitzel.treasurehunt.rest.SHListItem;
+import com.geoschnitzel.treasurehunt.utils.Webservice.WebServiceCallback;
 
 import java.util.Arrays;
 
@@ -28,11 +29,6 @@ public class SHListPresenter implements SHListContract.Presenter {
 
     @Override
     public void retrieveSHListItems() {
-        webService.getSHListItems(new WebService.WebServiceCallback<SHListItem[]>() {
-            @Override
-            public void onResult(SHListItem[] result) {
-                mView.refreshSHListAdapter(Arrays.asList(result));
-            }
-        });
+        webService.getSHListItems(result -> mView.refreshSHListAdapter(Arrays.asList(result)));
     }
 }
