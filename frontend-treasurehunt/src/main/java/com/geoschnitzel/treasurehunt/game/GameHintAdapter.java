@@ -96,6 +96,7 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
 
             holder.unlock_chrono.setBase(game.getCurrenttarget().getStarttime().getTime() + item.getTimetounlockhint() * 1000);
             holder.unlock_chrono.start();
+            holder.unlock_button.setEnabled(false);
             holder.shValue.setText(String.format("%d", item.getShvalue()));
             holder.lshow.setVisibility(View.GONE);
             holder.lbuy.setVisibility(View.VISIBLE);
@@ -160,12 +161,16 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.hint_item_buy_button:
-                    mPresenter.buyHint(this.hintID);
-                    mPresenter.fetchHints();
+                    if(unlock_button.isEnabled()) {
+                        mPresenter.buyHint(this.hintID);
+                        mPresenter.fetchHints();
+                    }
                     break;
                 case R.id.hint_item_unlock_button:
-                    mPresenter.unlockHint(this.hintID);
-                    mPresenter.fetchHints();
+                    if(unlock_button.isEnabled()) {
+                        mPresenter.unlockHint(this.hintID);
+                        mPresenter.fetchHints();
+                    }
                     break;
             }
         }

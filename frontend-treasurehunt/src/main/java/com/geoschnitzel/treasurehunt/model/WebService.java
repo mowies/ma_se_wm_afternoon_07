@@ -1,11 +1,7 @@
 package com.geoschnitzel.treasurehunt.model;
 
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetBehavior;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.fasterxml.jackson.module.kotlin.KotlinModule;
 import com.geoschnitzel.treasurehunt.BuildConfig;
@@ -21,7 +17,6 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-import java.lang.ref.WeakReference;
 import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.List;
@@ -40,7 +35,7 @@ public class WebService {
     }
 
     private WebService(){
-        Login(new WebServiceCallback<UserItem>() {
+        login(new WebServiceCallback<UserItem>() {
             @Override
             public void onResult(UserItem result) {
                 user = result;
@@ -59,6 +54,7 @@ public class WebService {
     {
         public static String EndPoint = BuildConfig.ENDPOINT;
         public static RequestParams<UserItem>        Login = new RequestParams<>(UserItem.class,EndPoint + "/api/user/login",HttpMethod.GET);
+        public static RequestParams<UserItem>        GetUser = new RequestParams<>(UserItem.class,EndPoint + "/api/user/{userID}",HttpMethod.GET);
         public static RequestParams<Message>        HelloWorld = new RequestParams<>(Message.class,EndPoint + "/api/helloWorld",HttpMethod.GET);
         public static RequestParams<SHListItem[]>      GetSHList = new RequestParams<>(SHListItem[].class,EndPoint + "/api/hunt/",HttpMethod.GET);
         public static RequestParams<SHListItem>      GetSHItem = new RequestParams<>(SHListItem.class,EndPoint + "/api/hunt/{huntID}",HttpMethod.GET);
@@ -75,13 +71,32 @@ public class WebService {
     //----------------------------------------------------------------------------------------------
 
     //region User
-    private void Login()
+    private void login()
     {
         user = new WebserviceAsyncTask<UserItem>(null).doInBackground(RequestFunctions.Login);
     }
-    private void Login(WebServiceCallback<UserItem> callback)
+    private void login(WebServiceCallback<UserItem> callback)
     {
         new WebserviceAsyncTask<UserItem>(callback).execute(RequestFunctions.Login);
+    }
+
+    public UserItem getUser()
+    {
+        RequestParams params = RequestFunctions.GetUser;
+        params.params = new HashMap<String,Long>()
+        {{
+            put("userID",user.getId());
+        }};
+        return new WebserviceAsyncTask<UserItem>(null).doInBackground(params);
+    }
+    public void getUser(WebServiceCallback<UserItem> callback)
+    {
+        RequestParams params = RequestFunctions.GetUser;
+        params.params = new HashMap<String,Long>()
+        {{
+            put("userID",user.getId());
+        }};
+        new WebserviceAsyncTask<UserItem>(callback).execute(params);
     }
     //endregion
 

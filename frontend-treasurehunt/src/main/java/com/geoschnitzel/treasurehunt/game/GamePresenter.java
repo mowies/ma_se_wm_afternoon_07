@@ -6,6 +6,7 @@ import android.support.test.espresso.IdlingResource;
 import com.geoschnitzel.treasurehunt.model.WebService;
 import com.geoschnitzel.treasurehunt.rest.GameItem;
 import com.geoschnitzel.treasurehunt.rest.HintItem;
+import com.geoschnitzel.treasurehunt.rest.UserItem;
 import com.geoschnitzel.treasurehunt.utils.SimpleIdlingResource;
 
 import java.util.List;
@@ -63,20 +64,27 @@ public class GamePresenter implements GameContract.Presenter {
         },game.getId());
     }
 
+
     @Override
     public void buyHint(long hintID) {
         mIdlingResource.setIdleState(false);
         webService.buyHint(new WebService.WebServiceCallback<Boolean>() {
             @Override
             public void onResult(Boolean result) {
-                fetchHints();
+                //Reload Balance
+                webService.getUser(new WebService.WebServiceCallback<UserItem>() {
+                    @Override
+                    public void onResult(UserItem result) {
+                        fetchHints();
+                    }
+                });
             }
         },game.getId(),hintID);
     }
 
     @Override
     public void unlockHint(long hintID) {
-
+        mIdlingResource.setIdleState(false);
         webService.unlockHint(new WebService.WebServiceCallback<Boolean>() {
             @Override
             public void onResult(Boolean result) {

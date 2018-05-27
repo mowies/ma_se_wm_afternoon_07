@@ -41,9 +41,11 @@ public class UserService {
     }
     @GetMapping("/{userID}")
     public UserItem getUser(@PathVariable long userID) {
-        User user = userRepository.findById(userID).get();
-        if(user == null)
+        if(!userRepository.findById(userID).isPresent()) {
+            System.out.printf("The userID %d cannot be found\n", userID);
             return null;
+        }
+        User user = userRepository.findById(userID).get();
         return ItemFactory.CreateUserItem(user);
     }
 
