@@ -2,8 +2,8 @@
 <img src="http://dhdm.de:8111/app/rest/builds/buildType:(id:Geoschnitzel_Build)/statusIcon"/>
 </a>
 
-
 # ma_sw_wm_afternoon_07
+
 Repository for MA/SE&amp;WM - Group Afternoon 7
 
 # Environment setup
