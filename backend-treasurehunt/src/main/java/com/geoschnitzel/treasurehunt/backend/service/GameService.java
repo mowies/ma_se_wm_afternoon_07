@@ -152,7 +152,7 @@ public class GameService {
     public Boolean unlockHint(@PathVariable long userID,@PathVariable long gameID,@PathVariable long hintID) {
         if(!userRepository.findById(userID).isPresent()) {
             System.out.printf("The userID %d cannot be found\n", userID);
-            //return false;
+            return false;
         }
         User user = userRepository.findById(userID).get();
 
