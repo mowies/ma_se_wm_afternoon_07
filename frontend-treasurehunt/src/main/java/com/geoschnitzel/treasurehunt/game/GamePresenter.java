@@ -32,7 +32,7 @@ public class GamePresenter implements GameContract.Presenter {
         mIdlingResource.setIdleState(false);
         webService.startGame(result -> {
             game = result;
-            List<HintItem> hints = game.getCurrenttarget().getHints();
+            List<HintItem> hints = result.getCurrenttarget().getHints();
             hintView.ReloadHints(hints);
             mIdlingResource.setIdleState(true);
         },huntID);

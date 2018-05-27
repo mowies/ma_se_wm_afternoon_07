@@ -9,7 +9,7 @@ public class RequestParams<T> {
     Class<T> returnType;
     HttpMethod method;
     Object postObject;
-    Object params;
+    Map<String,?> params;
 
     public  RequestParams( Class<T> returnType, String url, HttpMethod method)
     {
@@ -56,11 +56,11 @@ public class RequestParams<T> {
         this.postObject = postObject;
     }
 
-    public Object getParams() {
+    public Map<String,?> getParams() {
         return params;
     }
 
-    public void setParams(Object params) {
+    public void setParams(Map<String,?> params) {
         this.params = params;
     }
 }
