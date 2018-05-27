@@ -39,7 +39,7 @@ public class WebService {
         static RequestParams<UserItem>        GetUser = new RequestParams<>(UserItem.class,EndPoint + "/api/user/{userID}",HttpMethod.GET);
         static RequestParams<Message>        HelloWorld = new RequestParams<>(Message.class,EndPoint + "/api/helloWorld",HttpMethod.GET);
         static RequestParams<SHListItem[]>      GetSHList = new RequestParams<>(SHListItem[].class,EndPoint + "/api/hunt/",HttpMethod.GET);
-        static RequestParams<SHListItem>      GetSHItem = new RequestParams<>(SHListItem.class,EndPoint + "/api/hunt/{huntID}",HttpMethod.GET);
+        //static RequestParams<SHListItem>      GetSHItem = new RequestParams<>(SHListItem.class,EndPoint + "/api/hunt/{huntID}",HttpMethod.GET);
         static RequestParams<GameItem>        StartGame = new RequestParams<>(GameItem.class,EndPoint + "/api/user/{userID}/game/startGame/{huntID}",HttpMethod.GET) ;
         static RequestParams<GameItem>        GetGame = new RequestParams<>(GameItem.class,EndPoint + "/api/user/{userID}/game/{gameID}",HttpMethod.GET) ;
         static RequestParams<Boolean>        BuyHint = new RequestParams<>(Boolean.class,EndPoint + "/api/user/{userID}/game/{gameID}/buyHint/{hintID}",HttpMethod.GET) ;
