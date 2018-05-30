@@ -161,7 +161,7 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.hint_item_buy_button:
-                    if(unlock_button.isEnabled()) {
+                    if (buy_button.isEnabled()) {
                         mPresenter.buyHint(this.hintID);
                         mPresenter.fetchHints();
                     }

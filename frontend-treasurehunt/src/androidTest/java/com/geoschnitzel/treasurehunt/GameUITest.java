@@ -1,18 +1,10 @@
 package com.geoschnitzel.treasurehunt;
 
 import android.content.Intent;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
-import android.support.test.espresso.UiController;
-import android.support.test.espresso.ViewAction;
-import android.support.test.espresso.action.ViewActions;
-import android.support.test.espresso.contrib.RecyclerViewActions;
-import android.support.test.espresso.web.sugar.Web;
 import android.support.test.rule.ActivityTestRule;
-import android.view.View;
 
 import com.forkingcode.espresso.contrib.DescendantViewActions;
 import com.geoschnitzel.treasurehunt.game.GameActivity;
@@ -21,7 +13,6 @@ import com.geoschnitzel.treasurehunt.model.WebService;
 import com.geoschnitzel.treasurehunt.rest.GameItem;
 import com.geoschnitzel.treasurehunt.rest.HintItem;
 import com.geoschnitzel.treasurehunt.rest.SHListItem;
-import com.geoschnitzel.treasurehunt.rest.UserItem;
 
 import org.junit.After;
 import org.junit.Before;
@@ -35,7 +26,6 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.Matchers.not;
@@ -108,6 +98,7 @@ public class GameUITest {
             );
         }
     }
+
     @Test
     public void BuyHints() {
         //Just to make sure it is waited on the resource and the game is loaded already
