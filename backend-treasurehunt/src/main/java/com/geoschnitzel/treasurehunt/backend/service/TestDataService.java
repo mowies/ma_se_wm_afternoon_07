@@ -6,6 +6,7 @@ import com.geoschnitzel.treasurehunt.backend.model.HuntRepository;
 import com.geoschnitzel.treasurehunt.backend.model.UserRepository;
 import com.geoschnitzel.treasurehunt.backend.schema.Area;
 import com.geoschnitzel.treasurehunt.backend.schema.Game;
+import com.geoschnitzel.treasurehunt.backend.schema.GameTarget;
 import com.geoschnitzel.treasurehunt.backend.schema.HintCoordinate;
 import com.geoschnitzel.treasurehunt.backend.schema.HintDirection;
 import com.geoschnitzel.treasurehunt.backend.schema.HintImage;
@@ -16,6 +17,8 @@ import com.geoschnitzel.treasurehunt.backend.schema.SchnitziTransaction;
 import com.geoschnitzel.treasurehunt.backend.schema.SchnitziUsedTransaction;
 import com.geoschnitzel.treasurehunt.backend.schema.Target;
 import com.geoschnitzel.treasurehunt.backend.schema.User;
+import com.geoschnitzel.treasurehunt.backend.schema.UserPosition;
+import com.geoschnitzel.treasurehunt.backend.util.CalDistance;
 
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -43,6 +46,25 @@ public class TestDataService {
         this.huntRepository = huntRepository;
         this.userRepository = userRepository;
         this.gameRepository = gameRepository;
+    }
+
+    public boolean CheckTargetReached(long userId,long gameId)
+    {
+        if(!userRepository.findById(userId).isPresent())
+            return false;
+        User user = userRepository.findById(userId).get();
+        if(!gameRepository.findById(gameId).isPresent())
+            return false;
+        Game game = gameRepository.findById(gameId).get();
+        GameTarget cTarget = game.getTargets().get(game.getTargets().size() - 1);
+        if(game.getUserPositions().size() > 0)
+            return false;
+        UserPosition position = game.getUserPositions().get(game.getUserPositions().size() - 1);
+        if( CalDistance.distance(cTarget,position, CalDistance.ScaleType.Meter) < (double)cTarget.getTarget().getArea().getRadius())
+        {
+            return true;
+        }
+        return false;
     }
 
     @Transactional
