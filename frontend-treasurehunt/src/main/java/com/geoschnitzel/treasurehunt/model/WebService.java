@@ -29,7 +29,7 @@ public class WebService {
     }
 
     private WebService() {
-        this.login(); // FIXME don't do this on UI thread
+        this.user = this.login(); // FIXME don't do this on UI thread
     }
 
     //In the RequestFunctions we can define the whole Api Call
@@ -48,13 +48,13 @@ public class WebService {
 
 
     //----------------------------------------------------------------------------------------------
-    //Webservice functions for Synchronos and Asynchronos Call
+    //Webservice functions for Synchronous and Asynchronous Call
     //----------------------------------------------------------------------------------------------
 
     //region User
-    private void login() {
+    private UserItem login() {
         RequestParams params = RequestFunctions.Login;
-        user = new WebserviceAsyncTask<UserItem>(null).doInBackground(params);
+        return new WebserviceAsyncTask<UserItem>(null).doInBackground(params);
     }
 
     private void login(WebServiceCallback<UserItem> callback) {
@@ -143,19 +143,23 @@ public class WebService {
 
     public void startGame(WebServiceCallback<GameItem> callback, Long huntID) {
         RequestParams params = RequestFunctions.StartGame;
-        params.setParams(new HashMap<String, Long>() {{
-            put("userID", user.getId());
-            put("huntID", huntID);
-        }});
+        HashMap<String, Long> paramData = new HashMap<>();
+
+        paramData.put("userID", this.user.getId());
+        paramData.put("huntID", huntID);
+
+        params.setParams(paramData);
         new WebserviceAsyncTask<>(callback).execute(params);
     }
 
     public GameItem startGame(long huntID) {
         RequestParams params = RequestFunctions.StartGame;
-        params.setParams(new HashMap<String, Long>() {{
-            put("userID", user.getId());
-            put("huntID", huntID);
-        }});
+        HashMap<String, Long> paramData = new HashMap<>();
+
+        paramData.put("userID", this.user.getId());
+        paramData.put("huntID", huntID);
+        params.setParams(paramData);
+
         return new WebserviceAsyncTask<GameItem>(null).doInBackground(params);
     }
     //endregion

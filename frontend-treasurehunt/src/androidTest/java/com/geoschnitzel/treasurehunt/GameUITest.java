@@ -138,6 +138,7 @@ public class GameUITest {
             }
         }
     }
+
     @Test
     public void UnlockHintAfterTimeout() throws InterruptedException {
         //Just to make sure it is waited on the resource and the game is loaded already
