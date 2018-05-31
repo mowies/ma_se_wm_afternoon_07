@@ -7,6 +7,7 @@ import com.geoschnitzel.treasurehunt.rest.SHListItem;
 import com.geoschnitzel.treasurehunt.rest.UserItem;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class ItemFactory {
@@ -34,6 +35,7 @@ public class ItemFactory {
             if(!gameTarget.getUnlockedHints().contains(hint))
                 hints.add(CreateHintItem(hint, false));
         }
+        hints.sort(Comparator.comparingInt(HintItem::getShvalue));
 
         return new GameTargetItem(gameTarget.getId(), gameTarget.getStartTime(),hints );
     }

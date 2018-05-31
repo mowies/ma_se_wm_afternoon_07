@@ -25,6 +25,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
+import static android.support.test.espresso.contrib.RecyclerViewActions.scrollTo;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.Assert.assertTrue;
@@ -152,6 +153,13 @@ public class GameUITest {
         for (int index = 0; index < game.getCurrenttarget().getHints().size(); index++) {
             HintItem hint = game.getCurrenttarget().getHints().get(index);
             if(!hint.getUnlocked()) {
+
+                onView(withId(R.id.hgvhint)).perform(
+                        actionOnItemAtPosition(index,
+                                DescendantViewActions.checkDescendantViewAction(
+                                        withId(R.id.hint_item_unlock_button),matches(isDisplayed())))
+                );
+
                 Thread.sleep(hint.getTimetounlockhint() * 1000);
 
                 onView(withId(R.id.hgvhint)).perform(

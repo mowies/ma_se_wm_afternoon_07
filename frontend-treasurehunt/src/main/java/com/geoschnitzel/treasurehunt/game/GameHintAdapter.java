@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.geoschnitzel.treasurehunt.R;
+import com.geoschnitzel.treasurehunt.model.WebService;
 import com.geoschnitzel.treasurehunt.rest.GameItem;
 import com.geoschnitzel.treasurehunt.rest.HintItem;
 
@@ -39,7 +40,7 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
 
     @Override
     public long getItemId(int i) {
-        return i;
+        return items.get(i).getId();
     }
 
     @Override
@@ -56,9 +57,13 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(GameHintAdapter.ViewHolder holder, int position) {
+
         GameItem game = mPresenter.getCurrentGame();
         final HintItem item = items.get(position);
         holder.hintID = item.getId();
+
+        holder.resetDefault();
+
         if (item.getUnlocked()) {
             switch (item.getType()) {
                 case IMAGE:
@@ -74,7 +79,6 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
                 case DIRECTION:
                     break;
             }
-            holder.lbuy.setVisibility(View.GONE);
             holder.lshow.setVisibility(View.VISIBLE);
         } else {
             Drawable icon = null;
@@ -94,13 +98,13 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
             }
             holder.buy_icon.setImageDrawable(icon);
 
-            holder.unlock_chrono.setBase(game.getCurrenttarget().getStarttime().getTime() + item.getTimetounlockhint() * 1000);
+            holder.unlock_chrono.setBase(game.getCurrenttarget().getStarttime().getTime() +
+                    item.getTimetounlockhint() * 1000 -
+                    WebService.instance().getTimeDifference());
             holder.unlock_chrono.start();
             holder.unlock_button.setEnabled(false);
             holder.shValue.setText(String.format("%d", item.getShvalue()));
-            holder.lshow.setVisibility(View.GONE);
             holder.lbuy.setVisibility(View.VISIBLE);
-
         }
     }
 
@@ -173,6 +177,20 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
                     }
                     break;
             }
+        }
+
+        public void resetDefault() {
+
+            lbuy.setVisibility( View.GONE );
+            lshow.setVisibility(View.GONE);
+
+            image.setVisibility(View.GONE);
+            description.setVisibility(View.GONE);
+            unlock_chrono.stop();
+            unlock_button.setVisibility(View.VISIBLE);
+            unlock_chrono.setVisibility(View.VISIBLE);
+            buy_button.setVisibility(View.VISIBLE);
+            unlock_button.setBackground(context.getResources().getDrawable(R.drawable.layout_button_selector_left));
         }
     }
 }

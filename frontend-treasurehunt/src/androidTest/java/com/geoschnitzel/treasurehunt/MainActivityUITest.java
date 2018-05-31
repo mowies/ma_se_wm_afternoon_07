@@ -12,6 +12,8 @@ import android.support.test.rule.ActivityTestRule;
 
 import com.geoschnitzel.treasurehunt.main.MainActivity;
 import com.geoschnitzel.treasurehunt.map.MapFragment;
+import com.geoschnitzel.treasurehunt.model.WebService;
+import com.geoschnitzel.treasurehunt.rest.SHListItem;
 import com.geoschnitzel.treasurehunt.shlist.SHListFragment;
 import com.geoschnitzel.treasurehunt.utils.BottomSheetStateIdlingResource;
 
@@ -19,11 +21,17 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.util.List;
+
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.not;
 
 public class MainActivityUITest {
@@ -100,6 +108,32 @@ public class MainActivityUITest {
         this.mIdlingRegistry.register(bssir);
         onView(withId(R.id.sh_list)).check(matches(not(isDisplayed())));
         this.mIdlingRegistry.unregister(bssir);
+    }
+
+    @Test
+    public void startNewGame()
+    {
+        BottomSheetStateIdlingResource bssir = new BottomSheetStateIdlingResource(this.mSHListFragment.mBottomSheetBehavior, BottomSheetBehavior.STATE_EXPANDED);
+
+        onView(withId(R.id.filter_info)).perform(click());
+        this.mIdlingRegistry.register(bssir);
+
+        onView(withId(R.id.sh_list)).check(matches(isDisplayed()));
+        this.mIdlingRegistry.unregister(bssir);
+
+        onData(anything())
+                .inAdapterView(withId(R.id.sh_list))
+                .atPosition(0)
+                .perform(click());
+    }
+
+
+    @Test
+    public void exampleListIsDisplayed() {
+        onView(withId(R.id.filter_info)).perform(click());
+        List<SHListItem> shlist = WebService.instance().getSHListItems();
+        for (SHListItem shitem : shlist)
+            onView(withText(shitem.getName())).check(matches(isDisplayed()));
     }
 
     private static ViewAction swipeFromTopToBottom() {

@@ -15,6 +15,7 @@ public abstract class BaseActivityWithBackButton extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        WebService.instance().syncTimeDifference();
         WebService.instance().loginAsync();
 
         setContentView(R.layout.activity_base_with_back_button);

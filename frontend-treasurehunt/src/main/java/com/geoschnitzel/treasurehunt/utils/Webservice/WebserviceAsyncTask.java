@@ -38,7 +38,7 @@ public class WebserviceAsyncTask<T> extends AsyncTask<RequestParams<T>, Void, T>
                 }
             }
 
-            RestTemplate restTemplate = new MyRestTemplate(2 * 1000);
+            RestTemplate restTemplate = new MyRestTemplate(10 * 1000);
             MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
             converter.getObjectMapper().registerModule(new KotlinModule());
             restTemplate.getMessageConverters().add(converter);

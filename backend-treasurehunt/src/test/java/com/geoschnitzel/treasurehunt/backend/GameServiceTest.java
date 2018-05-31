@@ -115,8 +115,28 @@ public class GameServiceTest {
         GameItem gameItem = gameService.startGame(user.getId(), hunt.getId());
         assertTrue(gameService.getGame(user2.getId(),gameItem.getId())== null);
     }
+
     @Test
     public void buyHint() {
+        UserItem user = userService.login();
+        Hunt hunt = asList(huntRepository.findAll()).get(0);
+
+        GameItem gameItem = gameService.startGame(user.getId(),hunt.getId());
+        HintItem buyHint = gameItem.getCurrenttarget().getLockedHints().get(gameItem.getCurrenttarget().getLockedHints().size() -1);
+        gameService.buyHint(user.getId(), gameItem.getId(), buyHint.getId());
+        gameItem = gameService.getGame(user.getId(), gameItem.getId());
+        System.out.println(buyHint);
+
+        HintItem addedHint = null;
+        for (HintItem hintItem : gameItem.getCurrenttarget().getUnlockedHints()) {
+            if(hintItem.getId() == buyHint.getId())
+                addedHint = hintItem;
+        }
+        assertTrue(addedHint != null);
+        System.out.println(addedHint);
+    }
+    @Test
+    public void buyAllHints() {
         UserItem user = userService.login();
         Hunt hunt = asList(huntRepository.findAll()).get(0);
 
@@ -211,6 +231,41 @@ public class GameServiceTest {
         assertTrue(gameService.unlockHint(user.getId(),gameItem.getId(),unlockHint.getId()));
         gameItem = gameService.getGame(user.getId(),gameItem.getId());
         assertThat(gameItem.getCurrenttarget().getUnlockedHints().size(), is(2));
+    }
+    @Test
+    public void unlockHintBuyHint() throws InterruptedException {
+        UserItem user = userService.login();
+        Hunt hunt = asList(huntRepository.findAll()).get(0);
+        GameItem gameItem = gameService.startGame(user.getId(),hunt.getId());
+        assertThat(gameItem.getCurrenttarget().getUnlockedHints().size(), is(1));
+
+        HintItem unlockHint = gameItem.getCurrenttarget().getLockedHints().get(0);
+        Thread.sleep( unlockHint.getTimetounlockhint() * 1000);
+        assertTrue(gameService.unlockHint(user.getId(),gameItem.getId(),unlockHint.getId()));
+        gameItem = gameService.getGame(user.getId(),gameItem.getId());
+        assertThat(gameItem.getCurrenttarget().getUnlockedHints().size(), is(2));
+
+        HintItem addedHint = null;
+        for (HintItem hintItem : gameItem.getCurrenttarget().getUnlockedHints()) {
+            if(hintItem.getId() == unlockHint.getId())
+                addedHint = hintItem;
+        }
+        assertTrue(addedHint != null);
+
+        HintItem buyHint = gameItem.getCurrenttarget().getLockedHints().get(gameItem.getCurrenttarget().getLockedHints().size() -1);
+        assertTrue(gameService.buyHint(user.getId(), gameItem.getId(),buyHint.getId()));
+        gameItem = gameService.getGame(user.getId(),gameItem.getId());
+        assertThat(gameItem.getCurrenttarget().getUnlockedHints().size(), is(3));
+
+        addedHint = null;
+        for (HintItem hintItem : gameItem.getCurrenttarget().getUnlockedHints()) {
+            if(hintItem.getId() == buyHint.getId())
+                addedHint = hintItem;
+        }
+        assertTrue(addedHint != null);
+
+        System.out.println(addedHint);
+        System.out.println(buyHint);
     }
     @Test
     public void unlockHintBeforeTimeout() throws InterruptedException {

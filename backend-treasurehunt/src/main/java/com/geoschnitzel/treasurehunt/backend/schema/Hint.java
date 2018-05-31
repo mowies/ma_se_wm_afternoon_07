@@ -35,4 +35,7 @@ public abstract class Hint {
     private int shValue;
 
     public abstract HintType getHintType();
+    public String toString() {
+        return "Type: '" + this.getHintType() + "', shValue: '" + this.shValue + "', timeToUnlockHint: '" + this.timeToUnlockHint + "'";
+    }
 }

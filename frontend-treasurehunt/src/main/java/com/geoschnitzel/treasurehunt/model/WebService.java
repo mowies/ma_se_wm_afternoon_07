@@ -13,18 +13,21 @@ import com.google.common.util.concurrent.Futures;
 
 import org.springframework.http.HttpMethod;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static java.util.Arrays.asList;
 
 public class WebService {
     private Future<UserItem> user = null;
     private static WebService instance = null;
+    private AtomicLong timeDiffSC;
 
     public static WebService instance() {
         if (instance == null) {
@@ -34,6 +37,7 @@ public class WebService {
     }
 
     private WebService() {
+        timeDiffSC = new AtomicLong(0);
     }
 
     //In the RequestFunctions we can define the whole Api Call
@@ -48,6 +52,7 @@ public class WebService {
         final static RequestParams<GameItem> GetGame = new RequestParams<>(GameItem.class, EndPoint + "/api/user/{userID}/game/{gameID}", HttpMethod.GET);
         final static RequestParams<Boolean> BuyHint = new RequestParams<>(Boolean.class, EndPoint + "/api/user/{userID}/game/{gameID}/buyHint/{hintID}", HttpMethod.GET);
         final static RequestParams<Boolean> UnlockHint = new RequestParams<>(Boolean.class, EndPoint + "/api/user/{userID}/game/{gameID}/unlockHint/{hintID}", HttpMethod.GET);
+        final static RequestParams<Long> GetCurrentTime = new RequestParams<>(Long.class, EndPoint + "/api/time/", HttpMethod.GET);
     }
 
 
@@ -55,6 +60,21 @@ public class WebService {
     //Webservice functions for Synchronous and Asynchronous Call
     //----------------------------------------------------------------------------------------------
 
+    //region TimeSync
+    public void syncTimeDifference()
+    {
+        RequestParams params = RequestFunctions.GetCurrentTime;
+        final Long start = new Date().getTime();
+        new WebserviceAsyncTask<Long>((result -> {
+            timeDiffSC.set(result - start);
+        })).execute(params);
+    }
+    public Long getTimeDifference()
+    {
+        return timeDiffSC.get();
+    }
+
+    //endregion
     //region User
     public void loginSync() {
         if(user != null && !user.isDone())
