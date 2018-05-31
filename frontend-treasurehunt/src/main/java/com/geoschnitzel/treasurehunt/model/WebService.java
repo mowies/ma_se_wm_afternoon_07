@@ -9,16 +9,21 @@ import com.geoschnitzel.treasurehunt.rest.UserItem;
 import com.geoschnitzel.treasurehunt.utils.Webservice.RequestParams;
 import com.geoschnitzel.treasurehunt.utils.Webservice.WebServiceCallback;
 import com.geoschnitzel.treasurehunt.utils.Webservice.WebserviceAsyncTask;
+import com.google.common.util.concurrent.Futures;
 
 import org.springframework.http.HttpMethod;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static java.util.Arrays.asList;
 
 public class WebService {
-    private UserItem user = null;
+    private Future<UserItem> user = null;
     private static WebService instance = null;
 
     public static WebService instance() {
@@ -29,7 +34,6 @@ public class WebService {
     }
 
     private WebService() {
-        this.user = this.login(); // FIXME don't do this on UI thread
     }
 
     //In the RequestFunctions we can define the whole Api Call
@@ -52,29 +56,36 @@ public class WebService {
     //----------------------------------------------------------------------------------------------
 
     //region User
-    private UserItem login() {
+    public void loginSync() {
+        if(user != null && !user.isDone())
+            return;
+
         RequestParams params = RequestFunctions.Login;
-        return new WebserviceAsyncTask<UserItem>(null).doInBackground(params);
+        user = Futures.immediateFuture(
+                new WebserviceAsyncTask<UserItem>(null).doInBackground(params)
+        );
     }
 
-    private void login(WebServiceCallback<UserItem> callback) {
+    public void loginAsync() {
+        if(user != null && !user.isDone())
+            return;
+
         RequestParams params = RequestFunctions.Login;
-        new WebserviceAsyncTask<>(callback).execute(params);
+
+        WebserviceAsyncTask<UserItem> task = new WebserviceAsyncTask<>(null);
+        user = task;
+        task.execute(params);
     }
 
     public UserItem getUser() {
         RequestParams params = RequestFunctions.GetUser;
-        params.setParams(new HashMap<String, Long>() {{
-            put("userID", user.getId());
-        }});
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
         return new WebserviceAsyncTask<UserItem>(null).doInBackground(params);
     }
 
     public void getUser(WebServiceCallback<UserItem> callback) {
         RequestParams params = RequestFunctions.GetUser;
-        params.setParams(new HashMap<String, Long>() {{
-            put("userID", user.getId());
-        }});
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
         new WebserviceAsyncTask<>(callback).execute(params);
     }
     //endregion
@@ -84,81 +95,64 @@ public class WebService {
 
     public void buyHint(WebServiceCallback<Boolean> callback, long gameID, long hintID) {
         RequestParams params = RequestFunctions.BuyHint;
-        params.setParams(new HashMap<String, Long>() {{
-            put("userID", user.getId());
-            put("gameID", gameID);
-            put("hintID", hintID);
-        }});
-        new WebserviceAsyncTask<>(callback).execute(params);
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
+        params.addParam("gameID", gameID);
+        params.addParam("hintID", hintID);
+
+        new WebserviceAsyncTask<Boolean>(callback).execute(params);
     }
 
     public Boolean buyHint(long hintID, long gameID) {
         RequestParams params = RequestFunctions.BuyHint;
-        params.setParams(new HashMap<String, Long>() {{
-            put("userID", user.getId());
-            put("gameID", gameID);
-            put("hintID", hintID);
-        }});
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
+        params.addParam("gameID", gameID);
+        params.addParam("hintID", hintID);
         return new WebserviceAsyncTask<Boolean>(null).doInBackground(params);
     }
 
     public void unlockHint(WebServiceCallback<Boolean> callback, long gameID, long hintID) {
         RequestParams params = RequestFunctions.UnlockHint;
-        params.setParams(new HashMap<String, Long>() {{
-            put("userID", user.getId());
-            put("gameID", gameID);
-            put("hintID", hintID);
-        }});
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
+        params.addParam("gameID", gameID);
+        params.addParam("hintID", hintID);
         new WebserviceAsyncTask<>(callback).execute(params);
     }
 
     public Boolean unlockHint(long hintID, long gameID) {
         RequestParams params = RequestFunctions.UnlockHint;
-        params.setParams(new HashMap<String, Long>() {{
-            put("userID", user.getId());
-            put("gameID", gameID);
-            put("hintID", hintID);
-        }});
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
+        params.addParam("gameID", gameID);
+        params.addParam("hintID", hintID);
         return new WebserviceAsyncTask<Boolean>(null).doInBackground(params);
     }
 
     public void getGame(WebServiceCallback<GameItem> callback, long gameID) {
         RequestParams params = RequestFunctions.GetGame;
-        params.setParams(new HashMap<String, Long>() {{
-            put("userID", user.getId());
-            put("gameID", gameID);
-        }});
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
+        params.addParam("gameID", gameID);
         new WebserviceAsyncTask<>(callback).execute(params);
     }
 
     public GameItem getGame(long gameID) {
         RequestParams params = RequestFunctions.GetGame;
-        params.setParams(new HashMap<String, Long>() {{
-            put("userID", user.getId());
-            put("gameID", gameID);
-        }});
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
+        params.addParam("gameID", gameID);
         return new WebserviceAsyncTask<GameItem>(null).doInBackground(params);
     }
 
 
     public void startGame(WebServiceCallback<GameItem> callback, Long huntID) {
         RequestParams params = RequestFunctions.StartGame;
-        HashMap<String, Long> paramData = new HashMap<>();
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
+        params.addParam("huntID", huntID);
 
-        paramData.put("userID", this.user.getId());
-        paramData.put("huntID", huntID);
-
-        params.setParams(paramData);
         new WebserviceAsyncTask<>(callback).execute(params);
     }
 
     public GameItem startGame(long huntID) {
         RequestParams params = RequestFunctions.StartGame;
-        HashMap<String, Long> paramData = new HashMap<>();
-
-        paramData.put("userID", this.user.getId());
-        paramData.put("huntID", huntID);
-        params.setParams(paramData);
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
+        params.addParam("huntID", huntID);
 
         return new WebserviceAsyncTask<GameItem>(null).doInBackground(params);
     }
@@ -178,7 +172,8 @@ public class WebService {
 
     //region Hunt
     public List<SHListItem> getSHListItems() {
-        SHListItem[] result = new WebserviceAsyncTask<SHListItem[]>(null).doInBackground(RequestFunctions.GetSHList);
+        RequestParams params = RequestFunctions.GetSHList;
+        SHListItem[] result = new WebserviceAsyncTask<SHListItem[]>(null).doInBackground(params);
         if (result == null)
             return null;
         return asList(result);

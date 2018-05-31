@@ -12,6 +12,7 @@ import android.view.MenuItem;
 
 import com.geoschnitzel.treasurehunt.R;
 import com.geoschnitzel.treasurehunt.login.LoginActivity;
+import com.geoschnitzel.treasurehunt.model.WebService;
 import com.geoschnitzel.treasurehunt.shcreatehunt.SHCreateActivity;
 import com.geoschnitzel.treasurehunt.shpurchase.SHPurchaseActivity;
 
@@ -23,6 +24,9 @@ public abstract class BaseActivityNavigationDrawer extends AppCompatActivity imp
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base_with_drawer);
+
+        WebService.instance().loginAsync();
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView nav_view = (NavigationView) mDrawerLayout.findViewById(R.id.nav_view);

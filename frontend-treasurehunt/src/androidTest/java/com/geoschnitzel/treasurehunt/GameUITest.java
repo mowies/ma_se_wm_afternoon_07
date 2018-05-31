@@ -53,6 +53,7 @@ public class GameUITest {
         return this.mGameActivityTestRule.getActivity().getString(id);
     }
 
+
     IdlingResource mIdlingResource;
     @Before
     public void registerIdlingResource() {

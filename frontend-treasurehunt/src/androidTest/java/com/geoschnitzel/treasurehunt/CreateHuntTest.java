@@ -1,12 +1,15 @@
 package com.geoschnitzel.treasurehunt;
 
 import android.support.test.espresso.contrib.DrawerActions;
+
+import com.geoschnitzel.treasurehunt.model.WebService;
 import com.geoschnitzel.treasurehunt.shcreatehunt.SHCreateActivity;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +30,6 @@ public class CreateHuntTest {
     public ActivityTestRule<SHCreateActivity> mSHCreateActivityTestRule =
             new ActivityTestRule<SHCreateActivity>(SHCreateActivity.class) {
             };
-
 
     @Test
     public void inputIsDisplayed(){

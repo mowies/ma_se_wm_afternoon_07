@@ -34,7 +34,7 @@ public class MainActivity extends BaseActivityNavigationDrawer implements SHFilt
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        WebService.instance().loginAsync();
         this.mMapFragment =
                 (MapFragment) getSupportFragmentManager().findFragmentById(R.id.contentFrame);
         if (this.mMapFragment == null) {

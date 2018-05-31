@@ -7,14 +7,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.geoschnitzel.treasurehunt.R;
+import com.geoschnitzel.treasurehunt.model.WebService;
 
 public abstract class BaseActivityWithBackButton extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base_with_back_button);
 
+        WebService.instance().loginAsync();
+
+        setContentView(R.layout.activity_base_with_back_button);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
