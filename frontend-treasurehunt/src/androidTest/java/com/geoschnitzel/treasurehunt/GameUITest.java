@@ -160,7 +160,7 @@ public class GameUITest {
                                         withId(R.id.hint_item_unlock_button),matches(isDisplayed())))
                 );
 
-                Thread.sleep(hint.getTimetounlockhint() * 1000);
+                Thread.sleep((hint.getTimetounlockhint()  + 1) * 1000);
 
                 onView(withId(R.id.hgvhint)).perform(
                         actionOnItemAtPosition(index,

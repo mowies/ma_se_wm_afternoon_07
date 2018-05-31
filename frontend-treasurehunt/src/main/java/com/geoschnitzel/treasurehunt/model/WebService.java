@@ -66,7 +66,8 @@ public class WebService {
         RequestParams params = RequestFunctions.GetCurrentTime;
         final Long start = new Date().getTime();
         new WebserviceAsyncTask<Long>((result -> {
-            timeDiffSC.set(result - start);
+            Long end = new Date().getTime();
+            timeDiffSC.set(result - start - ((end - start) / 2));
         })).execute(params);
     }
     public Long getTimeDifference()
