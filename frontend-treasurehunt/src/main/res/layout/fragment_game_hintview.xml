@@ -5,13 +5,13 @@
     android:layout_height="@dimen/hintItemHeight"
     android:layout_marginBottom="@dimen/hintItemMargin"
     tools:context="com.geoschnitzel.treasurehunt.game.GameHintViewFragment"
-    android:id="@+id/fragement_game_hintview"
+    android:id="@+id/fragment_game_hintview"
     android:layout_gravity="bottom|right">
 
     <android.support.v17.leanback.widget.HorizontalGridView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:id="@+id/hgvhint" />
+        android:id="@+id/hint_container" />
 
 </FrameLayout>

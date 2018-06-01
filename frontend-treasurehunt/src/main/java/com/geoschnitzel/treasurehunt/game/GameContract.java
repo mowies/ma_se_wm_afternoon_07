@@ -1,7 +1,5 @@
 package com.geoschnitzel.treasurehunt.game;
 
-import android.support.test.espresso.IdlingResource;
-
 import com.geoschnitzel.treasurehunt.IBasePresenter;
 import com.geoschnitzel.treasurehunt.IBaseView;
 import com.geoschnitzel.treasurehunt.rest.GameItem;
@@ -26,8 +24,6 @@ public interface GameContract {
         void buyHint(long hintID);
 
         void unlockHint(long hintID);
-
-        IdlingResource getIdlingResource();
     }
 
 }
