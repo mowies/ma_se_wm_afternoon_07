@@ -1,8 +1,7 @@
 package com.geoschnitzel.treasurehunt;
 
-import com.geoschnitzel.treasurehunt.shcreatehunt.SHCreateActivity;
+import com.geoschnitzel.treasurehunt.createhunt.CreateActivity;
 
-import android.support.test.espresso.ViewAssertion;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -28,8 +27,8 @@ import static org.hamcrest.core.IsNot.not;
 @LargeTest
 public class CreateHuntTest {
     @Rule
-    public ActivityTestRule<SHCreateActivity> mSHCreateActivityTestRule =
-            new ActivityTestRule<SHCreateActivity>(SHCreateActivity.class) {
+    public ActivityTestRule<CreateActivity> mSHCreateActivityTestRule =
+            new ActivityTestRule<CreateActivity>(CreateActivity.class) {
             };
 
 

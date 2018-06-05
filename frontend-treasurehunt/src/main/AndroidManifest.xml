@@ -25,7 +25,7 @@
             android:label="@string/title_activity_shlist"></activity>
 
         <activity
-            android:name=".shcreatehunt.SHCreateActivity"
+            android:name=".createhunt.CreateActivity"
             android:label="SHNewHunt"
             android:windowSoftInputMode="adjustResize"></activity>
         <activity
