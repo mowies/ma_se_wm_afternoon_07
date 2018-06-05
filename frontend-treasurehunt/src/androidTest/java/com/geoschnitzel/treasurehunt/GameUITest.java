@@ -6,7 +6,6 @@ import android.support.test.espresso.IdlingRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v17.leanback.widget.HorizontalGridView;
 import android.util.Log;
-import android.view.View;
 
 import com.forkingcode.espresso.contrib.DescendantViewActions;
 import com.geoschnitzel.treasurehunt.game.GameActivity;
@@ -14,8 +13,6 @@ import com.geoschnitzel.treasurehunt.model.WebService;
 import com.geoschnitzel.treasurehunt.rest.GameItem;
 import com.geoschnitzel.treasurehunt.rest.HintItem;
 import com.geoschnitzel.treasurehunt.rest.SHListItem;
-import com.geoschnitzel.treasurehunt.utils.BooleanCheckIdlingResource;
-import com.geoschnitzel.treasurehunt.utils.ViewVisibilityIdlingResource;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -28,13 +25,13 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static com.geoschnitzel.treasurehunt.utils.WaitViewAction.waitFor;
 import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.Matchers.not;
 
 public class GameUITest {
-    private IdlingRegistry mIdlingRegistry = IdlingRegistry.getInstance();
-    private BooleanCheckIdlingResource bcir;
 
     @Rule
     public final ActivityTestRule<GameActivity> mGameActivityTestRule =
@@ -53,25 +50,10 @@ public class GameUITest {
         return this.mGameActivityTestRule.getActivity().getString(id);
     }
 
-    @Before
-    public void registerIdlingResource() {
-        this.bcir = new BooleanCheckIdlingResource(
-                new BooleanCheckIdlingResource.Callback() {
-                    @Override
-                    public boolean check() {
-                        HorizontalGridView view = mGameActivityTestRule.getActivity().findViewById(R.id.hint_container);
-                        return view.getAdapter() != null && view.getAdapter().getItemCount() > 0;
-                    }
-                }, true);
-        this.mIdlingRegistry.register(this.bcir);
-        onView(withId(R.id.hint_container)).check(matches(isDisplayed()));
-        this.mIdlingRegistry.unregister(this.bcir);
-    }
-
     @Test
     public void HintsAreDisplayed() {
         //Just to make sure it is waited on the resource and the game is loaded already
-        onView(withId(R.id.hint_container)).check(matches(isDisplayed()));
+        onView(withId(R.id.hint_container)).perform(waitFor(isDisplayed()));
 
         Long gameID = mGameActivityTestRule.getActivity().getGameID();
         GameItem game = WebService.instance().getGame(gameID);
@@ -90,7 +72,7 @@ public class GameUITest {
             );
 
             boolean unlockVisible = !hint.getUnlocked();
-            boolean buyVisible = !hintContainer.getChildAt(index).findViewById(R.id.hint_item_unlock_button).isEnabled();
+            boolean buyVisible = !hint.getUnlocked() && !hintContainer.findViewHolderForAdapterPosition(index).itemView.findViewById(R.id.hint_item_unlock_button).isEnabled();
 
             onView(withId(R.id.hint_container)).perform(
                     actionOnItemAtPosition(index,
@@ -109,7 +91,7 @@ public class GameUITest {
     @Test
     public void BuyHints() {
         //Just to make sure it is waited on the resource and the game is loaded already
-        onView(withId(R.id.hint_container)).check(matches(isDisplayed()));
+        onView(withId(R.id.hint_container)).perform(waitFor(isDisplayed()));
 
         Long gameID = mGameActivityTestRule.getActivity().getGameID();
         GameItem game = WebService.instance().getGame(gameID);
@@ -125,7 +107,7 @@ public class GameUITest {
                             DescendantViewActions.checkViewAction(matches(isDisplayed())))
             );
 
-            boolean buyVisible = !hintContainer.getChildAt(index).findViewById(R.id.hint_item_unlock_button).isEnabled();
+            boolean buyVisible = !hintContainer.findViewHolderForAdapterPosition(index).itemView.findViewById(R.id.hint_item_unlock_button).isEnabled();
 
             if (buyVisible) {
                 boolean enoughMoney = WebService.instance().getUser().getBalance() > hint.getShvalue();
@@ -136,8 +118,8 @@ public class GameUITest {
                 );
                 onView(withId(R.id.hint_container)).perform(
                         actionOnItemAtPosition(index,
-                                DescendantViewActions.checkDescendantViewAction(
-                                        withId(R.id.hint_item_buy_button), matches(enoughMoney ? not(isDisplayed()) : isDisplayed())))
+                                DescendantViewActions.performDescendantAction(
+                                        withId(R.id.hint_item_buy_button), waitFor(enoughMoney ? not(isDisplayed()) : isDisplayed())))
                 );
                 onView(withId(R.id.hint_container)).perform(
                         actionOnItemAtPosition(index,
@@ -150,6 +132,7 @@ public class GameUITest {
 
     @Test
     public void UnlockHintAfterTimeout() throws InterruptedException {
+        onView(withId(R.id.hint_container)).perform(waitFor(isDisplayed()));
 
         Long gameID = mGameActivityTestRule.getActivity().getGameID();
         GameItem game = WebService.instance().getGame(gameID);
@@ -165,19 +148,11 @@ public class GameUITest {
                                         withId(R.id.hint_item_unlock_button), matches(isDisplayed())))
                 );
 
-                HorizontalGridView hintContainer = this.mGameActivityTestRule.getActivity().findViewById(R.id.hint_container);
-                final View unlockButton = hintContainer.findViewHolderForAdapterPosition(index).itemView.findViewById(R.id.hint_item_unlock_button);
-                BooleanCheckIdlingResource checkEnabled = new BooleanCheckIdlingResource(
-                        new BooleanCheckIdlingResource.Callback() {
-                            @Override
-                            public boolean check() {
-                                return unlockButton.isEnabled();
-                            }
-                        }, true);
-
-                this.mIdlingRegistry.register(checkEnabled);
-                onView(withId(R.id.hint_container)).check(matches(isDisplayed()));
-                this.mIdlingRegistry.unregister(checkEnabled);
+                onView(withId(R.id.hint_container)).perform(
+                        actionOnItemAtPosition(index,
+                                DescendantViewActions.performDescendantAction(
+                                        withId(R.id.hint_item_unlock_button), waitFor(isEnabled(),10000)))
+                );
 
                 onView(withId(R.id.hint_container)).perform(
                         actionOnItemAtPosition(index,
@@ -185,16 +160,10 @@ public class GameUITest {
                                         withId(R.id.hint_item_unlock_button), click()))
                 );
 
-                final View buttonContainer = hintContainer.findViewHolderForAdapterPosition(index).itemView.findViewById(R.id.hint_item_buy);
-                ViewVisibilityIdlingResource vvir = new ViewVisibilityIdlingResource(buttonContainer, View.GONE);
-                this.mIdlingRegistry.register(vvir);
-                onView(withId(R.id.hint_container)).check(matches(isDisplayed()));
-                this.mIdlingRegistry.unregister(vvir);
-
                 onView(withId(R.id.hint_container)).perform(
                         actionOnItemAtPosition(index,
-                                DescendantViewActions.checkDescendantViewAction(
-                                        withId(R.id.hint_item_buy_button), matches(not(isDisplayed()))))
+                                DescendantViewActions.performDescendantAction(
+                                        withId(R.id.hint_item_buy_button), waitFor(not(isDisplayed()))))
                 );
 
                 onView(withId(R.id.hint_container)).perform(
@@ -210,7 +179,7 @@ public class GameUITest {
     @Test
     public void UnlockHintBeforeTimeout() {
         //Just to make sure it is waited on the resource and the game is loaded already
-        onView(withId(R.id.hint_container)).check(matches(isDisplayed()));
+        onView(withId(R.id.hint_container)).perform(waitFor(isDisplayed()));
 
         Long gameID = mGameActivityTestRule.getActivity().getGameID();
         GameItem game = WebService.instance().getGame(gameID);
@@ -227,10 +196,11 @@ public class GameUITest {
                                 DescendantViewActions.performDescendantAction(
                                         withId(R.id.hint_item_unlock_button), click()))
                 );
+
                 onView(withId(R.id.hint_container)).perform(
                         actionOnItemAtPosition(index,
-                                DescendantViewActions.checkDescendantViewAction(
-                                        withId(R.id.hint_item_buy_button), matches(isDisplayed())))
+                                DescendantViewActions.performDescendantAction(
+                                        withId(R.id.hint_item_buy_button), waitFor(isDisplayed())))
                 );
                 onView(withId(R.id.hint_container)).perform(
                         actionOnItemAtPosition(index,
