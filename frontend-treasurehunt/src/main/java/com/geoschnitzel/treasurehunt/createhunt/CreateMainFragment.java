@@ -1,4 +1,4 @@
-package com.geoschnitzel.treasurehunt.shcreatehunt;
+package com.geoschnitzel.treasurehunt.createhunt;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,17 +12,17 @@ import android.widget.ImageButton;
 
 import com.geoschnitzel.treasurehunt.R;
 
-public class SHCreateFragment extends Fragment implements SHCreateContract.View {
-    private SHCreateContract.Presenter mPresenter;
+public class CreateMainFragment extends Fragment implements CreateContract.View {
+    private CreateContract.Presenter mPresenter;
 
-    public static SHCreateFragment newInstance() {
-        return new SHCreateFragment();
+    public static CreateMainFragment newInstance() {
+        return new CreateMainFragment();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_shcreatehunt, container, false);
+        View root = inflater.inflate(R.layout.fragment_createhunt, container, false);
         ImageButton image = (ImageButton) root.findViewById(R.id.new_hunt_image);
         image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +50,6 @@ public class SHCreateFragment extends Fragment implements SHCreateContract.View 
             }
         });
 
-
         return root;
     }
 
@@ -61,7 +60,7 @@ public class SHCreateFragment extends Fragment implements SHCreateContract.View 
     }
 
     @Override
-    public void setPresenter(SHCreateContract.Presenter presenter) {
+    public void setPresenter(CreateContract.Presenter presenter) {
         this.mPresenter = presenter;
     }
 }

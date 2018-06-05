@@ -26,7 +26,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".shcreatehunt.SHCreateActivity"
+            android:name=".createhunt.CreateActivity"
             android:label="SHNewHunt"
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />

@@ -1,12 +1,9 @@
-package com.geoschnitzel.treasurehunt.shcreatehunt;
+package com.geoschnitzel.treasurehunt.createhunt;
 
 import com.geoschnitzel.treasurehunt.IBasePresenter;
 import com.geoschnitzel.treasurehunt.IBaseView;
-import com.geoschnitzel.treasurehunt.rest.SHPurchaseItem;
 
-import java.util.List;
-
-public interface SHCreateContract {
+public interface CreateContract {
 
     interface View extends IBaseView<Presenter> {
 

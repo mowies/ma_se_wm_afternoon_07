@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.geoschnitzel.treasurehunt.shcreatehunt.SHCreateCoordinatesFragment"
+    tools:context="com.geoschnitzel.treasurehunt.createhunt.CreateCoordinatesFragment"
     tools:showIn="@layout/fragment_tool_bar">
 
     <ListView

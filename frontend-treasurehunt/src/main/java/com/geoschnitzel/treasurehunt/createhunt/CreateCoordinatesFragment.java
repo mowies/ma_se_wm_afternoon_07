@@ -1,4 +1,4 @@
-package com.geoschnitzel.treasurehunt.shcreatehunt;
+package com.geoschnitzel.treasurehunt.createhunt;
 
 import android.content.Context;
 import android.net.Uri;
@@ -13,12 +13,12 @@ import com.geoschnitzel.treasurehunt.R;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link SHCreateCoordinatesFragment.OnFragmentInteractionListener} interface
+ * {@link CreateCoordinatesFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link SHCreateCoordinatesFragment#newInstance} factory method to
+ * Use the {@link CreateCoordinatesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SHCreateCoordinatesFragment extends Fragment {
+public class CreateCoordinatesFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "";
@@ -30,7 +30,7 @@ public class SHCreateCoordinatesFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public SHCreateCoordinatesFragment() {
+    public CreateCoordinatesFragment() {
         // Required empty public constructor
     }
 
@@ -40,11 +40,11 @@ public class SHCreateCoordinatesFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SHCreateCoordinatesFragment.
+     * @return A new instance of fragment CreateCoordinatesFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static SHCreateCoordinatesFragment newInstance(String param1, String param2) {
-        SHCreateCoordinatesFragment fragment = new SHCreateCoordinatesFragment();
+    public static CreateCoordinatesFragment newInstance(String param1, String param2) {
+        CreateCoordinatesFragment fragment = new CreateCoordinatesFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -65,16 +65,8 @@ public class SHCreateCoordinatesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shcreate_coordinates, container, false);
+        return inflater.inflate(R.layout.fragment_create_coordinates, container, false);
     }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
