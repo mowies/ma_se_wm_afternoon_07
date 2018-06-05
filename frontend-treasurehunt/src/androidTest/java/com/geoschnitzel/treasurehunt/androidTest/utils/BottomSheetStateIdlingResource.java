@@ -1,4 +1,4 @@
-package com.geoschnitzel.treasurehunt.utils;
+package com.geoschnitzel.treasurehunt.androidTest.utils;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;

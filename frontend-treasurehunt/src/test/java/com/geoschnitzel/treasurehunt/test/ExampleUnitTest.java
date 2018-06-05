@@ -1,4 +1,4 @@
-package com.geoschnitzel.treasurehunt;
+package com.geoschnitzel.treasurehunt.test;
 
 import org.junit.Test;
 
