@@ -1,11 +1,7 @@
-package com.geoschnitzel.treasurehunt.backend;
+package com.geoschnitzel.treasurehunt.backend.test;
 
 import com.geoschnitzel.treasurehunt.backend.model.HuntRepository;
-import com.geoschnitzel.treasurehunt.backend.model.UserRepository;
-import com.geoschnitzel.treasurehunt.backend.schema.Hint;
 import com.geoschnitzel.treasurehunt.backend.schema.Hunt;
-import com.geoschnitzel.treasurehunt.backend.schema.Target;
-import com.geoschnitzel.treasurehunt.backend.schema.User;
 import com.geoschnitzel.treasurehunt.backend.service.GameService;
 import com.geoschnitzel.treasurehunt.backend.service.TestDataService;
 import com.geoschnitzel.treasurehunt.backend.service.UserService;
@@ -20,23 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import javax.transaction.Transactional;
-import javax.validation.constraints.Null;
 
 import static com.geoschnitzel.treasurehunt.util.UtilsKt.asList;
-import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.empty;
-import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 

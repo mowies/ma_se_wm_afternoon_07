@@ -1,6 +1,5 @@
-package com.geoschnitzel.treasurehunt.backend;
+package com.geoschnitzel.treasurehunt.backend.test;
 
-import com.geoschnitzel.treasurehunt.backend.model.GameRepository;
 import com.geoschnitzel.treasurehunt.backend.model.HuntRepository;
 import com.geoschnitzel.treasurehunt.backend.model.UserRepository;
 import com.geoschnitzel.treasurehunt.backend.schema.Hint;
@@ -9,7 +8,6 @@ import com.geoschnitzel.treasurehunt.backend.schema.Target;
 import com.geoschnitzel.treasurehunt.backend.schema.User;
 import com.geoschnitzel.treasurehunt.backend.service.GameService;
 import com.geoschnitzel.treasurehunt.backend.service.TestDataService;
-import com.geoschnitzel.treasurehunt.rest.GameItem;
 
 import org.junit.Before;
 import org.junit.Test;
