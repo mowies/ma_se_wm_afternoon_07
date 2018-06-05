@@ -23,9 +23,9 @@ import java.util.List;
 
 public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHolder> {
 
-    GameContract.Presenter mPresenter;
-    List<HintItem> items;
-    Context context;
+    private GameContract.Presenter mPresenter;
+    private List<HintItem> items;
+    private Context context;
 
     public GameHintAdapter(Context context, GameContract.Presenter mPresenter) {
         this.items = new ArrayList<>();
@@ -51,7 +51,7 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
     @Override
     public GameHintAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View vItem = LayoutInflater.from(context).inflate(R.layout.item_hint, null, false);
+        View vItem = LayoutInflater.from(context).inflate(R.layout.item_hint, parent, false);
         return new GameHintAdapter.ViewHolder(vItem);
     }
 
@@ -122,6 +122,7 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
         public TextView unlock_button_time;
         public Chronometer unlock_chrono;
         public long hintID;
+        private String chrono_format = "%02d:%02d";
 
         ViewHolder(View view) {
             super(view);
@@ -158,8 +159,7 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
                 long diff = chronometer.getBase() - new Date().getTime();
                 int seconds = ((int) (diff / 1000) % 60);
                 int minutes = (int) (diff / 1000 / 60);
-                String format = "%02d:%02d";
-                unlock_button_time.setText(String.format(format, minutes, seconds));
+                unlock_button_time.setText(String.format(chrono_format, minutes, seconds));
             }
         }
 
