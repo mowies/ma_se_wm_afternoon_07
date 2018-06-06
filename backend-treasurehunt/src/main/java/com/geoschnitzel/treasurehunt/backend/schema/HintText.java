@@ -1,5 +1,7 @@
 package com.geoschnitzel.treasurehunt.backend.schema;
 
+import com.geoschnitzel.treasurehunt.rest.HintType;
+
 import javax.persistence.Entity;
 
 import lombok.Data;
@@ -16,8 +18,13 @@ public class HintText extends Hint {
         super();
     }
 
-    public HintText(Long id, int timeToUnlockHint, String description) {
-        super(id, timeToUnlockHint);
+    public HintText(Long id, int timeToUnlockHint, int shValue, String description) {
+        super(id, timeToUnlockHint, shValue);
         this.description = description;
+    }
+
+    @Override
+    public HintType getHintType() {
+        return HintType.TEXT;
     }
 }

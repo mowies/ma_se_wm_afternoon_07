@@ -6,6 +6,7 @@ import com.geoschnitzel.treasurehunt.backend.model.HuntRepository;
 import com.geoschnitzel.treasurehunt.backend.model.UserRepository;
 import com.geoschnitzel.treasurehunt.backend.schema.Area;
 import com.geoschnitzel.treasurehunt.backend.schema.Game;
+import com.geoschnitzel.treasurehunt.backend.schema.GameTarget;
 import com.geoschnitzel.treasurehunt.backend.schema.HintCoordinate;
 import com.geoschnitzel.treasurehunt.backend.schema.HintDirection;
 import com.geoschnitzel.treasurehunt.backend.schema.HintImage;
@@ -17,9 +18,11 @@ import com.geoschnitzel.treasurehunt.backend.schema.SchnitziUsedTransaction;
 import com.geoschnitzel.treasurehunt.backend.schema.Target;
 import com.geoschnitzel.treasurehunt.backend.schema.User;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,18 +35,15 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
 @Service
+@RestController
 public class TestDataService {
 
-    private final HuntRepository huntRepository;
-    private final UserRepository userRepository;
-    private final GameRepository gameRepository;
-
-    public TestDataService(HuntRepository huntRepository,
-                           UserRepository userRepository, GameRepository gameRepository) {
-        this.huntRepository = huntRepository;
-        this.userRepository = userRepository;
-        this.gameRepository = gameRepository;
-    }
+    @Autowired
+    private HuntRepository huntRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private GameRepository gameRepository;
 
     @Transactional
     @EventListener(ApplicationReadyEvent.class)
@@ -60,7 +60,15 @@ public class TestDataService {
     }
 
     public Game generateGame(User user, Hunt hunt) {
-        return new Game(null, user, hunt, emptyList(), emptyList());
+        return new Game(null, user, hunt, generateGameTarget(hunt.getTargets()), emptyList(),new Date(),null,null);
+    }
+    public List<GameTarget> generateGameTarget(List<Target> targets) {
+        List<GameTarget> results = new ArrayList<>();
+        for (Target target : targets) {
+            results.add(new GameTarget(null, target, new Date(), null, emptyList()));
+        }
+        return results;
+
     }
 
     public List<Hunt> generateSchnitzelHunts(User user) {
@@ -85,10 +93,10 @@ public class TestDataService {
     }
 
     private List<SchnitziTransaction> generateUserTransactions(int seed) {
-        return Arrays.asList(
-                new SchnitziEarnedTransaction(null, new Date(1524660129 + seed + 1), 5 + seed, "By testing"),
-                new SchnitziUsedTransaction(null, new Date(1524660129 + seed + 1000), 4 + seed, "For testing")
-        );
+        List<SchnitziTransaction> result = new ArrayList<>();
+        result.add(new SchnitziEarnedTransaction(null, new Date(1524660129 + seed + 1), 5 + seed, "By testing"));
+        result.add(new SchnitziUsedTransaction(null, new Date(1524660129 + seed + 1000), 4 + seed, "For testing"));
+        return result;
     }
 
     public List<Hunt> generateSchnitzelHunts(User user, int schnitzelHuntsToGenerate) {
@@ -105,11 +113,11 @@ public class TestDataService {
                             singletonList(
                                     new Target(null, new Area(47.0748539 + i * 0.001, 15.4415758 - i * 0.001, 5),
                                             Arrays.asList(
-                                                    new HintText(null, 0, "Suche die höchste Uhr in Graz."),
-                                                    new HintText(null, 2 * 60, "Es ist eine analoge Uhr."),
-                                                    new HintImage(null, 5 * 60, "ccacb863-5897-485b-b822-ca119c7afcfb", "impage/jpeg"),
-                                                    new HintDirection(null, 10 * 60),
-                                                    new HintCoordinate(null, 15 * 60)
+                                                    new HintText(null, 0, 0, "Suche die höchste Uhr in Graz."),
+                                                    new HintText(null, 2, 10, "Es ist eine analoge Uhr."),
+                                                    new HintImage(null, 2 * 60, 20, "ccacb863-5897-485b-b822-ca119c7afcfb", "impage/jpeg"),
+                                                    new HintDirection(null, 5 * 60),
+                                                    new HintCoordinate(null, 10 * 60)
                                             ))
                             )
                     )

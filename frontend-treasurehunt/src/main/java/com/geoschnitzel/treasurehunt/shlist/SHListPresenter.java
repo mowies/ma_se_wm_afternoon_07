@@ -3,6 +3,8 @@ package com.geoschnitzel.treasurehunt.shlist;
 import android.support.annotation.NonNull;
 
 import com.geoschnitzel.treasurehunt.model.WebService;
+import com.geoschnitzel.treasurehunt.rest.SHListItem;
+import com.geoschnitzel.treasurehunt.utils.Webservice.WebServiceCallback;
 
 import java.util.Arrays;
 

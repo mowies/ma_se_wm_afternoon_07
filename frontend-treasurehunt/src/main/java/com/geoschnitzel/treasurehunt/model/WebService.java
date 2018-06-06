@@ -1,67 +1,211 @@
 package com.geoschnitzel.treasurehunt.model;
 
-import android.os.AsyncTask;
-
-import com.fasterxml.jackson.module.kotlin.KotlinModule;
 import com.geoschnitzel.treasurehunt.BuildConfig;
+import com.geoschnitzel.treasurehunt.rest.GameItem;
 import com.geoschnitzel.treasurehunt.rest.Message;
 import com.geoschnitzel.treasurehunt.rest.SHListItem;
 import com.geoschnitzel.treasurehunt.rest.SHPurchaseItem;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
+import com.geoschnitzel.treasurehunt.rest.UserItem;
+import com.geoschnitzel.treasurehunt.utils.Webservice.RequestParams;
+import com.geoschnitzel.treasurehunt.utils.Webservice.WebServiceCallback;
+import com.geoschnitzel.treasurehunt.utils.Webservice.WebserviceAsyncTask;
+import com.google.common.util.concurrent.Futures;
 
+import org.springframework.http.HttpMethod;
+
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static java.util.Arrays.asList;
 
 public class WebService {
+    private Future<UserItem> user = null;
     private static WebService instance = null;
+    private AtomicLong timeDiffSC;
 
     public static WebService instance() {
-        if (instance == null)
+        if (instance == null) {
             instance = new WebService();
+        }
         return instance;
     }
 
     private WebService() {
-    }
-
-    public interface WebServiceCallback<T> {
-        void onResult(T result);
+        timeDiffSC = new AtomicLong(0);
     }
 
     //In the RequestFunctions we can define the whole Api Call
-    public static class RequestFunctions
-    {
-        public static String EndPoint = BuildConfig.ENDPOINT;
-
-        public static RequestParams<Message> HelloWorld = new RequestParams<>(Message.class, EndPoint + "/api/helloWorld", HttpMethod.GET, null, null);
-        public static RequestParams<SHListItem[]> GetSHList = new RequestParams<>(SHListItem[].class, EndPoint + "/api/hunt/getshlist", HttpMethod.GET, null, null);
-        // public static RequestParams<GameItem>        StartGame = new RequestParams<>(GameItem.class,EndPoint + "/api/hunt/startGame/{0}",HttpMethod.GET,null,null) ;
+    public static class RequestFunctions {
+        final static String EndPoint = BuildConfig.ENDPOINT;
+        final static RequestParams<UserItem> Login = new RequestParams<>(UserItem.class, EndPoint + "/api/user/login", HttpMethod.GET);
+        final static RequestParams<UserItem> GetUser = new RequestParams<>(UserItem.class, EndPoint + "/api/user/{userID}", HttpMethod.GET);
+        final static RequestParams<Message> HelloWorld = new RequestParams<>(Message.class, EndPoint + "/api/helloWorld", HttpMethod.GET);
+        final static RequestParams<SHListItem[]> GetSHList = new RequestParams<>(SHListItem[].class, EndPoint + "/api/hunt/", HttpMethod.GET);
+        //final static RequestParams<SHListItem> GetSHItem = new RequestParams<>(SHListItem.class,EndPoint + "/api/hunt/{huntID}",HttpMethod.GET);
+        final static RequestParams<GameItem> StartGame = new RequestParams<>(GameItem.class, EndPoint + "/api/user/{userID}/game/startGame/{huntID}", HttpMethod.GET);
+        final static RequestParams<GameItem> GetGame = new RequestParams<>(GameItem.class, EndPoint + "/api/user/{userID}/game/{gameID}", HttpMethod.GET);
+        final static RequestParams<Boolean> BuyHint = new RequestParams<>(Boolean.class, EndPoint + "/api/user/{userID}/game/{gameID}/buyHint/{hintID}", HttpMethod.GET);
+        final static RequestParams<Boolean> UnlockHint = new RequestParams<>(Boolean.class, EndPoint + "/api/user/{userID}/game/{gameID}/unlockHint/{hintID}", HttpMethod.GET);
+        final static RequestParams<Long> GetCurrentTime = new RequestParams<>(Long.class, EndPoint + "/api/time/", HttpMethod.GET);
     }
 
 
     //----------------------------------------------------------------------------------------------
-    //Webservice functions for Synchronos and Asynchronos Call
+    //Webservice functions for Synchronous and Asynchronous Call
     //----------------------------------------------------------------------------------------------
 
+    //region TimeSync
+    public void syncTimeDifference()
+    {
+        RequestParams params = RequestFunctions.GetCurrentTime;
+        final Long start = new Date().getTime();
+        new WebserviceAsyncTask<Long>((result -> {
+            Long end = new Date().getTime();
+            timeDiffSC.set(result - start - ((end - start) / 2));
+        })).execute(params);
+    }
+    public Long getTimeDifference()
+    {
+        return timeDiffSC.get();
+    }
+
+    //endregion
+    //region User
+    public void loginSync() {
+        if(user != null && !user.isDone())
+            return;
+
+        RequestParams params = RequestFunctions.Login;
+        user = Futures.immediateFuture(
+                new WebserviceAsyncTask<UserItem>(null).doInBackground(params)
+        );
+    }
+
+    public void loginAsync() {
+        if(user != null && !user.isDone())
+            return;
+
+        RequestParams params = RequestFunctions.Login;
+
+        WebserviceAsyncTask<UserItem> task = new WebserviceAsyncTask<>(null);
+        user = task;
+        task.execute(params);
+    }
+
+    public UserItem getUser() {
+        RequestParams params = RequestFunctions.GetUser;
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
+        return new WebserviceAsyncTask<UserItem>(null).doInBackground(params);
+    }
+
+    public void getUser(WebServiceCallback<UserItem> callback) {
+        RequestParams params = RequestFunctions.GetUser;
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
+        new WebserviceAsyncTask<>(callback).execute(params);
+    }
+    //endregion
+
+    //region Game
+
+
+    public void buyHint(WebServiceCallback<Boolean> callback, long gameID, long hintID) {
+        RequestParams params = RequestFunctions.BuyHint;
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
+        params.addParam("gameID", gameID);
+        params.addParam("hintID", hintID);
+
+        new WebserviceAsyncTask<Boolean>(callback).execute(params);
+    }
+
+    public Boolean buyHint(long hintID, long gameID) {
+        RequestParams params = RequestFunctions.BuyHint;
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
+        params.addParam("gameID", gameID);
+        params.addParam("hintID", hintID);
+        return new WebserviceAsyncTask<Boolean>(null).doInBackground(params);
+    }
+
+    public void unlockHint(WebServiceCallback<Boolean> callback, long gameID, long hintID) {
+        RequestParams params = RequestFunctions.UnlockHint;
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
+        params.addParam("gameID", gameID);
+        params.addParam("hintID", hintID);
+        new WebserviceAsyncTask<>(callback).execute(params);
+    }
+
+    public Boolean unlockHint(long hintID, long gameID) {
+        RequestParams params = RequestFunctions.UnlockHint;
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
+        params.addParam("gameID", gameID);
+        params.addParam("hintID", hintID);
+        return new WebserviceAsyncTask<Boolean>(null).doInBackground(params);
+    }
+
+    public void getGame(WebServiceCallback<GameItem> callback, long gameID) {
+        RequestParams params = RequestFunctions.GetGame;
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
+        params.addParam("gameID", gameID);
+        new WebserviceAsyncTask<>(callback).execute(params);
+    }
+
+    public GameItem getGame(long gameID) {
+        RequestParams params = RequestFunctions.GetGame;
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
+        params.addParam("gameID", gameID);
+        return new WebserviceAsyncTask<GameItem>(null).doInBackground(params);
+    }
+
+
+    public void startGame(WebServiceCallback<GameItem> callback, Long huntID) {
+        RequestParams params = RequestFunctions.StartGame;
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
+        params.addParam("huntID", huntID);
+
+        new WebserviceAsyncTask<>(callback).execute(params);
+    }
+
+    public GameItem startGame(long huntID) {
+        RequestParams params = RequestFunctions.StartGame;
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
+        params.addParam("huntID", huntID);
+
+        return new WebserviceAsyncTask<GameItem>(null).doInBackground(params);
+    }
+    //endregion
+
+    //region Test
     public Message getHelloWorldMessage() {
         return new WebserviceAsyncTask<Message>(null).doInBackground(RequestFunctions.HelloWorld);
     }
 
     public void getHelloWorldMessage(WebServiceCallback<Message> callback) {
-        new WebserviceAsyncTask<Message>(callback).execute(RequestFunctions.HelloWorld);
+        RequestParams params = RequestFunctions.HelloWorld;
+        new WebserviceAsyncTask<>(callback).execute(params);
     }
 
-    public List<SHListItem> getSHListItems() {
+    //endregion
 
-        return asList(new WebserviceAsyncTask<SHListItem[]>(null).doInBackground(RequestFunctions.GetSHList));
+    //region Hunt
+    public List<SHListItem> getSHListItems() {
+        RequestParams params = RequestFunctions.GetSHList;
+        SHListItem[] result = new WebserviceAsyncTask<SHListItem[]>(null).doInBackground(params);
+        if (result == null)
+            return null;
+        return asList(result);
     }
 
     public void getSHListItems(WebServiceCallback<SHListItem[]> callback) {
-        new WebserviceAsyncTask<SHListItem[]>(callback).execute(RequestFunctions.GetSHList);
+        RequestParams params = RequestFunctions.GetSHList;
+        new WebserviceAsyncTask<>(callback).execute(params);
     }
+
+    //endregion
 
     public void getSHPurchaseItems(WebServiceCallback<List<SHPurchaseItem>> callback) {
 
@@ -74,54 +218,5 @@ public class WebService {
                         new SHPurchaseItem(5000, 24.99f, 1, "$", "{0} {1}", "Plutonium")));
     }
 
-
-    public class WebserviceAsyncTask<T> extends AsyncTask<RequestParams<T>, Void, T> {
-        private WebService.WebServiceCallback<T> callback = null;
-
-        public WebserviceAsyncTask(WebServiceCallback<T> callback) {
-            this.callback = callback;
-        }
-
-        @Override
-        protected T doInBackground(RequestParams<T>... requestParams) {
-            RequestParams<T> params = requestParams[0];
-            RestTemplate restTemplate = new RestTemplate();
-            MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-            converter.getObjectMapper().registerModule(new KotlinModule());
-            restTemplate.getMessageConverters().add(converter);
-            switch (params.method) {
-                case GET:
-                    return params.params == null ?
-                            restTemplate.getForObject(params.url, params.returnType) :
-                            restTemplate.getForObject(params.url, params.returnType, params.params);
-                case DELETE:
-                    if (params.params == null)
-                        restTemplate.delete(params.url);
-                    else
-                        restTemplate.delete(params.url, params.params);
-                    return null;
-                case POST:
-
-                    return params.params == null ?
-                            restTemplate.postForObject(params.url, params.postObject, params.returnType) :
-                            restTemplate.postForObject(params.url, params.postObject, params.returnType, params.params);
-                case PUT:
-                    if (params.params == null)
-                        restTemplate.put(params.url, params.postObject);
-                    else
-                        restTemplate.put(params.url, params.postObject, params.params);
-                    return null;
-                default:
-                    return null;
-
-            }
-        }
-
-        @Override
-        protected void onPostExecute(T result) {
-            super.onPostExecute(result);
-            this.callback.onResult(result);
-        }
-    }
 
 }

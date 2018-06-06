@@ -1,20 +1,23 @@
 package com.geoschnitzel.treasurehunt.shlist;
-
+import android.content.Intent;
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.geoschnitzel.treasurehunt.R;
+import com.geoschnitzel.treasurehunt.game.GameActivity;
 import com.geoschnitzel.treasurehunt.rest.SHListItem;
 
 import java.util.List;
 
-public class SHListAdapter extends BaseAdapter{
+public class SHListAdapter extends BaseAdapter implements AdapterView.OnItemClickListener {
 
 
     List<SHListItem> items;
@@ -31,14 +34,15 @@ public class SHListAdapter extends BaseAdapter{
     }
 
     @Override
-    public Object getItem(int i) {
+    public SHListItem getItem(int i) {
         return items.get(i);
     }
 
     @Override
     public long getItemId(int i) {
-        return i;
+        return items.get(i).getHuntid();
     }
+
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
@@ -63,5 +67,16 @@ public class SHListAdapter extends BaseAdapter{
 
 
         return vItem;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        SHListItem item = getItem(position);
+
+        Intent game_intent = new Intent(context, GameActivity.class);
+        Bundle b = new Bundle();
+        b.putLong("huntID", id);
+        game_intent.putExtras(b);
+        context.startActivity(game_intent);
     }
 }

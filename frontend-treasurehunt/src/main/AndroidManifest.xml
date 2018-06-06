@@ -34,6 +34,10 @@
             android:name=".login.LoginActivity"
             android:label="LoginActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".game.GameActivity"
+            android:label="LoginActivity"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

@@ -1,7 +1,11 @@
 package com.geoschnitzel.treasurehunt.backend.schema;
 
+import org.springframework.lang.Nullable;
+
+import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,10 +33,18 @@ public class Game {
     @ManyToOne
     private Hunt hunt;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<GameTarget> targets;
 
     @OneToMany
     private List<UserPosition> userPositions;
+
+    private Date started;
+
+    @Nullable
+    private Date ended;
+
+    @Nullable
+    private Date paused;
 
 }

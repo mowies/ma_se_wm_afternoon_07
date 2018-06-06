@@ -1,4 +1,4 @@
-package com.geoschnitzel.treasurehunt.backend;
+package com.geoschnitzel.treasurehunt.backend.test;
 
 import com.geoschnitzel.treasurehunt.backend.model.HuntRepository;
 import com.geoschnitzel.treasurehunt.backend.model.UserRepository;
@@ -6,6 +6,7 @@ import com.geoschnitzel.treasurehunt.backend.schema.Hint;
 import com.geoschnitzel.treasurehunt.backend.schema.Hunt;
 import com.geoschnitzel.treasurehunt.backend.schema.Target;
 import com.geoschnitzel.treasurehunt.backend.schema.User;
+import com.geoschnitzel.treasurehunt.backend.service.GameService;
 import com.geoschnitzel.treasurehunt.backend.service.TestDataService;
 
 import org.junit.Before;
@@ -44,6 +45,9 @@ public class SchemaTest {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private GameService gameService;
+
     @Before
     public void generateTestData() {
         testDataService.generateTestData();
@@ -71,6 +75,7 @@ public class SchemaTest {
         }
     }
 
+
     private void assertThatHuntsMatch(Hunt actualHunt, Hunt expectedHunt) {
         assertThatUsersMatch(actualHunt.getCreator(), expectedHunt.getCreator());
 
@@ -87,7 +92,6 @@ public class SchemaTest {
         assertThat(actualHunt.getId(), is(notNullValue()));
         assertThat(expectedHunt.getId(), is(nullValue()));
     }
-
     private void assertThatTargetsMatch(Target actualTarget, Target expectedTarget) {
         assertThat(actualTarget.getArea(), is(equalTo(expectedTarget.getArea())));
 
@@ -107,4 +111,6 @@ public class SchemaTest {
         assertThat(actualUser.getId(), is(notNullValue()));
         assertThat(expectedUser.getId(), is(nullValue()));
     }
+
+
 }
