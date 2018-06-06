@@ -72,6 +72,7 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.google.android.gms:play-services-maps:15.0.0'
+    implementation 'com.google.android.gms:play-services-places:15.0.0'
     implementation 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.5'
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.5'
