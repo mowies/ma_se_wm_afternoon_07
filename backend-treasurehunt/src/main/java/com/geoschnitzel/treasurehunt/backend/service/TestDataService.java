@@ -28,7 +28,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -175,7 +174,7 @@ public class TestDataService {
                             user,
                             new Area(47.0748539 + i * 0.001, 15.4415758 - i * 0.001, 5),
                             asList(
-                                    new Target(null, new Area(47.0748539 + i * 0.001, 15.4415758 - i * 0.001, 5),
+                                    new Target(null, new Area(47.0748539 + i * 0.001, 15.4415758 - i * 0.001, 100),
                                             asList(
                                                     new HintText(null, 0, 0, "Suche die höchste Uhr in Graz."),
                                                     new HintText(null, 2, 10, "Es ist eine analoge Uhr."),
@@ -183,7 +182,7 @@ public class TestDataService {
                                                     new HintDirection(null, 5 * 60),
                                                     new HintCoordinate(null, 10 * 60)
                                             )),
-                                    new Target(null, new Area(12.0748539 + i * 0.001, 20.4415758 - i * 0.001, 5),
+                                    new Target(null, new Area(12.0748539 + i * 0.001, 20.4415758 - i * 0.001, 100),
                                             asList(
                                                     new HintText(null, 0, 0, "Es ist etwas weiter weg"),
                                                     new HintText(null, 2, 10, "Keine Uhr mehr"),
