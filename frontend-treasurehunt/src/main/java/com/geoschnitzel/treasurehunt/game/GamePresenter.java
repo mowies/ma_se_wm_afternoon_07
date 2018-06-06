@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import com.geoschnitzel.treasurehunt.model.WebService;
 import com.geoschnitzel.treasurehunt.rest.GameItem;
 import com.geoschnitzel.treasurehunt.rest.HintItem;
-import com.geoschnitzel.treasurehunt.utils.Webservice.WebServiceCallback;
 
 import java.util.List;
 
@@ -68,11 +67,10 @@ public class GamePresenter implements GameContract.Presenter {
     @Override
     public void sendUserLocation(Location mLastKnownLocation) {
         webService.sendUserLocation(mLastKnownLocation,game.getId());
-        webService.checkReachedTarget(new WebServiceCallback<Boolean>() {
-            @Override
-            public void onResult(Boolean result) {
-                mapView.targetReached();
+        webService.checkReachedTarget(result -> {
+            if (result) {
                 fetchHints();
+                mapView.targetReached();
             }
         },game.getId());
     }
