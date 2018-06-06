@@ -61,8 +61,9 @@ public class TestDataService {
     }
 
     public Game generateGame(User user, Hunt hunt) {
-        return new Game(null, user, hunt, generateGameTarget(hunt.getTargets()), emptyList(),new Date(),null,null);
+        return new Game(null, user, hunt, generateGameTarget(hunt.getTargets()), emptyList(), new Date(), null, null);
     }
+
     public List<GameTarget> generateGameTarget(List<Target> targets) {
         List<GameTarget> results = new ArrayList<>();
         for (Target target : targets) {
@@ -94,12 +95,12 @@ public class TestDataService {
 
         Target middleTarget = new Target();
         middleTarget.setArea(area(47.06552446, 15.45193539));
-        middleTarget.setHints(singletonList(new HintText(null, 0, "It's not East & West")));
+        middleTarget.setHints(singletonList(new HintText(null, 0, 0, "It's not East & West")));
         targets.add(middleTarget);
 
         Target endTarget = new Target();
         endTarget.setArea(area(47.06470797, 15.45007931));
-        endTarget.setHints(singletonList(new HintText(null, 0, "Doener & Pizza")));
+        endTarget.setHints(singletonList(new HintText(null, 0, 0, "Doener & Pizza")));
         targets.add(endTarget);
 
         Hunt hunt = new Hunt();
