@@ -12,6 +12,8 @@ import com.geoschnitzel.treasurehunt.backend.schema.SchnitziPurchaseTransaction;
 import com.geoschnitzel.treasurehunt.backend.schema.SchnitziUsedTransaction;
 import com.geoschnitzel.treasurehunt.backend.schema.Target;
 import com.geoschnitzel.treasurehunt.backend.schema.User;
+import com.geoschnitzel.treasurehunt.backend.schema.UserPosition;
+import com.geoschnitzel.treasurehunt.backend.util.CalDistance;
 import com.geoschnitzel.treasurehunt.rest.GameItem;
 import com.geoschnitzel.treasurehunt.rest.HintItem;
 
@@ -44,6 +46,25 @@ public class GameService {
     @Autowired
     private HuntRepository huntRepository;
 
+    @RequestMapping(value = "{gameID}/reachedTarget/", method = RequestMethod.GET)
+    public boolean CheckTargetReached(long userID,long gameID)
+    {
+        if(!userRepository.findById(userID).isPresent())
+            return false;
+        User user = userRepository.findById(userID).get();
+        if(!gameRepository.findById(gameID).isPresent())
+            return false;
+        Game game = gameRepository.findById(gameID).get();
+        GameTarget cTarget = game.getTargets().get(game.getTargets().size() - 1);
+        if(game.getUserPositions().size() == 0)
+            return false;
+        UserPosition position = game.getUserPositions().get(game.getUserPositions().size() - 1);
+        if( CalDistance.distance(cTarget,position, CalDistance.ScaleType.Meter) < (double)cTarget.getTarget().getArea().getRadius())
+        {
+            return true;
+        }
+        return false;
+    }
     @Transactional
     @RequestMapping(value = "/startGame/{huntID}", method = RequestMethod.GET)
     public GameItem startGame(@PathVariable long userID,@PathVariable long huntID) {
@@ -68,7 +89,7 @@ public class GameService {
                 user,
                 hunt,
                 gameTargets,
-                Collections.emptyList(),
+                new ArrayList<>(),
                 new Date(),
                 null,
                 null

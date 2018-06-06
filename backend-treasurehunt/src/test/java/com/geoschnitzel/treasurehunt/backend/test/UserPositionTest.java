@@ -1,12 +1,17 @@
-package com.geoschnitzel.treasurehunt.backend;
+package com.geoschnitzel.treasurehunt.backend.test;
 
 import com.geoschnitzel.treasurehunt.backend.model.HuntRepository;
 import com.geoschnitzel.treasurehunt.backend.model.UserRepository;
 import com.geoschnitzel.treasurehunt.backend.schema.Hint;
 import com.geoschnitzel.treasurehunt.backend.schema.Hunt;
+import com.geoschnitzel.treasurehunt.backend.schema.ItemFactory;
 import com.geoschnitzel.treasurehunt.backend.schema.Target;
 import com.geoschnitzel.treasurehunt.backend.schema.User;
+import com.geoschnitzel.treasurehunt.backend.service.GameService;
 import com.geoschnitzel.treasurehunt.backend.service.TestDataService;
+import com.geoschnitzel.treasurehunt.backend.service.UserService;
+import com.geoschnitzel.treasurehunt.rest.GameItem;
+import com.geoschnitzel.treasurehunt.rest.UserItem;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +34,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -42,7 +48,10 @@ public class UserPositionTest {
     private HuntRepository huntRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
+
+    @Autowired
+    private GameService gameService;
 
     @Before
     public void generateTestData() {
@@ -51,6 +60,13 @@ public class UserPositionTest {
 
     @Test
     public void testReachedTarget() {
+        UserItem user = userService.login();
+        Hunt hunt = asList(huntRepository.findAll()).get(0);
 
+        GameItem gameItem = gameService.startGame(user.getId(),hunt.getId());
+        Target target = hunt.getTargets().get(0);
+
+        userService.pushUserLocation(user.getId(),gameItem.getId(),ItemFactory.CreateCoordinateItem(target.getArea().getCoordinate()));
+        assertTrue(gameService.CheckTargetReached(user.getId(), gameItem.getId()));
     }
 }
