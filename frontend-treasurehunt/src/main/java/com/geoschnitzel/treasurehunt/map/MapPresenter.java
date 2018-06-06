@@ -1,5 +1,6 @@
 package com.geoschnitzel.treasurehunt.map;
 
+import android.location.Location;
 import android.support.annotation.NonNull;
 
 import com.geoschnitzel.treasurehunt.model.WebService;
@@ -22,8 +23,10 @@ public class MapPresenter implements MapContract.Presenter {
     }
 
     @Override
-    public SearchParamItem GetSearchParams() {
+    public SearchParamItem getSearchParams() {
         return new SearchParamItem("");
     }
+
+
 
 }

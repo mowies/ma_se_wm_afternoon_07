@@ -1,5 +1,6 @@
 package com.geoschnitzel.treasurehunt.game;
 
+import android.location.Location;
 import android.support.annotation.NonNull;
 
 import com.geoschnitzel.treasurehunt.model.WebService;
@@ -43,9 +44,11 @@ public class GamePresenter implements GameContract.Presenter {
     @Override
     public void fetchHints() {
         webService.getGame(result -> {
-            game = result;
-            List<HintItem> hints = game.getCurrenttarget().getHints();
-            hintView.ReloadHints(hints);
+            if (result != null) {
+                game = result;
+                List<HintItem> hints = game.getCurrenttarget().getHints();
+                hintView.ReloadHints(hints);
+            }
         },game.getId());
     }
 
@@ -61,5 +64,16 @@ public class GamePresenter implements GameContract.Presenter {
     @Override
     public void unlockHint(long hintID) {
         webService.unlockHint(result -> fetchHints(),game.getId(),hintID);
+    }
+
+    @Override
+    public void sendUserLocation(Location mLastKnownLocation) {
+        webService.sendUserLocation(mLastKnownLocation,game.getId());
+        webService.checkReachedTarget(result -> {
+            if (result) {
+                fetchHints();
+                mapView.targetReached();
+            }
+        },game.getId());
     }
 }

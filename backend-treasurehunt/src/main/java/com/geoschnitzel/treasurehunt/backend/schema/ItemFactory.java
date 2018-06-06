@@ -1,5 +1,6 @@
 package com.geoschnitzel.treasurehunt.backend.schema;
 
+import com.geoschnitzel.treasurehunt.rest.CoordinateItem;
 import com.geoschnitzel.treasurehunt.rest.GameItem;
 import com.geoschnitzel.treasurehunt.rest.GameTargetItem;
 import com.geoschnitzel.treasurehunt.rest.HintItem;
@@ -82,5 +83,9 @@ public class ItemFactory {
                 false,
                 hunt.getTargets().size()
         ); //TODO calculate values that are hardcoded now
+    }
+
+    public static CoordinateItem CreateCoordinateItem(Coordinate coordinate) {
+        return new CoordinateItem(coordinate.getLongitude(),coordinate.getLatitude());
     }
 }

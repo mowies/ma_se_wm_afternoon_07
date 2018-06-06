@@ -8,16 +8,15 @@ import com.geoschnitzel.treasurehunt.backend.schema.GameTarget;
 import com.geoschnitzel.treasurehunt.backend.schema.Hint;
 import com.geoschnitzel.treasurehunt.backend.schema.Hunt;
 import com.geoschnitzel.treasurehunt.backend.schema.ItemFactory;
-import com.geoschnitzel.treasurehunt.backend.schema.SchnitziPurchaseTransaction;
 import com.geoschnitzel.treasurehunt.backend.schema.SchnitziUsedTransaction;
 import com.geoschnitzel.treasurehunt.backend.schema.Target;
 import com.geoschnitzel.treasurehunt.backend.schema.User;
+import com.geoschnitzel.treasurehunt.backend.schema.UserPosition;
+import com.geoschnitzel.treasurehunt.backend.util.CalDistance;
 import com.geoschnitzel.treasurehunt.rest.GameItem;
-import com.geoschnitzel.treasurehunt.rest.HintItem;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +24,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -44,6 +41,51 @@ public class GameService {
     @Autowired
     private HuntRepository huntRepository;
 
+    @RequestMapping(value = "{gameID}/reachedTarget/", method = RequestMethod.GET)
+    public boolean CheckTargetReached(@PathVariable long userID, @PathVariable long gameID)
+    {
+        if(!userRepository.findById(userID).isPresent())
+            return false;
+        User user = userRepository.findById(userID).get();
+        if(!gameRepository.findById(gameID).isPresent())
+            return false;
+        Game game = gameRepository.findById(gameID).get();
+        GameTarget cTarget = game.getTargets().get(game.getTargets().size() - 1);
+        if(game.getUserPositions().size() == 0)
+            return false;
+        UserPosition position = game.getUserPositions().get(game.getUserPositions().size() - 1);
+        if( CalDistance.distance(cTarget,position, CalDistance.ScaleType.Meter) < (double)cTarget.getTarget().getArea().getRadius())
+        {
+            GameTarget currentTarget = game.getTargets().get(game.getTargets().size() -1);
+            currentTarget.setTimeReached(new Date());
+            Target nextTarget = null;
+            for (Target target :
+                    game.getHunt().getTargets()) {
+                boolean contains = false;
+                for(GameTarget gameTarget : game.getTargets()) {
+                    if(gameTarget.getTarget().getId()== target.getId()) {
+                        contains = true;
+                        break;
+                    }
+                }
+                if (!contains)
+                    nextTarget = target;
+            }
+            if(nextTarget != null) {
+                List<Hint> hints = new ArrayList<>();
+                hints.add(nextTarget.getHints().get(0));
+                game.getTargets().add(new GameTarget(null,nextTarget,new Date(),null,hints));
+            }
+            else
+            {
+                game.setEnded(new Date());
+            }
+            gameRepository.save(game);
+
+            return true;
+        }
+        return false;
+    }
     @Transactional
     @RequestMapping(value = "/startGame/{huntID}", method = RequestMethod.GET)
     public GameItem startGame(@PathVariable long userID,@PathVariable long huntID) {
@@ -68,7 +110,7 @@ public class GameService {
                 user,
                 hunt,
                 gameTargets,
-                Collections.emptyList(),
+                new ArrayList<>(),
                 new Date(),
                 null,
                 null

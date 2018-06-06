@@ -36,7 +36,7 @@ public class Game {
     @OneToMany(cascade = CascadeType.ALL)
     private List<GameTarget> targets;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<UserPosition> userPositions;
 
     private Date started;
