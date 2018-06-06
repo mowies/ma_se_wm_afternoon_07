@@ -36,6 +36,7 @@ public class GameMapFragment extends android.support.v4.app.Fragment implements 
             try
             {
                 updateLocationUI();
+                getDeviceLocation();
                 if(mSendToServerAfter < mSendToServerCurrent++) {
                     mPresenter.sendUserLocation(mLastKnownLocation);
                     mSendToServerCurrent = 0;
@@ -190,6 +191,6 @@ public class GameMapFragment extends android.support.v4.app.Fragment implements 
 
     @Override
     public void targetReached() {
-        Toast.makeText(getContext(), R.string.GameMapFragmentReachedTarget,Toast.LENGTH_LONG);
+        Toast.makeText(getContext(), R.string.GameMapFragmentReachedTarget, Toast.LENGTH_LONG).show();
     }
 }

@@ -8,18 +8,15 @@ import com.geoschnitzel.treasurehunt.backend.schema.GameTarget;
 import com.geoschnitzel.treasurehunt.backend.schema.Hint;
 import com.geoschnitzel.treasurehunt.backend.schema.Hunt;
 import com.geoschnitzel.treasurehunt.backend.schema.ItemFactory;
-import com.geoschnitzel.treasurehunt.backend.schema.SchnitziPurchaseTransaction;
 import com.geoschnitzel.treasurehunt.backend.schema.SchnitziUsedTransaction;
 import com.geoschnitzel.treasurehunt.backend.schema.Target;
 import com.geoschnitzel.treasurehunt.backend.schema.User;
 import com.geoschnitzel.treasurehunt.backend.schema.UserPosition;
 import com.geoschnitzel.treasurehunt.backend.util.CalDistance;
 import com.geoschnitzel.treasurehunt.rest.GameItem;
-import com.geoschnitzel.treasurehunt.rest.HintItem;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +24,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -47,7 +42,7 @@ public class GameService {
     private HuntRepository huntRepository;
 
     @RequestMapping(value = "{gameID}/reachedTarget/", method = RequestMethod.GET)
-    public boolean CheckTargetReached(long userID,long gameID)
+    public boolean CheckTargetReached(@PathVariable long userID, @PathVariable long gameID)
     {
         if(!userRepository.findById(userID).isPresent())
             return false;
