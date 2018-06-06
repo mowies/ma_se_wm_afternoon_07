@@ -5,6 +5,7 @@ import com.geoschnitzel.treasurehunt.backend.model.GameRepository;
 import com.geoschnitzel.treasurehunt.backend.model.HuntRepository;
 import com.geoschnitzel.treasurehunt.backend.model.UserRepository;
 import com.geoschnitzel.treasurehunt.backend.schema.Area;
+import com.geoschnitzel.treasurehunt.backend.schema.Coordinate;
 import com.geoschnitzel.treasurehunt.backend.schema.Game;
 import com.geoschnitzel.treasurehunt.backend.schema.GameTarget;
 import com.geoschnitzel.treasurehunt.backend.schema.HintCoordinate;
@@ -72,7 +73,45 @@ public class TestDataService {
     }
 
     public List<Hunt> generateSchnitzelHunts(User user) {
-        return generateSchnitzelHunts(user, 5);
+        List<Hunt> hunts = new ArrayList<>(generateSchnitzelHunts(user, 5));
+        hunts.add(generatePlayableHunt(user));
+        return hunts;
+    }
+
+    private Area area(double latitude, double longitude) {
+        Area area = new Area();
+
+        area.setCoordinate(new Coordinate(latitude, longitude));
+        area.setRadius(12);
+
+        return area;
+    }
+
+    private Hunt generatePlayableHunt(User user) {
+        Area startArea = area(47.06410917, 15.45092822);
+
+        List<Target> targets = new ArrayList<>();
+
+        Target middleTarget = new Target();
+        middleTarget.setArea(area(47.06552446, 15.45193539));
+        middleTarget.setHints(singletonList(new HintText(null, 0, "It's not East & West")));
+        targets.add(middleTarget);
+
+        Target endTarget = new Target();
+        endTarget.setArea(area(47.06470797, 15.45007931));
+        endTarget.setHints(singletonList(new HintText(null, 0, "Doener & Pizza")));
+        targets.add(endTarget);
+
+        Hunt hunt = new Hunt();
+
+        hunt.setCreator(user);
+        hunt.setDescription("Actually playable hunt");
+        hunt.setMaxSpeed(25); //riding a bike is okay
+        hunt.setName("Playable hunt");
+        hunt.setStartArea(startArea);
+        hunt.setTargets(targets);
+
+        return hunt;
     }
 
     public List<User> generateUsers() {
