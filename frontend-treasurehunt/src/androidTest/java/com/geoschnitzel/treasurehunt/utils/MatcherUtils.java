@@ -1,4 +1,4 @@
-package com.geoschnitzel.treasurehunt.androidTest.utils;
+package com.geoschnitzel.treasurehunt.utils;
 
 import android.view.View;
 

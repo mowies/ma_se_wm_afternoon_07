@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.geoschnitzel.treasurehunt.test;
+package com.geoschnitzel.treasurehunt;
 
 import com.geoschnitzel.treasurehunt.map.MapContract;
 import com.geoschnitzel.treasurehunt.map.MapPresenter;

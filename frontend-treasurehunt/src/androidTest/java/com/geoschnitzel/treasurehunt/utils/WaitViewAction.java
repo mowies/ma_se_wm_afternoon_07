@@ -1,10 +1,16 @@
-package com.geoschnitzel.treasurehunt.androidTest.utils;
+package com.geoschnitzel.treasurehunt.utils;
 
 import android.support.test.espresso.PerformException;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
+import android.support.test.espresso.ViewAssertion;
+import android.support.test.espresso.action.ViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.espresso.util.HumanReadables;
+import android.util.Log;
 import android.view.View;
+
+import com.forkingcode.espresso.contrib.CheckAssertionAction;
 
 import org.hamcrest.Matcher;
 
