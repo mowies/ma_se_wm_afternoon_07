@@ -26,7 +26,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import static org.mockito.Matchers.anyObject;
 import static org.mockito.Mockito.verify;
 
 public class MapPresenterTest {
@@ -60,11 +59,5 @@ public class MapPresenterTest {
     public void createPresenter_setsThePresenterToView() {
         // Then the presenter is set to the view
         verify(mMapView).setPresenter(mMapPresenter);
-    }
-
-    @Test
-    public void start_requestsHelloWorld() {
-        mMapPresenter.start();
-        verify(webService).getHelloWorldMessage(anyObject());
     }
 }
