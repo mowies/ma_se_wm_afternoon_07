@@ -1,40 +1,70 @@
 package com.geoschnitzel.treasurehunt.rest
 
-import sun.security.krb5.internal.crypto.Des
-import java.text.MessageFormat
+import com.fasterxml.jackson.annotation.JsonIgnore
 import java.util.*
 
 data class Message(val message: String, val timestamp: Date) {
+
+    @get:JsonIgnore
     val messageUpperCase get() = message.toUpperCase()
 }
 
-data class SearchParamItem(val filterText: String)
-data class SHPurchaseItem(val shValue: Int,
-                          var Price: Float,
-                          var CurrencyID: Int,
-                          var CurrencySymbol: String,
-                          var CurrencyFormat: String,
-                          var Title: String) {
+enum class HintType(val type: String) {
+    IMAGE("IMAGE"),
+    TEXT("TEXT"),
+    COORDINATE("COORDINATE"),
+    DIRECTION("DIRECTION")
+};
 
-    val priceAsText: String
-        get() = MessageFormat.format(CurrencyFormat, Price, CurrencySymbol)
+data class CoordinateItem(val longitude: Double,
+                          val latitude: Double)
 
-    val shValueAsText: String
-        get() = String.format("%d", shValue)
+data class HintItem(val id: Long,
+                    val type: HintType,
+                    val shvalue: Int,
+                    val timetounlockhint: Int,
+                    val unlocked: Boolean,
+                    val description: String?,
+                    val url: String?,
+                    val coordinate: CoordinateItem?,
+                    val angle: Double?) {
+}
 
-    constructor(item: SHPurchaseItem) :
-            this(item.shValue, item.Price, item.CurrencyID, item.CurrencySymbol, item.CurrencyFormat, item.Title) {
+data class GameTargetItem(
+        val id: Long,
+        val starttime: Date,
+        var hints: List<HintItem>) {
+
+    @JsonIgnore
+    fun getUnlockedHints():List<HintItem>{
+        return this.hints.filter{ it.unlocked }
+    }
+    @JsonIgnore
+    fun getLockedHints():List<HintItem>{
+        return this.hints.filter { !it.unlocked }
     }
 }
 
-data class SHListItem(var Name: String,
-                      var Author: String,
-                      var Length: Float,
-                      var Rating: Float,
-                      var Description: String,
-                      var Visited: Boolean) {
-
-    constructor(item: SHListItem) :
-            this(item.Name, item.Author, item.Length, item.Rating, item.Description, item.Visited) {
+data class GameItem(
+        val id: Long,
+        val userid:Long,
+        val huntid:Long,
+        val targets: List<GameTargetItem>,
+        val started: Date,
+        val paused: Date?,
+        val ended: Date?) {
+    @JsonIgnore
+    fun getCurrenttarget():GameTargetItem{
+        return this.targets.get(this.targets.size - 1);
     }
 }
+
+data class UserItem(
+        val id: Long,
+        val balance:Int)
+
+enum class TransactionType(val type: String) {
+    Purchase("PURCHASE"),
+    Earned("EARNED"),
+    Used("USED")
+};

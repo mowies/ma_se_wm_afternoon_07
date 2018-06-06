@@ -8,10 +8,10 @@ import java.util.List;
 
 public interface SHListContract {
     interface View extends IBaseView<Presenter> {
-
+        void refreshSHListAdapter(List<SHListItem> items);
     }
 
     interface Presenter extends IBasePresenter {
-        List<SHListItem> getSHListItems();
+        void retrieveSHListItems();
     }
 }

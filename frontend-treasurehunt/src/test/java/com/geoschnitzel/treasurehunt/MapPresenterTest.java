@@ -18,6 +18,7 @@ package com.geoschnitzel.treasurehunt;
 
 import com.geoschnitzel.treasurehunt.map.MapContract;
 import com.geoschnitzel.treasurehunt.map.MapPresenter;
+import com.geoschnitzel.treasurehunt.model.WebService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -32,6 +33,9 @@ public class MapPresenterTest {
     @Mock
     private MapContract.View mMapView;
 
+    @Mock
+    private WebService webService;
+
     /**
      * {@link ArgumentCaptor} is a powerful Mockito API to capture argument values and use them to
      * perform further actions or assertions on them.
@@ -45,7 +49,7 @@ public class MapPresenterTest {
         MockitoAnnotations.initMocks(this);
 
         // Get a reference to the class under test
-        mMapPresenter = new MapPresenter(mMapView);
+        mMapPresenter = new MapPresenter(mMapView, webService);
 
         // The presenter won't update the view unless it's active.
 //        when(mMapView.isActive()).thenReturn(true);
@@ -56,5 +60,4 @@ public class MapPresenterTest {
         // Then the presenter is set to the view
         verify(mMapView).setPresenter(mMapPresenter);
     }
-
 }

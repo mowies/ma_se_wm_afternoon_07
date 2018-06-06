@@ -1,22 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_sh_list_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.geoschnitzel.treasurehunt.shlist.SHListFragment"
-    tools:showIn="@layout/fragment_tool_bar">
+    android:orientation="vertical"
+    app:behavior_hideable="false"
+    app:behavior_peekHeight="@dimen/bottom_sheet_height_collapsed"
+    android:background="@color/white"
+    app:layout_behavior="@string/bottom_sheet_behavior">
 
-    <ListView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_sheet_height_collapsed"
+        android:orientation="horizontal"
+        android:id="@+id/filter_info"
+        android:weightSum="120">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_weight="20"
+            android:src="@drawable/ic_maps_place"
+            android:contentDescription="@string/distance_to_start"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:id="@+id/tv_distance_to_start"
+            android:layout_gravity="center_vertical"
+            android:text="500m" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:src="@drawable/ic_hunt_length"
+            android:contentDescription="@string/hunt_length"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:id="@+id/tv_hunt_length"
+            android:layout_gravity="center_vertical"
+            android:text="5km" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:src="@drawable/ic_rating"
+            android:contentDescription="@string/rating"
+            android:layout_gravity="center_vertical" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="20"
+            android:id="@+id/tv_rating"
+            android:layout_gravity="center_vertical"
+            android:text="90%" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/lightGrey" />
+
+    <com.geoschnitzel.treasurehunt.utils.BottomSheetListView
         android:id="@+id/sh_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:footerDividersEnabled="false"
-        android:listSelector="#d7dbdd"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
-</android.support.constraint.ConstraintLayout>
+        android:listSelector="#d7dbdd" />
+</LinearLayout>

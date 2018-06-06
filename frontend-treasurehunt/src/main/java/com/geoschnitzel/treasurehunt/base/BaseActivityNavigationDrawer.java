@@ -11,8 +11,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.geoschnitzel.treasurehunt.R;
-import com.geoschnitzel.treasurehunt.shlist.SHListActivity;
-import com.geoschnitzel.treasurehunt.shlist.SHListFragment;
+import com.geoschnitzel.treasurehunt.login.LoginActivity;
+import com.geoschnitzel.treasurehunt.model.WebService;
+import com.geoschnitzel.treasurehunt.shcreatehunt.SHCreateActivity;
 import com.geoschnitzel.treasurehunt.shpurchase.SHPurchaseActivity;
 
 public abstract class BaseActivityNavigationDrawer extends AppCompatActivity implements
@@ -23,6 +24,10 @@ public abstract class BaseActivityNavigationDrawer extends AppCompatActivity imp
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base_with_drawer);
+
+        WebService.instance().syncTimeDifference();
+        WebService.instance().loginAsync();
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView nav_view = (NavigationView) mDrawerLayout.findViewById(R.id.nav_view);
@@ -54,13 +59,17 @@ public abstract class BaseActivityNavigationDrawer extends AppCompatActivity imp
         int id = item.getItemId();
 
         switch (id) {
+            case R.id.nav_new:
+                Intent new_intent = new Intent(this, SHCreateActivity.class);
+                startActivity(new_intent);
+                break;
+            case R.id.nav_logout:
+                Intent login_intent = new Intent(this, LoginActivity.class);
+                startActivity(login_intent);
+                break;
             case R.id.nav_buy:
                 Intent buy_intent = new Intent(this, SHPurchaseActivity.class);
                 startActivity(buy_intent);
-                break;
-            case R.id.nav_list:
-                Intent list_intent = new Intent(this, SHListActivity.class);
-                startActivity(list_intent);
                 break;
         }
 

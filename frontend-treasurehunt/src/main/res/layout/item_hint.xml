@@ -1,0 +1,142 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:gravity="center">
+
+    <FrameLayout
+        android:layout_width="@dimen/hintItemWidth"
+        android:layout_height="@dimen/hintItemHeight"
+        android:layout_marginRight="@dimen/hintItemMargin"
+        android:layout_marginLeft="@dimen/hintItemMargin"
+        android:background="@drawable/layout_bg">
+
+        <FrameLayout
+            android:id="@+id/hint_item_show"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/hint_item_description"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="@dimen/textTitle2"
+                android:gravity="center"
+                android:text=""
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/hint_item_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/hint_item_buy"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="2"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/hint_item_buy_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY" />
+
+            <LinearLayout
+                android:id="@+id/hint_item_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:weightSum="2"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/hint_item_unlock_button"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="@drawable/layout_button_selector_left"
+                    android:paddingTop="@dimen/hintItemPadding"
+                    android:paddingBottom="@dimen/hintItemPadding">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/textTitle2"
+                        android:layout_gravity="center"
+                        android:text="@string/hint_item_unlock_button" />
+
+                    <TextView
+                        android:id="@+id/hint_item_unlock_button_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/textTitle4" />
+
+                    <Chronometer
+                        android:id="@+id/hint_item_unlock_button_time_chrono"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:countDown="true" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/hint_item_buy_button"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="@drawable/layout_button_selector_right"
+                    android:paddingTop="@dimen/hintItemPadding"
+                    android:paddingBottom="@dimen/hintItemPadding"
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/textTitle2"
+                        android:text="@string/hint_item_buy_button"
+                        android:layout_gravity="center" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="2dp">
+
+                        <TextView
+                            android:id="@+id/hint_item_shvalue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/textTitle4" />
+
+                        <ImageView
+                            android:layout_height="match_parent"
+                            android:layout_width="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:background="@drawable/ic_schnitzel_notlegal" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+</FrameLayout>
