@@ -58,25 +58,26 @@ public class UserService {
         return ItemFactory.CreateUserItem(user);
     }
     @PostMapping("/{userID}/game/{gameID}/location/")
-    public void pushUserLocation(@PathVariable long userID,@PathVariable long gameID,@RequestBody CoordinateItem location) {
+    public CoordinateItem pushUserLocation(@PathVariable long userID,@PathVariable long gameID,@RequestBody CoordinateItem location) {
         if(!userRepository.findById(userID).isPresent()) {
             System.out.printf("The userID %d cannot be found\n", userID);
-            return;
+            return null;
         }
         User user = userRepository.findById(userID).get();
         if(!gameRepository.findById(gameID).isPresent()) {
             System.out.printf("The game %d cannot be found\n",gameID);
-            return;
+            return null;
         }
 
         Game game = gameRepository.findById(gameID).get();
         if(game.getUser() != user) {
             System.out.printf("User {0} tried to access game {1}\n",userID,gameID);
-            return;
+            return null;
         }
         Coordinate coordinate = new Coordinate(location.getLatitude(),location.getLongitude());
         game.getUserPositions().add(new UserPosition(null,coordinate,new Date()));
         gameRepository.save(game);
+        return location;
     }
 
 }

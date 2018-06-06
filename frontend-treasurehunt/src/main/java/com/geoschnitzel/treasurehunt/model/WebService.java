@@ -45,7 +45,7 @@ public class WebService {
     public static class RequestFunctions {
         final static String EndPoint = BuildConfig.ENDPOINT;
         final static RequestParams<UserItem> Login = new RequestParams<>(UserItem.class, EndPoint + "/api/user/login", HttpMethod.GET);
-        final static RequestParams<Void> SendUserLocation = new RequestParams<>(Void.class, EndPoint + "/api/user/{userID}/game/{gameID}/location/", HttpMethod.POST);
+        final static RequestParams<CoordinateItem> SendUserLocation = new RequestParams<>(CoordinateItem.class, EndPoint + "/api/user/{userID}/game/{gameID}/location/", HttpMethod.POST);
         final static RequestParams<UserItem> GetUser = new RequestParams<>(UserItem.class, EndPoint + "/api/user/{userID}", HttpMethod.GET);
         final static RequestParams<Message> HelloWorld = new RequestParams<>(Message.class, EndPoint + "/api/helloWorld", HttpMethod.GET);
         final static RequestParams<SHListItem[]> GetSHList = new RequestParams<>(SHListItem[].class, EndPoint + "/api/hunt/", HttpMethod.GET);
@@ -86,7 +86,7 @@ public class WebService {
         params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
         params.addParam("gameID", gameID);
         params.setPostObject(new CoordinateItem(mLastKnownLocation.getLongitude(),mLastKnownLocation.getLatitude()));
-        new WebserviceAsyncTask<Void>(null).execute(params);
+        new WebserviceAsyncTask<>(null).execute(params);
     }
 
     public void loginSync() {
