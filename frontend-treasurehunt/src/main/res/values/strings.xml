@@ -31,4 +31,8 @@
     <string name="title_sh_create_activity">Create new hunt</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_game">SchnitzelHunt</string>
+    <string name="title_activity_end_game">Success!</string>
+    <string name="end_game_congratulations">Congratulations!</string>
+    <string name="end_game_finish_talk">You finished your SchnitzelHunt!</string>
+    <string name="fragment_tag_end_game">fragment_tag_end_game</string>
 </resources>
