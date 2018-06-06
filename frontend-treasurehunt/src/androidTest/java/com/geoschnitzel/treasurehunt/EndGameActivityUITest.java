@@ -1,5 +1,6 @@
 package com.geoschnitzel.treasurehunt;
 
+import android.support.test.espresso.Espresso;
 import android.support.test.rule.ActivityTestRule;
 
 import com.geoschnitzel.treasurehunt.endgame.EndGameActivity;
@@ -20,7 +21,13 @@ public class EndGameActivityUITest {
             };
 
     @Test
-    public void exampleListIsDisplayed() {
+    public void showView_showsFinishView() {
         onView(withText(R.string.congratulations)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void pressBack_opensMainActivity() {
+        Espresso.pressBack();
+        onView(withText(R.string.app_name)).check(matches(isDisplayed()));
     }
 }

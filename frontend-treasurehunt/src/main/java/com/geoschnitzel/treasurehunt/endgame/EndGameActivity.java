@@ -1,9 +1,11 @@
 package com.geoschnitzel.treasurehunt.endgame;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.geoschnitzel.treasurehunt.R;
 import com.geoschnitzel.treasurehunt.base.BaseActivityWithBackButton;
+import com.geoschnitzel.treasurehunt.main.MainActivity;
 import com.geoschnitzel.treasurehunt.utils.ActivityUtils;
 
 public class EndGameActivity extends BaseActivityWithBackButton {
@@ -26,6 +28,8 @@ public class EndGameActivity extends BaseActivityWithBackButton {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        Intent intent = new Intent(this.getApplicationContext(), MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        this.startActivity(intent);
     }
 }
