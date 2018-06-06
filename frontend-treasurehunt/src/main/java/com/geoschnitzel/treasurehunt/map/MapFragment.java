@@ -3,6 +3,7 @@ package com.geoschnitzel.treasurehunt.map;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -34,22 +35,40 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-
-import static android.content.ContentValues.TAG;
 
 public class MapFragment extends Fragment implements MapContract.View, OnMapReadyCallback, View.OnClickListener {
+
+    private final Handler handler = new Handler();
+    private Runnable sendUserLocation = new Runnable() {
+        private int mSendToServerAfter = 10;
+        private int mSendToServerCurrent = 0;
+        public void run() {
+
+            try
+            {
+                updateLocationUI();
+
+            } catch (Exception e){}
+
+            handler.postDelayed(this, 100);
+
+        }
+    };
+
+    //region Used For Location Tracking
+    private static final float DEFAULT_ZOOM = 6;
+    private Location mLastKnownLocation;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private PlaceDetectionClient mPlaceDetectionClient;
+    private GeoDataClient mGeoDataClient;
+    private Boolean mLocationPermissionGranted = false;
+    private GoogleMap mMap;
+    //endregion
+
     private MapContract.Presenter mPresenter;
     private SHListContract.Presenter mSHListPresenter;
     private SHListFragment mSHListFragment;
-    private GoogleMap mMap;
-    private Boolean mLocationPermissionGranted = false;
-    private GeoDataClient mGeoDataClient;
-    private PlaceDetectionClient mPlaceDetectionClient;
-    private LocationServices mLastKnownLocation;
-    private FusedLocationProviderClient mFusedLocationProviderClient;
-    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
 
 
     public static MapFragment newInstance() {
@@ -99,6 +118,13 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        handler.removeCallbacks(sendUserLocation);
+        handler.post(sendUserLocation);
+    }
+
+    @Override
     public void openSearch(SearchParamItem sParam) {
         Snackbar.make(getActivity().findViewById(R.id.drawer_layout), "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
@@ -120,6 +146,7 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
 
         updateLocationUI();
         getDeviceLocation();
+
     }
 
     private void getLocationPermission() {
@@ -182,24 +209,20 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
      */
         try {
             if (mLocationPermissionGranted) {
-                Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
-                locationResult.addOnCompleteListener(this, new OnCompleteListener<LocationServices>() {
-                    @Override
-                    public void onComplete(@NonNull Task<LocationServices> task) {
-                        if (task.isSuccessful()) {
-                            // Set the map's camera position to the current location of the device.
-                            mLastKnownLocation = task.getResult();
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                    new LatLng(mLastKnownLocation.getLatitude(),
-                                            mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-                        } else {
-                            Log.d(TAG, "Current location is null. Using defaults.");
-                            Log.e(TAG, "Exception: %s", task.getException());
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-                            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-                        }
-                    }
-                });
+                mFusedLocationProviderClient.getLastLocation()
+                        .addOnSuccessListener(getActivity(), location -> {
+                            // Got last known location. In some rare situations this can be null.
+                            if (location != null) {
+                                mLastKnownLocation = location;
+                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                        new LatLng(mLastKnownLocation.getLatitude(),
+                                                mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+
+                                mMap.getUiSettings().setMyLocationButtonEnabled(true);
+                            }
+                        });
+                mFusedLocationProviderClient.getLastLocation()
+                        .addOnFailureListener(getActivity(), e -> mMap.getUiSettings().setMyLocationButtonEnabled(false));
             }
         } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
@@ -210,7 +233,7 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.floatingSearchButton:
-                this.openSearch(((MapContract.Presenter) mPresenter).GetSearchParams());
+                this.openSearch(((MapContract.Presenter) mPresenter).getSearchParams());
                 break;
         }
     }
