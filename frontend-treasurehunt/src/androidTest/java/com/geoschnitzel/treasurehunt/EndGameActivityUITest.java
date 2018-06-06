@@ -22,7 +22,8 @@ public class EndGameActivityUITest {
 
     @Test
     public void showView_showsFinishView() {
-        onView(withText(R.string.congratulations)).check(matches(isDisplayed()));
+        onView(withText(R.string.end_game_congratulations)).check(matches(isDisplayed()));
+        onView(withText(R.string.end_game_finish_talk)).check(matches(isDisplayed()));
     }
 
     @Test
