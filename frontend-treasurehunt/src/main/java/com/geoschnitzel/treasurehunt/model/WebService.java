@@ -14,12 +14,8 @@ import com.google.common.util.concurrent.Futures;
 import org.springframework.http.HttpMethod;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static java.util.Arrays.asList;
@@ -61,8 +57,7 @@ public class WebService {
     //----------------------------------------------------------------------------------------------
 
     //region TimeSync
-    public void syncTimeDifference()
-    {
+    public void syncTimeDifference() {
         RequestParams params = RequestFunctions.GetCurrentTime;
         final Long start = new Date().getTime();
         new WebserviceAsyncTask<Long>((result -> {
@@ -70,15 +65,15 @@ public class WebService {
             timeDiffSC.set(result - start - ((end - start) / 2));
         })).execute(params);
     }
-    public Long getTimeDifference()
-    {
+
+    public Long getTimeDifference() {
         return timeDiffSC.get();
     }
 
     //endregion
     //region User
     public void loginSync() {
-        if(user != null && !user.isDone())
+        if (user != null && !user.isDone())
             return;
 
         RequestParams params = RequestFunctions.Login;
@@ -88,7 +83,7 @@ public class WebService {
     }
 
     public void loginAsync() {
-        if(user != null && !user.isDone())
+        if (user != null && !user.isDone())
             return;
 
         RequestParams params = RequestFunctions.Login;
@@ -177,19 +172,6 @@ public class WebService {
 
         return new WebserviceAsyncTask<GameItem>(null).doInBackground(params);
     }
-    //endregion
-
-    //region Test
-    public Message getHelloWorldMessage() {
-        return new WebserviceAsyncTask<Message>(null).doInBackground(RequestFunctions.HelloWorld);
-    }
-
-    public void getHelloWorldMessage(WebServiceCallback<Message> callback) {
-        RequestParams params = RequestFunctions.HelloWorld;
-        new WebserviceAsyncTask<>(callback).execute(params);
-    }
-
-    //endregion
 
     //region Hunt
     public List<SHListItem> getSHListItems() {
@@ -204,7 +186,6 @@ public class WebService {
         RequestParams params = RequestFunctions.GetSHList;
         new WebserviceAsyncTask<>(callback).execute(params);
     }
-
     //endregion
 
     public void getSHPurchaseItems(WebServiceCallback<List<SHPurchaseItem>> callback) {

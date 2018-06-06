@@ -19,7 +19,6 @@ public class MapPresenter implements MapContract.Presenter {
 
     @Override
     public void start() {
-        webService.getHelloWorldMessage(message -> mView.showMessageText(String.format("Message: %s sent %s", message.getMessage(), message.getTimestamp())));
     }
 
     @Override
