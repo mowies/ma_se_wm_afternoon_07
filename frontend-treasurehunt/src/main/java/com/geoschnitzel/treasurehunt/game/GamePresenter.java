@@ -44,9 +44,11 @@ public class GamePresenter implements GameContract.Presenter {
     @Override
     public void fetchHints() {
         webService.getGame(result -> {
-            game = result;
-            List<HintItem> hints = game.getCurrenttarget().getHints();
-            hintView.ReloadHints(hints);
+            if (result != null) {
+                game = result;
+                List<HintItem> hints = game.getCurrenttarget().getHints();
+                hintView.ReloadHints(hints);
+            }
         },game.getId());
     }
 

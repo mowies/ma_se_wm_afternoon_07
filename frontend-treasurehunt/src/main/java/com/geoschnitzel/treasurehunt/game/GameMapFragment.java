@@ -1,5 +1,6 @@
 package com.geoschnitzel.treasurehunt.game;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.geoschnitzel.treasurehunt.R;
+import com.geoschnitzel.treasurehunt.endgame.EndGameActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
@@ -36,7 +38,7 @@ public class GameMapFragment extends android.support.v4.app.Fragment implements 
             try
             {
                 updateLocationUI();
-                getDeviceLocation();
+                getDeviceLocation(false);
                 if(mSendToServerAfter < mSendToServerCurrent++) {
                     mPresenter.sendUserLocation(mLastKnownLocation);
                     mSendToServerCurrent = 0;
@@ -101,11 +103,17 @@ public class GameMapFragment extends android.support.v4.app.Fragment implements 
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        handler.removeCallbacks(sendUserLocation);
+    }
+
+    @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
         updateLocationUI();
-        getDeviceLocation();
+        getDeviceLocation(true);
 
     }
 
@@ -162,7 +170,7 @@ public class GameMapFragment extends android.support.v4.app.Fragment implements 
         }
     }
 
-    private void getDeviceLocation() {
+    private void getDeviceLocation(boolean focus) {
         /*
          * Get the best and most recent location of the device, which may be null in rare
          * cases when a location is not available.
@@ -174,9 +182,12 @@ public class GameMapFragment extends android.support.v4.app.Fragment implements 
                             // Got last known location. In some rare situations this can be null.
                             if (location != null) {
                                 mLastKnownLocation = location;
-                                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                        new LatLng(mLastKnownLocation.getLatitude(),
-                                                mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+
+                                if (focus) {
+                                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
+                                            new LatLng(mLastKnownLocation.getLatitude(),
+                                                    mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+                                }
 
                                 mMap.getUiSettings().setMyLocationButtonEnabled(true);
                             }
@@ -191,6 +202,11 @@ public class GameMapFragment extends android.support.v4.app.Fragment implements 
 
     @Override
     public void targetReached() {
-        Toast.makeText(getContext(), R.string.GameMapFragmentReachedTarget, Toast.LENGTH_LONG).show();
+        if (mPresenter.getCurrentGame().getEnded() == null) {
+            Toast.makeText(getContext(), R.string.GameMapFragmentReachedTarget, Toast.LENGTH_LONG).show();
+        } else {
+            Intent end_game_intent = new Intent(getContext(), EndGameActivity.class);
+            getContext().startActivity(end_game_intent);
+        }
     }
 }

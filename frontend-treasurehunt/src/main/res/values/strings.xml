@@ -39,4 +39,5 @@
     <string name="end_game_finish_talk">You finished your SchnitzelHunt!</string>
     <string name="fragment_tag_end_game">fragment_tag_end_game</string>
     <string name="GameMapFragmentReachedTarget">Reached target</string>
+    <string name="not_implemented">not implemented</string>
 </resources>
