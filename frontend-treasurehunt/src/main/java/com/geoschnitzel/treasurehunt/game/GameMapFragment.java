@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.geoschnitzel.treasurehunt.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -35,8 +36,11 @@ public class GameMapFragment extends android.support.v4.app.Fragment implements 
             try
             {
                 updateLocationUI();
-                if(mSendToServerAfter < mSendToServerCurrent++)
+                if(mSendToServerAfter < mSendToServerCurrent++) {
                     mPresenter.sendUserLocation(mLastKnownLocation);
+                    mSendToServerCurrent = 0;
+                }
+
 
             } catch (Exception e){}
 
@@ -182,5 +186,10 @@ public class GameMapFragment extends android.support.v4.app.Fragment implements 
         } catch (SecurityException e) {
             Log.e("Exception: %s", e.getMessage());
         }
+    }
+
+    @Override
+    public void targetReached() {
+        Toast.makeText(getContext(), R.string.GameMapFragmentReachedTarget,Toast.LENGTH_LONG);
     }
 }

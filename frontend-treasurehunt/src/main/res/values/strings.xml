@@ -31,4 +31,5 @@
     <string name="fragment_tag_shlist">fragment_shlist</string>
     <string name="fragment_tag_create_sh">fragment_create_sh</string>
     <string name="fragment_tag_purchase_sh">fragment_purchase_sh</string>
+    <string name="GameMapFragmentReachedTarget">Reached target</string>
 </resources>

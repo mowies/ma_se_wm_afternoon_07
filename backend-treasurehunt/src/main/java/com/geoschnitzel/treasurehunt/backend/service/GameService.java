@@ -61,6 +61,32 @@ public class GameService {
         UserPosition position = game.getUserPositions().get(game.getUserPositions().size() - 1);
         if( CalDistance.distance(cTarget,position, CalDistance.ScaleType.Meter) < (double)cTarget.getTarget().getArea().getRadius())
         {
+            GameTarget currentTarget = game.getTargets().get(game.getTargets().size() -1);
+            currentTarget.setTimeReached(new Date());
+            Target nextTarget = null;
+            for (Target target :
+                    game.getHunt().getTargets()) {
+                boolean contains = false;
+                for(GameTarget gameTarget : game.getTargets()) {
+                    if(gameTarget.getTarget().getId()== target.getId()) {
+                        contains = true;
+                        break;
+                    }
+                }
+                if (!contains)
+                    nextTarget = target;
+            }
+            if(nextTarget != null) {
+                List<Hint> hints = new ArrayList<>();
+                hints.add(nextTarget.getHints().get(0));
+                game.getTargets().add(new GameTarget(null,nextTarget,new Date(),null,hints));
+            }
+            else
+            {
+                game.setEnded(new Date());
+            }
+            gameRepository.save(game);
+
             return true;
         }
         return false;

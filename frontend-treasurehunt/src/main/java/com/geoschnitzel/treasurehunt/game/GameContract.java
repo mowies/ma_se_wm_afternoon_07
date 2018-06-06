@@ -12,6 +12,7 @@ import java.util.List;
 public interface GameContract {
 
     interface MapView extends IBaseView<Presenter> {
+        void targetReached();
     }
 
     interface HintView extends IBaseView<Presenter> {
