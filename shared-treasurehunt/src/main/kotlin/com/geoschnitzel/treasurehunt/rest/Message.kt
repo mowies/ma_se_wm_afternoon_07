@@ -17,8 +17,7 @@ enum class HintType(val type: String) {
 };
 
 data class CoordinateItem(val longitude: Double,
-                          val latitude: Double) {
-}
+                          val latitude: Double)
 
 data class HintItem(val id: Long,
                     val type: HintType,

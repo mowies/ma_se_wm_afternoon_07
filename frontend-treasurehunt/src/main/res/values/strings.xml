@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">SchnitzelHunt</string>
-    <string name="title_activity_shpurchase">Buy Schnitzies</string>
+    <string name="app_name">TreasureHunt</string>
+    <string name="title_activity_shpurchase">SHPurchaseActivity</string>
+    <string name="title_activity_shlist">SHListActivity</string>
 
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
@@ -10,9 +11,11 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="not_implemented">Not yet implemented</string>
+    <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hint_unlock">Unlock</string>
     <string name="item_hint_timeunlock">Time to unlock</string>
     <string name="hint_item_unlock_button">Unlock</string>
@@ -35,4 +38,5 @@
     <string name="end_game_congratulations">Congratulations!</string>
     <string name="end_game_finish_talk">You finished your SchnitzelHunt!</string>
     <string name="fragment_tag_end_game">fragment_tag_end_game</string>
+    <string name="GameMapFragmentReachedTarget">Reached target</string>
 </resources>

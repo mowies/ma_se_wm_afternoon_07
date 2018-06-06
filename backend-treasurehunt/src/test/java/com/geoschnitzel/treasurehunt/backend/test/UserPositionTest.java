@@ -68,5 +68,20 @@ public class UserPositionTest {
 
         userService.pushUserLocation(user.getId(),gameItem.getId(),ItemFactory.CreateCoordinateItem(target.getArea().getCoordinate()));
         assertTrue(gameService.CheckTargetReached(user.getId(), gameItem.getId()));
+
+        gameItem = gameService.getGame(user.getId(),gameItem.getId());
+
+
+        assertTrue(gameItem.getCurrenttarget() != null);
+        assertTrue(gameItem.getCurrenttarget().getHints().size() > 0);
+        assertTrue(gameItem.getCurrenttarget().getHints().get(0).getId() == hunt.getTargets().get(1).getHints().get(0).getId());
+
+        target = hunt.getTargets().get(1);
+        userService.pushUserLocation(user.getId(),gameItem.getId(),ItemFactory.CreateCoordinateItem(target.getArea().getCoordinate()));
+        assertTrue(gameService.CheckTargetReached(user.getId(), gameItem.getId()));
+
+        gameItem = gameService.getGame(user.getId(),gameItem.getId());
+
+        assertTrue(gameItem.getEnded() != null);
     }
 }

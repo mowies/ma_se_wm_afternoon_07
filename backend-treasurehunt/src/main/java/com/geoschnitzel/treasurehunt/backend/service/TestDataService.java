@@ -34,6 +34,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
@@ -172,11 +173,19 @@ public class TestDataService {
                             10 + i,
                             user,
                             new Area(47.0748539 + i * 0.001, 15.4415758 - i * 0.001, 5),
-                            singletonList(
+                            asList(
                                     new Target(null, new Area(47.0748539 + i * 0.001, 15.4415758 - i * 0.001, 5),
-                                            Arrays.asList(
+                                            asList(
                                                     new HintText(null, 0, 0, "Suche die höchste Uhr in Graz."),
                                                     new HintText(null, 2, 10, "Es ist eine analoge Uhr."),
+                                                    new HintImage(null, 2 * 60, 20, "ccacb863-5897-485b-b822-ca119c7afcfb", "impage/jpeg"),
+                                                    new HintDirection(null, 5 * 60),
+                                                    new HintCoordinate(null, 10 * 60)
+                                            )),
+                                    new Target(null, new Area(12.0748539 + i * 0.001, 20.4415758 - i * 0.001, 5),
+                                            asList(
+                                                    new HintText(null, 0, 0, "Es ist etwas weiter weg"),
+                                                    new HintText(null, 2, 10, "Keine Uhr mehr"),
                                                     new HintImage(null, 2 * 60, 20, "ccacb863-5897-485b-b822-ca119c7afcfb", "impage/jpeg"),
                                                     new HintDirection(null, 5 * 60),
                                                     new HintCoordinate(null, 10 * 60)

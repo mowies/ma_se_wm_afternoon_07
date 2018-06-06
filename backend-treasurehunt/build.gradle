@@ -26,6 +26,7 @@ dependencies {
     compile(project(":shared-treasurehunt"))
     compile("org.springframework.boot:spring-boot-starter-data-jpa")
     compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
     compile("com.google.maps.android:android-maps-utils:0.4.4")
     runtime("org.hsqldb:hsqldb")
     compile("javax.xml.bind:jaxb-api:2.3.0")

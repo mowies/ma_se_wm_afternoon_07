@@ -23,7 +23,7 @@ public class RequestParams<T> {
     }
 
     public String toString() {
-        return method.toString() + " " + url + " " + params;
+        return method.toString() + " " + url + " " + params + " " + postObject;
     }
 
     public String getUrl() {
