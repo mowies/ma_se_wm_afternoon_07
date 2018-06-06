@@ -55,9 +55,10 @@ public class WebserviceAsyncTask<T> extends AsyncTask<RequestParams<T>, Void, T>
                         restTemplate.delete(requestDefinition.url, requestDefinition.params);
                     return null;
                 case POST:
+                    HttpEntity<T> request = new HttpEntity<T>(requestDefinition.postObject);
                     return requestDefinition.params == null ?
-                            restTemplate.postForObject(requestDefinition.url, requestDefinition.postObject, requestDefinition.returnType) :
-                            restTemplate.postForObject(requestDefinition.url, requestDefinition.postObject, requestDefinition.returnType, requestDefinition.params);
+                            restTemplate.postForObject(requestDefinition.url, request, requestDefinition.returnType) :
+                            restTemplate.postForObject(requestDefinition.url, request, requestDefinition.returnType, requestDefinition.params);
                 case PUT:
                     if (requestDefinition.params == null)
                         restTemplate.put(requestDefinition.url, requestDefinition.postObject);

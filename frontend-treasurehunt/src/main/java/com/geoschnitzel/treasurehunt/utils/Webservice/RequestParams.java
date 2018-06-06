@@ -11,7 +11,7 @@ public class RequestParams<T> {
     String url;
     Class<T> returnType;
     HttpMethod method;
-    Object postObject;
+    T postObject;
     Map<String, Object> params;
 
     public RequestParams(Class<T> returnType, String url, HttpMethod method) {
@@ -54,7 +54,7 @@ public class RequestParams<T> {
         return postObject;
     }
 
-    public void setPostObject(Object postObject) {
+    public void setPostObject(T postObject) {
         this.postObject = postObject;
     }
 
