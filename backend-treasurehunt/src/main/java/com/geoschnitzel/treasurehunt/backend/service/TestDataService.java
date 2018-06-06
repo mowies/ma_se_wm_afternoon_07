@@ -18,6 +18,8 @@ import com.geoschnitzel.treasurehunt.backend.schema.SchnitziTransaction;
 import com.geoschnitzel.treasurehunt.backend.schema.SchnitziUsedTransaction;
 import com.geoschnitzel.treasurehunt.backend.schema.Target;
 import com.geoschnitzel.treasurehunt.backend.schema.User;
+import com.geoschnitzel.treasurehunt.backend.schema.UserPosition;
+import com.geoschnitzel.treasurehunt.backend.util.CalDistance;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -26,12 +28,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
@@ -45,6 +47,27 @@ public class TestDataService {
     private UserRepository userRepository;
     @Autowired
     private GameRepository gameRepository;
+
+    public boolean CheckTargetReached(long userId,long gameId)
+    {
+
+        if(!userRepository.findById(userId).isPresent())
+            return false;
+        User user = userRepository.findById(userId).get();
+        if(!gameRepository.findById(gameId).isPresent())
+            return false;
+        Game game = gameRepository.findById(gameId).get();
+        GameTarget cTarget = game.getTargets().get(game.getTargets().size() - 1);
+        if(game.getUserPositions().size() > 0)
+            return false;
+        UserPosition position = game.getUserPositions().get(game.getUserPositions().size() - 1);
+        if( CalDistance.distance(cTarget,position, CalDistance.ScaleType.Meter) < (double)cTarget.getTarget().getArea().getRadius())
+        {
+            return true;
+        }
+        return false;
+    }
+
 
     @Transactional
     @EventListener(ApplicationReadyEvent.class)
@@ -150,11 +173,19 @@ public class TestDataService {
                             10 + i,
                             user,
                             new Area(47.0748539 + i * 0.001, 15.4415758 - i * 0.001, 5),
-                            singletonList(
-                                    new Target(null, new Area(47.0748539 + i * 0.001, 15.4415758 - i * 0.001, 5),
-                                            Arrays.asList(
+                            asList(
+                                    new Target(null, new Area(47.0748539 + i * 0.001, 15.4415758 - i * 0.001, 100),
+                                            asList(
                                                     new HintText(null, 0, 0, "Suche die höchste Uhr in Graz."),
                                                     new HintText(null, 2, 10, "Es ist eine analoge Uhr."),
+                                                    new HintImage(null, 2 * 60, 20, "ccacb863-5897-485b-b822-ca119c7afcfb", "impage/jpeg"),
+                                                    new HintDirection(null, 5 * 60),
+                                                    new HintCoordinate(null, 10 * 60)
+                                            )),
+                                    new Target(null, new Area(12.0748539 + i * 0.001, 20.4415758 - i * 0.001, 100),
+                                            asList(
+                                                    new HintText(null, 0, 0, "Es ist etwas weiter weg"),
+                                                    new HintText(null, 2, 10, "Keine Uhr mehr"),
                                                     new HintImage(null, 2 * 60, 20, "ccacb863-5897-485b-b822-ca119c7afcfb", "impage/jpeg"),
                                                     new HintDirection(null, 5 * 60),
                                                     new HintCoordinate(null, 10 * 60)

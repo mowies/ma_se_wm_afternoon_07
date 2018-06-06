@@ -1,6 +1,9 @@
 package com.geoschnitzel.treasurehunt.model;
 
+import android.location.Location;
+
 import com.geoschnitzel.treasurehunt.BuildConfig;
+import com.geoschnitzel.treasurehunt.rest.CoordinateItem;
 import com.geoschnitzel.treasurehunt.rest.GameItem;
 import com.geoschnitzel.treasurehunt.rest.Message;
 import com.geoschnitzel.treasurehunt.rest.SHListItem;
@@ -36,15 +39,19 @@ public class WebService {
         timeDiffSC = new AtomicLong(0);
     }
 
+
+
     //In the RequestFunctions we can define the whole Api Call
     public static class RequestFunctions {
         final static String EndPoint = BuildConfig.ENDPOINT;
         final static RequestParams<UserItem> Login = new RequestParams<>(UserItem.class, EndPoint + "/api/user/login", HttpMethod.GET);
+        final static RequestParams<CoordinateItem> SendUserLocation = new RequestParams<>(CoordinateItem.class, EndPoint + "/api/user/{userID}/game/{gameID}/location/", HttpMethod.POST);
         final static RequestParams<UserItem> GetUser = new RequestParams<>(UserItem.class, EndPoint + "/api/user/{userID}", HttpMethod.GET);
         final static RequestParams<Message> HelloWorld = new RequestParams<>(Message.class, EndPoint + "/api/helloWorld", HttpMethod.GET);
         final static RequestParams<SHListItem[]> GetSHList = new RequestParams<>(SHListItem[].class, EndPoint + "/api/hunt/", HttpMethod.GET);
         //final static RequestParams<SHListItem> GetSHItem = new RequestParams<>(SHListItem.class,EndPoint + "/api/hunt/{huntID}",HttpMethod.GET);
         final static RequestParams<GameItem> StartGame = new RequestParams<>(GameItem.class, EndPoint + "/api/user/{userID}/game/startGame/{huntID}", HttpMethod.GET);
+        final static RequestParams<Boolean> CheckReachedTarget = new RequestParams<>(Boolean.class, EndPoint + "/api/user/{userID}/game/{gameID}/reachedTarget/", HttpMethod.GET);
         final static RequestParams<GameItem> GetGame = new RequestParams<>(GameItem.class, EndPoint + "/api/user/{userID}/game/{gameID}", HttpMethod.GET);
         final static RequestParams<Boolean> BuyHint = new RequestParams<>(Boolean.class, EndPoint + "/api/user/{userID}/game/{gameID}/buyHint/{hintID}", HttpMethod.GET);
         final static RequestParams<Boolean> UnlockHint = new RequestParams<>(Boolean.class, EndPoint + "/api/user/{userID}/game/{gameID}/unlockHint/{hintID}", HttpMethod.GET);
@@ -72,6 +79,15 @@ public class WebService {
 
     //endregion
     //region User
+
+    public void sendUserLocation(Location mLastKnownLocation,long gameID) {
+        RequestParams params = RequestFunctions.SendUserLocation;
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
+        params.addParam("gameID", gameID);
+        params.setPostObject(new CoordinateItem(mLastKnownLocation.getLongitude(),mLastKnownLocation.getLatitude()));
+        new WebserviceAsyncTask<>(null).execute(params);
+    }
+
     public void loginSync() {
         if (user != null && !user.isDone())
             return;
@@ -108,6 +124,19 @@ public class WebService {
 
     //region Game
 
+    public void checkReachedTarget(long gameID) {
+        RequestParams params = RequestFunctions.CheckReachedTarget;
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
+        params.addParam("gameID", gameID);
+        new WebserviceAsyncTask<Boolean>(null).doInBackground(params);
+    }
+
+    public void checkReachedTarget(WebServiceCallback<Boolean> callback,long gameID) {
+        RequestParams params = RequestFunctions.CheckReachedTarget;
+        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
+        params.addParam("gameID", gameID);
+        new WebserviceAsyncTask<Boolean>(callback).execute(params);
+    }
 
     public void buyHint(WebServiceCallback<Boolean> callback, long gameID, long hintID) {
         RequestParams params = RequestFunctions.BuyHint;

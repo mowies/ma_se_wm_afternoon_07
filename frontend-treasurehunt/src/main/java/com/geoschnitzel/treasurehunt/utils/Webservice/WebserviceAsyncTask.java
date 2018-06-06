@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.fasterxml.jackson.module.kotlin.KotlinModule;
 
+import org.springframework.http.HttpEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -26,7 +27,6 @@ public class WebserviceAsyncTask<T> extends AsyncTask<RequestParams<T>, Void, T>
     public T doInBackground(RequestParams<T>... requestParams) {
         try {
             RequestParams<T> requestDefinition = requestParams[0];
-            Log.d(TAG, requestDefinition.toString());
 
             if(requestDefinition.getParams() != null) {
                 for (String key : requestDefinition.getParams().keySet()) {
@@ -37,6 +37,7 @@ public class WebserviceAsyncTask<T> extends AsyncTask<RequestParams<T>, Void, T>
                     requestDefinition.getParams().put(key, value);
                 }
             }
+            Log.d(TAG, requestDefinition.toString());
 
             RestTemplate restTemplate = new MyRestTemplate(10 * 1000);
             MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
@@ -54,10 +55,10 @@ public class WebserviceAsyncTask<T> extends AsyncTask<RequestParams<T>, Void, T>
                         restTemplate.delete(requestDefinition.url, requestDefinition.params);
                     return null;
                 case POST:
-
+                    HttpEntity<T> request = new HttpEntity<T>(requestDefinition.postObject);
                     return requestDefinition.params == null ?
-                            restTemplate.postForObject(requestDefinition.url, requestDefinition.postObject, requestDefinition.returnType) :
-                            restTemplate.postForObject(requestDefinition.url, requestDefinition.postObject, requestDefinition.returnType, requestDefinition.params);
+                            restTemplate.postForObject(requestDefinition.url, request, requestDefinition.returnType) :
+                            restTemplate.postForObject(requestDefinition.url, request, requestDefinition.returnType, requestDefinition.params);
                 case PUT:
                     if (requestDefinition.params == null)
                         restTemplate.put(requestDefinition.url, requestDefinition.postObject);

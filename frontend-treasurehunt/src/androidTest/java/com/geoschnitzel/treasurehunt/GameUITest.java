@@ -2,7 +2,6 @@ package com.geoschnitzel.treasurehunt;
 
 import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.IdlingRegistry;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v17.leanback.widget.HorizontalGridView;
 import android.util.Log;
@@ -14,7 +13,6 @@ import com.geoschnitzel.treasurehunt.rest.GameItem;
 import com.geoschnitzel.treasurehunt.rest.HintItem;
 import com.geoschnitzel.treasurehunt.rest.SHListItem;
 
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -48,6 +46,15 @@ public class GameUITest {
 
     private String getStringResource(int id) {
         return this.mGameActivityTestRule.getActivity().getString(id);
+    }
+
+    @Test
+    public void GameReachedPosition() {
+        onView(withId(R.id.hint_container)).perform(waitFor(isDisplayed()));
+        Long gameID = mGameActivityTestRule.getActivity().getGameID();
+        GameItem game = WebService.instance().getGame(gameID);
+        HorizontalGridView hintContainer = this.mGameActivityTestRule.getActivity().findViewById(R.id.hint_container);
+
     }
 
     @Test

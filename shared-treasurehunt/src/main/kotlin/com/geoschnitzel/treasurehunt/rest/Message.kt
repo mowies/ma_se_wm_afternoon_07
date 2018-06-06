@@ -1,7 +1,6 @@
 package com.geoschnitzel.treasurehunt.rest
 
 import com.fasterxml.jackson.annotation.JsonIgnore
-import java.text.MessageFormat
 import java.util.*
 
 data class Message(val message: String, val timestamp: Date) {
@@ -17,12 +16,8 @@ enum class HintType(val type: String) {
     DIRECTION("DIRECTION")
 };
 
-data class Coordinate(val longitude: Double,
-                      val latitude: Double) {
-    constructor(item: Coordinate) :
-            this(item.longitude, item.latitude) {
-    }
-}
+data class CoordinateItem(val longitude: Double,
+                          val latitude: Double)
 
 data class HintItem(val id: Long,
                     val type: HintType,
@@ -31,7 +26,7 @@ data class HintItem(val id: Long,
                     val unlocked: Boolean,
                     val description: String?,
                     val url: String?,
-                    val coordinate: Coordinate?,
+                    val coordinate: CoordinateItem?,
                     val angle: Double?) {
 }
 
