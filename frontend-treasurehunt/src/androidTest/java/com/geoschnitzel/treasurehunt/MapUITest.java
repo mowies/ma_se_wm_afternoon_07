@@ -26,7 +26,6 @@ public class MapUITest {
     @Rule
     public ActivityTestRule<MainActivity> mTasksActivityTestRule =
             new ActivityTestRule<MainActivity>(MainActivity.class) {
-
             };
 
     @Test
