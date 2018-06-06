@@ -20,11 +20,9 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.hasChildCount;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.core.IsNot.not;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -74,16 +72,6 @@ public class CreateHuntTest {
                 .perform(click());
     }
 
-    @Test
-    public void abortButton() {
-        //click abort button 1 time
-        onView(withId(R.id.bottombar_negative))
-                .check(matches(isDisplayed()))
-                .perform(click());
-        onView(withId(R.id.bottombar_negative))
-                .check(matches(not(isDisplayed())));
-    }
-
     public void goToSecondPage() {
         String name = "defaultName";
         String description = "defaultDescription";
@@ -105,82 +93,9 @@ public class CreateHuntTest {
     @Test
     public void secondPageDisplayed() {
         goToSecondPage();
-        onView(withId(R.id.new_hunt_coord_list))
+        onView(withId(R.id.shcoordinate_list))
                 .check(matches(isDisplayed()));
-        onView(withId(R.id.new_hunt_add_coord))
+        onView(withId(R.id.create_coord_add))
                 .check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void addCoordinate() {
-        goToSecondPage();
-        onView(withId(R.id.new_hunt_coord_list))
-                .check(hasChildCount(0));
-        onView(withId(R.id.new_hunt_add_coord))
-                .perform(click());
-        onView(withId(R.id.new_hunt_coord_selector))
-                .check(matches(isDisplayed()));
-        //TODO select coordinate
-        onView(withId(R.id.new_hunt_add_coord))
-                .check(matches(isDisplayed()))
-                .perform(click());
-        onView(withId(R.id.new_hunt_coord_list))
-                .check(hasChildCount(1));
-    }
-
-    @Test
-    public void abortAddCoordinate() {
-        goToSecondPage();
-        onView(withId(R.id.new_hunt_coord_list))
-                .check(hasChildCount(0));
-        //add new coordinate
-        onView(withId(R.id.new_hunt_add_coord))
-                .check(matches(isDisplayed()))
-                .perform(click());
-        onView(withId(R.id.new_hunt_coord_selector))
-                .check(matches(isDisplayed()));
-
-        //abort the creation
-        onView(withId(R.id.bottombar_negative))
-                .check(matches(isDisplayed()))
-                .perform(click());
-
-        onView(withId(R.id.new_hunt_coord_selector))
-                .check(matches(not(isDisplayed())));
-
-        //assert that no coordinate got added
-        onView(withId(R.id.new_hunt_coord_list))
-                .check(hasChildCount(0));
-    }
-
-    @Test
-    public void addCurrentLocation() {
-        goToSecondPage();
-        onView(withId(R.id.new_hunt_coord_list))
-                .check(hasChildCount(0));
-        //add new coordinate
-        onView(withId(R.id.new_hunt_add_coord))
-                .check(matches(isDisplayed()))
-                .perform(click());
-        onView(withId(R.id.new_hunt_coord_selector))
-                .check(matches(isDisplayed()));
-        //select current location
-        onView(withId(R.id.new_hunt_coord_current))
-                .check(matches(isDisplayed()))
-                .perform(click());
-
-        //assert that no coordinate got added
-        onView(withId(R.id.new_hunt_coord_list))
-                .check(matches(isDisplayed()))
-                .check(hasChildCount(1));
-    }
-
-    @Test
-    public void addGame() {
-        goToSecondPage();
-        addCurrentLocation();
-        onView(withId(R.id.bottombar_positive))
-                .check(matches(isDisplayed()))
-                .perform(click());
     }
 }

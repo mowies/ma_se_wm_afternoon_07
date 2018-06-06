@@ -51,8 +51,8 @@ public class CreateCoordinatesAdapter extends BaseAdapter {
         TextView lat = vItem.findViewById(R.id.shcoordinate_item_lat);
         Button hintButton = vItem.findViewById(R.id.shcoordinate_item_hint_button);
 
-        itemcount.setText("" + i);
-        description.setText("Placeholder");
+        itemcount.setText("" + (i+1));
+        description.setText(item.getName());
         lon.setText("" + item.getCoordinate().getLon());
         lat.setText("" + item.getCoordinate().getLat());
         hintButton.setText("0 hints");

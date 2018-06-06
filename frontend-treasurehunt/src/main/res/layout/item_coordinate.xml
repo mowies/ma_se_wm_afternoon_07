@@ -13,7 +13,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="Number"/>
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/textTitle2"
+            android:text="0" />
 
         <LinearLayout
             android:layout_toRightOf="@id/shcoordinate_item_count"
@@ -27,37 +29,47 @@
                 android:id="@+id/shcoordinate_item_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Description" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="10">
+                android:text="Description"
+                android:textSize="@dimen/textTitle2"/>
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
                 <TextView
+                    android:id="@+id/item_lon_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Lon" />
-
+                    android:text="Lon:"
+                    android:textSize="@dimen/textTitle4" />
                 <TextView
                     android:id="@+id/shcoordinate_item_lon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="4"/>
+                    android:layout_marginLeft="3dp"
+                    android:layout_toRightOf="@+id/item_lon_label"
+                    android:text="47.001"
+                    android:textSize="@dimen/textTitle4" />
 
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
                 <TextView
+                    android:id="@+id/item_lat_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Lat"
-                    android:layout_weight="1"/>
-
+                    android:text="Lat:"
+                    android:textSize="@dimen/textTitle4" />
                 <TextView
                     android:id="@+id/shcoordinate_item_lat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="4"/>
-            </LinearLayout>
+                    android:layout_marginLeft="3dp"
+                    android:layout_toRightOf="@+id/item_lat_label"
+                    android:text="47.001"
+                    android:textSize="@dimen/textTitle4" />
+
+            </RelativeLayout>
         </LinearLayout>
 
         <Button
@@ -65,7 +77,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="1"/>
+            android:layout_centerVertical="true"
+            android:text="Hints: 1"/>
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

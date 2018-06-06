@@ -29,6 +29,7 @@
         android:layout_alignParentEnd="true"
         android:clickable="true"
         android:focusable="true"
-        android:elevation="4dp"/>
+        android:elevation="4dp"
+        android:layout_margin="10dp"/>
 
 </RelativeLayout>

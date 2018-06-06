@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/fragment_tool_bar"
-    android:padding="5px">
+    android:padding="5px"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,7 +16,8 @@
         <FrameLayout
             android:id="@+id/createContentFrame"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bottombar"/>
 
         <include
             android:id="@+id/bottombar"
