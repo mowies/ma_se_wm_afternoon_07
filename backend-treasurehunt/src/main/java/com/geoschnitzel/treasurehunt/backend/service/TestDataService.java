@@ -69,6 +69,7 @@ public class TestDataService {
         return false;
     }
 
+
     @Transactional
     @EventListener(ApplicationReadyEvent.class)
     public void generateTestData() {

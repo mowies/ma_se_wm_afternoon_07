@@ -98,6 +98,8 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
         return root;
     }
 
+
+
     private void setUpBottomSheetFragment(View root) {
         final FragmentManager fm = getChildFragmentManager();
         this.mSHListFragment = (SHListFragment) fm.findFragmentById(R.id.main_sh_list_fragment);
