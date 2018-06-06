@@ -32,11 +32,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".login.LoginActivity"
-            android:label="@string/Login"
+            android:label="@string/title_activity_login"
             android:screenOrientation="portrait" />
         <activity
             android:name=".game.GameActivity"
-            android:label="@string/SchnitzelHunt"
+            android:label="@string/title_activity_game"
             android:screenOrientation="portrait" />
 
         <meta-data
