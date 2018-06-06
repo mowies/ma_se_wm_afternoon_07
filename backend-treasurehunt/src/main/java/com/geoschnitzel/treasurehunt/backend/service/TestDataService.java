@@ -66,6 +66,26 @@ public class TestDataService {
         return false;
     }
 
+    public boolean CheckTargetReached(long userId,long gameId)
+    {
+
+        if(!userRepository.findById(userId).isPresent())
+            return false;
+        User user = userRepository.findById(userId).get();
+        if(!gameRepository.findById(gameId).isPresent())
+            return false;
+        Game game = gameRepository.findById(gameId).get();
+        GameTarget cTarget = game.getTargets().get(game.getTargets().size() - 1);
+        if(game.getUserPositions().size() > 0)
+            return false;
+        UserPosition position = game.getUserPositions().get(game.getUserPositions().size() - 1);
+        if( CalDistance.distance(cTarget,position, CalDistance.ScaleType.Meter) < (double)cTarget.getTarget().getArea().getRadius())
+        {
+            return true;
+        }
+        return false;
+    }
+
     @Transactional
     @EventListener(ApplicationReadyEvent.class)
     public void generateTestData() {
