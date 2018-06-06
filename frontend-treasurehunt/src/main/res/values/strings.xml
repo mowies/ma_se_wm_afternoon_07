@@ -29,4 +29,6 @@
     <string name="fragment_tag_create_sh">fragment_create_sh</string>
     <string name="fragment_tag_purchase_sh">fragment_purchase_sh</string>
     <string name="title_sh_create_activity">Create new hunt</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_game">SchnitzelHunt</string>
 </resources>
