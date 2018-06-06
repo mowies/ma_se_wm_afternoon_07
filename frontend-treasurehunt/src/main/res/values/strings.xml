@@ -35,4 +35,8 @@
     <string name="end_game_congratulations">Congratulations!</string>
     <string name="end_game_finish_talk">You finished your SchnitzelHunt!</string>
     <string name="fragment_tag_end_game">fragment_tag_end_game</string>
+    <string name="forward">forward</string>
+    <string name="abort">abort</string>
+    <string name="create_hunt">create</string>
+    <string name="go_back">back</string>
 </resources>
