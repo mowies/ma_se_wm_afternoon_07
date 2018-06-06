@@ -114,6 +114,3 @@ def getIP() {
     }
     return (result != null ? result : InetAddress.getLocalHost()).getHostAddress();
 }
-
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
