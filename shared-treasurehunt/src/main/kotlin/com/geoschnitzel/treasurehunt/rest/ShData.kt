@@ -33,11 +33,3 @@ data class SHListItem(var huntid:Long,
                       var visited: Boolean,
                       var targetcount: Long   ) {
 }
-
-data class Coordinate(val lon: Double,
-                      val lat: Double);
-
-data class CreateCoordinateItem(val name: String,
-                                val coordinate: Coordinate) {
-
-}

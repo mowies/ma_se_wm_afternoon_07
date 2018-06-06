@@ -53,8 +53,8 @@ public class CreateCoordinatesAdapter extends BaseAdapter {
 
         itemcount.setText("" + (i+1));
         description.setText(item.getName());
-        lon.setText("" + item.getCoordinate().getLon());
-        lat.setText("" + item.getCoordinate().getLat());
+        lon.setText("" + item.getCoordinate().getLongitude());
+        lat.setText("" + item.getCoordinate().getLatitude());
         hintButton.setText("0 hints");
 
         hintButton.setOnClickListener(new View.OnClickListener() {
