@@ -8,6 +8,7 @@ import com.geoschnitzel.treasurehunt.backend.schema.Area;
 import com.geoschnitzel.treasurehunt.backend.schema.Coordinate;
 import com.geoschnitzel.treasurehunt.backend.schema.Game;
 import com.geoschnitzel.treasurehunt.backend.schema.GameTarget;
+import com.geoschnitzel.treasurehunt.backend.schema.Hint;
 import com.geoschnitzel.treasurehunt.backend.schema.HintCoordinate;
 import com.geoschnitzel.treasurehunt.backend.schema.HintDirection;
 import com.geoschnitzel.treasurehunt.backend.schema.HintImage;
@@ -118,20 +119,28 @@ public class TestDataService {
 
         Target middleTarget = new Target();
         middleTarget.setArea(area(47.06552446, 15.45193539));
-        middleTarget.setHints(singletonList(new HintText(null, 0, 0, "It's not East & West")));
+        List<Hint> hints = new ArrayList<>();
+        hints.add(new HintText(null, 0, 0, "It's not East & West"));
+        hints.add(new HintText(null, 30, 10, "You can eat there"));
+        hints.add(new HintImage(null, 2*60, 25,"4ae5b13e-ea41-4b37-b082-aebdf4919db5","png"));
+        middleTarget.setHints(hints);
         targets.add(middleTarget);
 
         Target endTarget = new Target();
-        endTarget.setArea(area(47.06470797, 15.45007931));
-        endTarget.setHints(singletonList(new HintText(null, 0, 0, "Doener & Pizza")));
+        endTarget.setArea(area(47.064085, 15.449850));
+        List<Hint> hints2 = new ArrayList<>();
+        hints2.add(new HintText(null, 0, 0, "Almost a drive through restaurant."));
+        hints2.add(new HintText(null, 10, 30, "Its close to where you are and you will go there if you have no bike."));
+        hints2.add(new HintText(null, 25, 60, "Come on! It's a restaurant near you by the bim station."));
+        endTarget.setHints(hints2);
         targets.add(endTarget);
 
         Hunt hunt = new Hunt();
 
         hunt.setCreator(user);
-        hunt.setDescription("Actually playable hunt");
+        hunt.setDescription("We will guide you through the most popular restaurants around the 'Neue Technik'");
         hunt.setMaxSpeed(25); //riding a bike is okay
-        hunt.setName("Playable hunt");
+        hunt.setName("Restaurant Tour (Neue Technik)");
         hunt.setStartArea(startArea);
         hunt.setTargets(targets);
 
