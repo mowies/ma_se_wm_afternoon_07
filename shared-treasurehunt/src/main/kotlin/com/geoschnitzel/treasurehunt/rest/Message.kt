@@ -70,5 +70,5 @@ enum class TransactionType(val type: String) {
 };
 
 data class CreateCoordinateItem(val name: String,
-                                val coordinate: Coordinate) {
+                                val coordinate: CoordinateItem) {
 }

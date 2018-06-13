@@ -1,25 +1,17 @@
 package com.geoschnitzel.treasurehunt.createhunt;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.geoschnitzel.treasurehunt.R;
-import com.geoschnitzel.treasurehunt.rest.Coordinate;
+import com.geoschnitzel.treasurehunt.rest.CoordinateItem;
 import com.geoschnitzel.treasurehunt.rest.CreateCoordinateItem;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -41,7 +33,7 @@ public class CreateCoordinatesFragment extends Fragment implements CreateContrac
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(getActivity(), data);
-                mPresenter.addCoordinate(new CreateCoordinateItem(place.getAddress().toString(), new Coordinate(place.getLatLng().longitude, place.getLatLng().latitude)));
+                mPresenter.addCoordinate(new CreateCoordinateItem(place.getAddress().toString(), new CoordinateItem(place.getLatLng().longitude, place.getLatLng().latitude)));
             }
         }
     }
