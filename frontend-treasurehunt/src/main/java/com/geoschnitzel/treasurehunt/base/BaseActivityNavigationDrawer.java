@@ -12,7 +12,6 @@ import android.view.MenuItem;
 
 import com.geoschnitzel.treasurehunt.R;
 import com.geoschnitzel.treasurehunt.createhunt.CreateActivity;
-import com.geoschnitzel.treasurehunt.login.LoginActivity;
 import com.geoschnitzel.treasurehunt.model.WebService;
 
 public abstract class BaseActivityNavigationDrawer extends AppCompatActivity implements
@@ -61,10 +60,6 @@ public abstract class BaseActivityNavigationDrawer extends AppCompatActivity imp
             case R.id.nav_new:
                 Intent new_intent = new Intent(this, CreateActivity.class);
                 startActivity(new_intent);
-                break;
-            case R.id.nav_logout:
-                Intent login_intent = new Intent(this, LoginActivity.class);
-                startActivity(login_intent);
                 break;
         }
 
