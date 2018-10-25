@@ -7,7 +7,6 @@
     android:orientation="vertical"
     app:behavior_hideable="false"
     app:behavior_peekHeight="@dimen/bottom_sheet_height_collapsed"
-    android:background="@color/white"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
     <LinearLayout
@@ -15,55 +14,17 @@
         android:layout_height="@dimen/bottom_sheet_height_collapsed"
         android:orientation="horizontal"
         android:id="@+id/filter_info"
-        android:weightSum="120">
+        android:alpha="0.0"
+        android:weightSum="10">
 
         <ImageView
+            android:id="@+id/sh_list_arrow_up"
             android:layout_width="0dp"
             android:layout_height="24dp"
-            android:layout_weight="20"
-            android:src="@drawable/ic_maps_place"
-            android:contentDescription="@string/distance_to_start"
-            android:layout_gravity="center_vertical" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="20"
-            android:id="@+id/tv_distance_to_start"
-            android:layout_gravity="center_vertical"
-            android:text="500m" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="20"
-            android:src="@drawable/ic_hunt_length"
-            android:contentDescription="@string/hunt_length"
-            android:layout_gravity="center_vertical" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="20"
-            android:id="@+id/tv_hunt_length"
-            android:layout_gravity="center_vertical"
-            android:text="5km" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="20"
-            android:src="@drawable/ic_rating"
-            android:contentDescription="@string/rating"
-            android:layout_gravity="center_vertical" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="20"
-            android:id="@+id/tv_rating"
-            android:layout_gravity="center_vertical"
-            android:text="90%" />
+            android:layout_weight="10"
+            android:src="@drawable/ic_arrow_up"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/transparent"/>
 
     </LinearLayout>
 
@@ -77,5 +38,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:footerDividersEnabled="false"
+        android:background="@color/white"
         android:listSelector="#d7dbdd" />
 </LinearLayout>

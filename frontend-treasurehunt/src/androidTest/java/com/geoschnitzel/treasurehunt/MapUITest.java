@@ -30,7 +30,7 @@ public class MapUITest {
 
     @Test
     public void clickSearch_showsMessage() {
-        onView(withId(R.id.floatingSearchButton)).perform(click());
+        onView(withId(R.id.floatingAddButton)).perform(click());
         onView(withText("Replace with your own action")).check(matches(isDisplayed()));
     }
 

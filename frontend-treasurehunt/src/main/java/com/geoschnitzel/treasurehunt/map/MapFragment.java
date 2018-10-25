@@ -83,8 +83,8 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        FloatingActionButton fab = (FloatingActionButton) root.findViewById(R.id.floatingSearchButton);
-        fab.setOnClickListener(this);
+        FloatingActionButton fab_add_hunt = root.findViewById(R.id.floatingAddButton);
+        fab_add_hunt.setOnClickListener(this);
 
         this.setUpBottomSheetFragment(root);
 
@@ -232,7 +232,7 @@ public class MapFragment extends Fragment implements MapContract.View, OnMapRead
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.floatingSearchButton:
+            case R.id.floatingAddButton:
                 this.openSearch(((MapContract.Presenter) mPresenter).getSearchParams());
                 break;
         }

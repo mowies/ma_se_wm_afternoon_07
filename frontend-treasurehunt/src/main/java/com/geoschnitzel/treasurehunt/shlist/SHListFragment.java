@@ -6,13 +6,13 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.geoschnitzel.treasurehunt.R;
@@ -28,8 +28,10 @@ import javax.annotation.Nullable;
 public class SHListFragment extends BottomSheetDialogFragment implements SHListContract.View, View.OnClickListener {
     private SHListContract.Presenter mPresenter = null;
     public BottomSheetBehavior mBottomSheetBehavior = null;
-    private FloatingActionButton mSearchFab = null;
+    private FloatingActionButton mAddFab = null;
     private BottomSheetListView mSHList = null;
+    private LinearLayout mFilterInfo = null;
+    private ImageView mSHListArrowUp = null;
 
     public static SHListFragment newInstance() {
         return new SHListFragment();
@@ -46,9 +48,11 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View root = inflater.inflate(R.layout.fragment_shlist, container, false);
-        final LinearLayout filter_info_layout = root.findViewById(R.id.filter_info);
         this.mSHList = root.findViewById(R.id.sh_list);
-        this.mSearchFab = getActivity().findViewById(R.id.floatingSearchButton);
+        this.mAddFab = getActivity().findViewById(R.id.floatingAddButton);
+        this.mFilterInfo = root.findViewById(R.id.filter_info);
+        this.mSHListArrowUp = root.findViewById(R.id.sh_list_arrow_up);
+        this.mFilterInfo.setAlpha(1.0f);
 
         mPresenter.retrieveSHListItems();
         this.refreshSHListAdapter(new ArrayList<>());
@@ -69,20 +73,30 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
                 public void onSlide(@NonNull final View bottomSheet, final float slideOffset) {
 
                     final float scaleFactor = 1 - slideOffset;
-                    if (mSearchFab != null) {
+                    if (mAddFab != null) {
                         if (scaleFactor <= 1) {
-                            mSearchFab.setVisibility(View.VISIBLE);
-                            mSearchFab.animate().scaleX(1 - slideOffset).scaleY(1 - slideOffset).setDuration(0).start();
+                            mAddFab.setVisibility(View.VISIBLE);
+                            mAddFab.animate().scaleX(1 - slideOffset).scaleY(1 - slideOffset).setDuration(0).start();
                         }
                         if (slideOffset == 1.00f) {
-                            mSearchFab.setVisibility(View.INVISIBLE);
+                            mAddFab.setVisibility(View.INVISIBLE);
+                        }
+                    }
+
+                    if(mFilterInfo != null) {
+                        if (scaleFactor <= 1) {
+                            mFilterInfo.setVisibility(View.VISIBLE);
+                            mFilterInfo.animate().scaleY(1 - slideOffset).setDuration(0).start();
+                        }
+                        if (slideOffset >= 0.99f) {
+                            mFilterInfo.setVisibility(View.GONE);
                         }
                     }
                 }
             });
         }
 
-        filter_info_layout.setOnClickListener(this);
+        this.mFilterInfo.setOnClickListener(this);
 
         return root;
     }

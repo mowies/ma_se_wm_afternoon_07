@@ -15,7 +15,7 @@
     <color name="buttonPressed">#325cff20</color>
     <color name="buttonDisabled">#2485ae76</color>
     <color name="buttonBorder">#B1BCBE</color>
-
+    <color name="transparent">#00FFFFFF</color>
 
 
 </resources>
