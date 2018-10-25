@@ -67,7 +67,7 @@ public class GameHintAdapter extends RecyclerView.Adapter<GameHintAdapter.ViewHo
         if (item.getUnlocked()) {
             switch (item.getType()) {
                 case IMAGE:
-                    holder.image.setImageResource(android.R.drawable.alert_dark_frame);
+                    holder.image.setImageResource(R.mipmap.ic_hint_image_test);
                     holder.image.setVisibility(View.VISIBLE);
                     break;
                 case TEXT:

@@ -70,7 +70,7 @@ public class GamePresenter implements GameContract.Presenter {
     public void sendUserLocation(Location mLastKnownLocation) {
         webService.sendUserLocation(mLastKnownLocation,game.getId());
         webService.checkReachedTarget(result -> {
-            if (result) {
+            if (result != null && result) {
                 fetchHints();
                 mapView.targetReached();
             }
