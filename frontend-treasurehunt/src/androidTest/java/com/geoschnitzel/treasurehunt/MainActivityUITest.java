@@ -27,10 +27,10 @@ import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.geoschnitzel.treasurehunt.utils.WaitViewAction.waitFor;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.not;
 
@@ -133,7 +133,7 @@ public class MainActivityUITest {
         onView(withId(R.id.filter_info)).perform(click());
         List<SHListItem> shlist = WebService.instance().getSHListItems();
         for (SHListItem shitem : shlist)
-            onView(withText(shitem.getName())).check(matches(isDisplayed()));
+            onView(withText(shitem.getName())).perform(waitFor(isDisplayed()));
     }
 
     private static ViewAction swipeFromTopToBottom() {
