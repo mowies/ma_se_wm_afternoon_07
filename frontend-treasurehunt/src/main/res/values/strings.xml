@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">TreasureHunt</string>
-    <string name="title_activity_shpurchase">SHPurchaseActivity</string>
     <string name="title_activity_shlist">SHListActivity</string>
 
     <string name="title_section1">Section 1</string>
