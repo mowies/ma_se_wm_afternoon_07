@@ -68,3 +68,7 @@ enum class TransactionType(val type: String) {
     Earned("EARNED"),
     Used("USED")
 };
+
+data class CreateCoordinateItem(val name: String,
+                                val coordinate: CoordinateItem) {
+}

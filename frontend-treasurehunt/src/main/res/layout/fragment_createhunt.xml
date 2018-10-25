@@ -68,25 +68,6 @@
             android:layout_above="@+id/new_hunt_buttons"
             android:layout_below="@+id/new_hunt_description_label"/>
 
-        <RelativeLayout
-            android:id="@+id/new_hunt_buttons"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true">
-            <Button
-                android:id="@+id/new_hunt_abort"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Abort"
-                android:layout_alignParentLeft="true"/>
-            <Button
-                android:id="@+id/new_hunt_next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Forward"
-                android:layout_alignParentRight="true"/>
-        </RelativeLayout>
-
     </RelativeLayout>
 </android.support.constraint.ConstraintLayout>
 
