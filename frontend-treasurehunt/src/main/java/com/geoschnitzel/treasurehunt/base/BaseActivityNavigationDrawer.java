@@ -11,10 +11,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.geoschnitzel.treasurehunt.R;
+import com.geoschnitzel.treasurehunt.createhunt.CreateActivity;
 import com.geoschnitzel.treasurehunt.login.LoginActivity;
 import com.geoschnitzel.treasurehunt.model.WebService;
-import com.geoschnitzel.treasurehunt.createhunt.CreateActivity;
-import com.geoschnitzel.treasurehunt.shpurchase.SHPurchaseActivity;
 
 public abstract class BaseActivityNavigationDrawer extends AppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener {
@@ -66,10 +65,6 @@ public abstract class BaseActivityNavigationDrawer extends AppCompatActivity imp
             case R.id.nav_logout:
                 Intent login_intent = new Intent(this, LoginActivity.class);
                 startActivity(login_intent);
-                break;
-            case R.id.nav_buy:
-                Intent buy_intent = new Intent(this, SHPurchaseActivity.class);
-                startActivity(buy_intent);
                 break;
         }
 
