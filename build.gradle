@@ -2,7 +2,7 @@
 
 buildscript {
     ext{
-        kotlinVersion = '1.2.41'
+        kotlinVersion = '1.2+'
         springBootVersion = "2.0.1.RELEASE"
     }
 
@@ -12,7 +12,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.2.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
 
