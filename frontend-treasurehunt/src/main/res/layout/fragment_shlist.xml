@@ -14,17 +14,17 @@
         android:layout_height="@dimen/bottom_sheet_height_collapsed"
         android:orientation="horizontal"
         android:id="@+id/filter_info"
-        android:alpha="0.0"
         android:weightSum="10">
 
         <ImageView
             android:id="@+id/sh_list_arrow_up"
-            android:layout_width="0dp"
-            android:layout_height="24dp"
             android:layout_weight="10"
-            android:src="@drawable/ic_arrow_up"
-            android:layout_gravity="center_horizontal"
-            android:background="@color/transparent"/>
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:contentDescription="@null"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/asl_arrow_up_down" />
 
     </LinearLayout>
 

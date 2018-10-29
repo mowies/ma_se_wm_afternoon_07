@@ -83,15 +83,26 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
                         }
                     }
 
-                    if(mFilterInfo != null) {
-                        if (scaleFactor <= 1) {
-                            mFilterInfo.setVisibility(View.VISIBLE);
-                            mFilterInfo.animate().scaleY(1 - slideOffset).setDuration(0).start();
+                    if(mSHListArrowUp != null) {
+                        int[] state_set;
+                        if(scaleFactor < 0.5) {
+                            state_set = new int[]{android.R.attr.state_checked * -1};
                         }
-                        if (slideOffset >= 0.99f) {
-                            mFilterInfo.setVisibility(View.GONE);
+                        else {
+                            state_set = new int[]{android.R.attr.state_checked};
                         }
+                        mSHListArrowUp.setImageState(state_set, true);
                     }
+
+//                    if(mFilterInfo != null) {
+//                        if (scaleFactor <= 1) {
+//                            mFilterInfo.setVisibility(View.VISIBLE);
+//                            mFilterInfo.animate().scaleY(1 - slideOffset).setDuration(0).start();
+//                        }
+//                        if (slideOffset >= 0.99f) {
+//                            mFilterInfo.setVisibility(View.GONE);
+//                        }
+//                    }
                 }
             });
         }
