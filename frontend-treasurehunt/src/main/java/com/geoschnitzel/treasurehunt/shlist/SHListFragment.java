@@ -5,7 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +24,7 @@ import com.geoschnitzel.treasurehunt.utils.BottomSheetListView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.annotation.Nullable;
 
@@ -53,8 +56,9 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
         this.mFilterInfo = root.findViewById(R.id.filter_info);
         this.mSHListArrowUp = root.findViewById(R.id.sh_list_arrow_up);
         this.mFilterInfo.setAlpha(1.0f);
+        final int mFilterInfoHeight = (int)getResources().getDimension(R.dimen.bottom_sheet_height_collapsed);
 
-        mPresenter.retrieveSHListItems();
+                mPresenter.retrieveSHListItems();
         this.refreshSHListAdapter(new ArrayList<>());
 
         this.mBottomSheetBehavior = BottomSheetBehavior.from(root.findViewById(R.id.main_sh_list_fragment));
@@ -94,15 +98,12 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
                         mSHListArrowUp.setImageState(state_set, true);
                     }
 
-//                    if(mFilterInfo != null) {
-//                        if (scaleFactor <= 1) {
-//                            mFilterInfo.setVisibility(View.VISIBLE);
-//                            mFilterInfo.animate().scaleY(1 - slideOffset).setDuration(0).start();
-//                        }
-//                        if (slideOffset >= 0.99f) {
-//                            mFilterInfo.setVisibility(View.GONE);
-//                        }
-//                    }
+                    if(mFilterInfo != null) {
+                        if (scaleFactor <= 1) {
+                            mFilterInfo.getLayoutParams().height = mFilterInfoHeight - (int)(slideOffset * mFilterInfoHeight);
+                            mFilterInfo.requestLayout();
+                        }
+                    }
                 }
             });
         }
