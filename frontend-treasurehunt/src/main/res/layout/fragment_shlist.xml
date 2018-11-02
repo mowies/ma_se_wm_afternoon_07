@@ -23,8 +23,7 @@
             android:layout_height="match_parent"
             android:layout_margin="4dp"
             android:contentDescription="@null"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/asl_arrow_up_down" />
+            android:scaleType="fitCenter"/>
 
     </LinearLayout>
 

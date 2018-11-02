@@ -1,13 +1,13 @@
 package com.geoschnitzel.treasurehunt.shlist;
 
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -24,7 +24,6 @@ import com.geoschnitzel.treasurehunt.utils.BottomSheetListView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.annotation.Nullable;
 
@@ -55,10 +54,11 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
         this.mAddFab = getActivity().findViewById(R.id.floatingAddButton);
         this.mFilterInfo = root.findViewById(R.id.filter_info);
         this.mSHListArrowUp = root.findViewById(R.id.sh_list_arrow_up);
+        this.mSHListArrowUp.setImageResource(R.drawable.new_avd_arrow_up);
         this.mFilterInfo.setAlpha(1.0f);
-        final int mFilterInfoHeight = (int)getResources().getDimension(R.dimen.bottom_sheet_height_collapsed);
+        final int mFilterInfoHeight = (int) getResources().getDimension(R.dimen.bottom_sheet_height_collapsed);
 
-                mPresenter.retrieveSHListItems();
+        mPresenter.retrieveSHListItems();
         this.refreshSHListAdapter(new ArrayList<>());
 
         this.mBottomSheetBehavior = BottomSheetBehavior.from(root.findViewById(R.id.main_sh_list_fragment));
@@ -71,36 +71,38 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
                 @Override
                 public void onStateChanged(@NonNull final View bottomSheet, final int newState) {
                     getActivity().invalidateOptionsMenu();
+
+                    switch (newState) {
+                        case BottomSheetBehavior.STATE_COLLAPSED:
+                            Drawable arrow_down = mSHListArrowUp.getDrawable();
+                            if (arrow_down instanceof Animatable) {
+                                ((Animatable) arrow_down).start();
+                            }
+                            mSHListArrowUp.setImageResource(R.drawable.new_avd_arrow_up);
+                            break;
+                        case BottomSheetBehavior.STATE_EXPANDED:
+                            Drawable arrow_up = mSHListArrowUp.getDrawable();
+                            if (arrow_up instanceof Animatable) {
+                                ((Animatable) arrow_up).start();
+                            }
+                            mSHListArrowUp.setImageResource(R.drawable.new_avd_arrow_down);
+                            break;
+                        default:
+                            break;
+                    }
                 }
 
                 @Override
                 public void onSlide(@NonNull final View bottomSheet, final float slideOffset) {
 
                     final float scaleFactor = 1 - slideOffset;
-                    if (mAddFab != null) {
-                        if (scaleFactor <= 1) {
-                            mAddFab.setVisibility(View.VISIBLE);
-                            mAddFab.animate().scaleX(1 - slideOffset).scaleY(1 - slideOffset).setDuration(0).start();
-                        }
-                        if (slideOffset == 1.00f) {
-                            mAddFab.setVisibility(View.INVISIBLE);
-                        }
+                    if (mAddFab != null && scaleFactor <= 1) {
+                        mAddFab.animate().scaleX(1 - slideOffset).scaleY(1 - slideOffset).setDuration(0).start();
                     }
 
-                    if(mSHListArrowUp != null) {
-                        int[] state_set;
-                        if(scaleFactor < 0.5) {
-                            state_set = new int[]{android.R.attr.state_checked * -1};
-                        }
-                        else {
-                            state_set = new int[]{android.R.attr.state_checked};
-                        }
-                        mSHListArrowUp.setImageState(state_set, true);
-                    }
-
-                    if(mFilterInfo != null) {
+                    if (mFilterInfo != null) {
                         if (scaleFactor <= 1) {
-                            mFilterInfo.getLayoutParams().height = mFilterInfoHeight - (int)(slideOffset * mFilterInfoHeight);
+                            mFilterInfo.getLayoutParams().height = mFilterInfoHeight - (int) (slideOffset * mFilterInfoHeight);
                             mFilterInfo.requestLayout();
                         }
                     }
@@ -109,7 +111,6 @@ public class SHListFragment extends BottomSheetDialogFragment implements SHListC
         }
 
         this.mFilterInfo.setOnClickListener(this);
-
         return root;
     }
 
