@@ -35,7 +35,6 @@ import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.not;
 
 public class MainActivityUITest {
-    private IdlingRegistry mIdlingRegistry = IdlingRegistry.getInstance();
     private MapFragment mMapFragment = null;
     private SHListFragment mSHListFragment = null;
 
@@ -64,62 +63,38 @@ public class MainActivityUITest {
 
     @Test
     public void swipeFromTop_closesBottomSheet() {
-        BottomSheetStateIdlingResource bssir = new BottomSheetStateIdlingResource(this.mSHListFragment.mBottomSheetBehavior, BottomSheetBehavior.STATE_EXPANDED);
 
         onView(withId(R.id.filter_info)).perform(click());
-        this.mIdlingRegistry.register(bssir);
 
-        onView(withId(R.id.sh_list)).check(matches(isDisplayed()));
-        this.mIdlingRegistry.unregister(bssir);
+        onView(withId(R.id.sh_list)).perform(waitFor(isDisplayed()));
 
         onView(withId(R.id.filter_info)).perform(swipeFromTopToBottom());
 
-        bssir = new BottomSheetStateIdlingResource(this.mSHListFragment.mBottomSheetBehavior, BottomSheetBehavior.STATE_COLLAPSED);
-        this.mIdlingRegistry.register(bssir);
-
-        onView(withId(R.id.sh_list)).check(matches(not(isDisplayed())));
-        this.mIdlingRegistry.unregister(bssir);
+        onView(withId(R.id.sh_list)).perform(waitFor(not(isDisplayed())));
     }
 
     @Test
     public void swipeFromBottom_opensBottomSheet() {
-        BottomSheetStateIdlingResource bssir = new BottomSheetStateIdlingResource(this.mSHListFragment.mBottomSheetBehavior, BottomSheetBehavior.STATE_EXPANDED);
-
         onView(withId(R.id.filter_info)).perform(swipeFromBottomToTop());
-        this.mIdlingRegistry.register(bssir);
 
-        onView(withId(R.id.sh_list)).check(matches(isDisplayed()));
-        this.mIdlingRegistry.unregister(bssir);
+        onView(withId(R.id.sh_list)).perform(waitFor(isDisplayed()));
     }
 
     @Test
     public void pressBackButton_closesBottomSheet() {
-        BottomSheetStateIdlingResource bssir = new BottomSheetStateIdlingResource(this.mSHListFragment.mBottomSheetBehavior, BottomSheetBehavior.STATE_EXPANDED);
-
         onView(withId(R.id.filter_info)).perform(swipeFromBottomToTop());
-        this.mIdlingRegistry.register(bssir);
-
-        onView(withId(R.id.sh_list)).check(matches(isDisplayed()));
-        this.mIdlingRegistry.unregister(bssir);
-
-        bssir = new BottomSheetStateIdlingResource(this.mSHListFragment.mBottomSheetBehavior, BottomSheetBehavior.STATE_COLLAPSED);
+        onView(withId(R.id.sh_list)).perform(waitFor(isDisplayed()));
 
         Espresso.pressBack();
-        this.mIdlingRegistry.register(bssir);
-        onView(withId(R.id.sh_list)).check(matches(not(isDisplayed())));
-        this.mIdlingRegistry.unregister(bssir);
+
+        onView(withId(R.id.sh_list)).perform(waitFor(not(isDisplayed())));
     }
 
     @Test
     public void startNewGame()
     {
-        BottomSheetStateIdlingResource bssir = new BottomSheetStateIdlingResource(this.mSHListFragment.mBottomSheetBehavior, BottomSheetBehavior.STATE_EXPANDED);
-
         onView(withId(R.id.filter_info)).perform(click());
-        this.mIdlingRegistry.register(bssir);
-
-        onView(withId(R.id.sh_list)).check(matches(isDisplayed()));
-        this.mIdlingRegistry.unregister(bssir);
+        onView(withId(R.id.sh_list)).perform(waitFor(isDisplayed()));
 
         onData(anything())
                 .inAdapterView(withId(R.id.sh_list))

@@ -202,7 +202,7 @@ public class GameMapFragment extends android.support.v4.app.Fragment implements 
 
     @Override
     public void targetReached() {
-        if (mPresenter.getCurrentGame().getEnded() == null) {
+        if (mPresenter.getCurrentGame().getEndtime() == null) {
             Toast.makeText(getContext(), R.string.GameMapFragmentReachedTarget, Toast.LENGTH_LONG).show();
         } else {
             Intent end_game_intent = new Intent(getContext(), EndGameActivity.class);

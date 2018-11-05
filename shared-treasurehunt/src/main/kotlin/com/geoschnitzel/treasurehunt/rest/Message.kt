@@ -23,17 +23,21 @@ data class HintItem(val id: Long,
                     val type: HintType,
                     val shvalue: Int,
                     val timetounlockhint: Int,
-                    val unlocked: Boolean,
+                    var unlocked: Boolean,
                     val description: String?,
                     val url: String?,
                     val coordinate: CoordinateItem?,
                     val angle: Double?) {
 }
-
+data class AreaItem(
+        val coordinate: CoordinateItem,
+        val radius: Int)
 data class GameTargetItem(
         val id: Long,
         val starttime: Date,
-        var hints: List<HintItem>) {
+        var endtime: Date?,
+        var hints: List<HintItem>,
+        var area: AreaItem) {
 
     @JsonIgnore
     fun getUnlockedHints():List<HintItem>{
@@ -44,15 +48,26 @@ data class GameTargetItem(
         return this.hints.filter { !it.unlocked }
     }
 }
-
-data class GameItem(
+data class TargetItem(
         val id: Long,
-        val userid:Long,
-        val huntid:Long,
-        val targets: List<GameTargetItem>,
-        val started: Date,
-        val paused: Date?,
-        val ended: Date?) {
+        var hints: List<HintItem>,
+        var area: AreaItem) {
+}
+
+data class HuntItem(
+        val id: Long,
+        val targets: List<TargetItem>,
+        val name:String,
+        val description: String,
+        val maxSpeed: Int,
+        val creator: String,
+        val startArea: AreaItem) {
+}
+data class GameItem(
+        var targets: List<GameTargetItem>,
+        var starttime: Date,
+        var endtime:Date?){
+
     @JsonIgnore
     fun getCurrenttarget():GameTargetItem{
         return this.targets.get(this.targets.size - 1);

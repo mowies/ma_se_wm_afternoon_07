@@ -24,7 +24,6 @@ public abstract class BaseActivityNavigationDrawer extends AppCompatActivity imp
         super.setContentView(R.layout.activity_base_with_drawer);
 
         WebService.instance().syncTimeDifference();
-        WebService.instance().loginAsync();
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 

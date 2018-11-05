@@ -1,13 +1,10 @@
 package com.geoschnitzel.treasurehunt.backend.service;
 
 
-import com.geoschnitzel.treasurehunt.backend.model.GameRepository;
 import com.geoschnitzel.treasurehunt.backend.model.HuntRepository;
 import com.geoschnitzel.treasurehunt.backend.model.UserRepository;
 import com.geoschnitzel.treasurehunt.backend.schema.Area;
 import com.geoschnitzel.treasurehunt.backend.schema.Coordinate;
-import com.geoschnitzel.treasurehunt.backend.schema.Game;
-import com.geoschnitzel.treasurehunt.backend.schema.GameTarget;
 import com.geoschnitzel.treasurehunt.backend.schema.Hint;
 import com.geoschnitzel.treasurehunt.backend.schema.HintCoordinate;
 import com.geoschnitzel.treasurehunt.backend.schema.HintDirection;
@@ -19,13 +16,13 @@ import com.geoschnitzel.treasurehunt.backend.schema.SchnitziTransaction;
 import com.geoschnitzel.treasurehunt.backend.schema.SchnitziUsedTransaction;
 import com.geoschnitzel.treasurehunt.backend.schema.Target;
 import com.geoschnitzel.treasurehunt.backend.schema.User;
-import com.geoschnitzel.treasurehunt.backend.schema.UserPosition;
-import com.geoschnitzel.treasurehunt.backend.util.CalDistance;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -36,66 +33,32 @@ import javax.transaction.Transactional;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
-import static java.util.Collections.singletonList;
 
 @Service
 @RestController
+@RequestMapping("/api/test")
 public class TestDataService {
-
+    public static boolean isTestDataGenerated = false;
     @Autowired
     private HuntRepository huntRepository;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private GameRepository gameRepository;
-
-    public boolean CheckTargetReached(long userId,long gameId)
-    {
-
-        if(!userRepository.findById(userId).isPresent())
-            return false;
-        User user = userRepository.findById(userId).get();
-        if(!gameRepository.findById(gameId).isPresent())
-            return false;
-        Game game = gameRepository.findById(gameId).get();
-        GameTarget cTarget = game.getTargets().get(game.getTargets().size() - 1);
-        if(game.getUserPositions().size() > 0)
-            return false;
-        UserPosition position = game.getUserPositions().get(game.getUserPositions().size() - 1);
-        if( CalDistance.distance(cTarget,position, CalDistance.ScaleType.Meter) < (double)cTarget.getTarget().getArea().getRadius())
-        {
-            return true;
-        }
-        return false;
-    }
 
 
     @Transactional
     @EventListener(ApplicationReadyEvent.class)
+    @RequestMapping(value = "/generatetestdata", method = RequestMethod.GET)
     public void generateTestData() {
-        if (userRepository.count() > 0) {
-            return;
-        }
+        if (isTestDataGenerated) return;
 
         List<User> users = generateUsers();
         userRepository.saveAll(users);
         List<Hunt> hunts = generateSchnitzelHunts(users.get(1));
         huntRepository.saveAll(hunts);
-        gameRepository.save(generateGame(users.get(0), hunts.get(0)));
+
+        isTestDataGenerated = true;
     }
 
-    public Game generateGame(User user, Hunt hunt) {
-        return new Game(null, user, hunt, generateGameTarget(hunt.getTargets()), emptyList(), new Date(), null, null);
-    }
-
-    public List<GameTarget> generateGameTarget(List<Target> targets) {
-        List<GameTarget> results = new ArrayList<>();
-        for (Target target : targets) {
-            results.add(new GameTarget(null, target, new Date(), null, emptyList()));
-        }
-        return results;
-
-    }
 
     public List<Hunt> generateSchnitzelHunts(User user) {
         List<Hunt> hunts = new ArrayList<>(generateSchnitzelHunts(user, 5));

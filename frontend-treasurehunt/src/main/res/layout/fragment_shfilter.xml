@@ -6,6 +6,7 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:orientation="vertical"
+    android:id="@+id/shfilter_container"
     tools:context=".shfilter.SHFilterFragment">
 
     <EditText

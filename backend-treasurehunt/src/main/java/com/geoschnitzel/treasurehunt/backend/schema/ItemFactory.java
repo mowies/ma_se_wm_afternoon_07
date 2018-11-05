@@ -1,10 +1,13 @@
 package com.geoschnitzel.treasurehunt.backend.schema;
 
+import com.geoschnitzel.treasurehunt.rest.AreaItem;
 import com.geoschnitzel.treasurehunt.rest.CoordinateItem;
 import com.geoschnitzel.treasurehunt.rest.GameItem;
 import com.geoschnitzel.treasurehunt.rest.GameTargetItem;
 import com.geoschnitzel.treasurehunt.rest.HintItem;
+import com.geoschnitzel.treasurehunt.rest.HuntItem;
 import com.geoschnitzel.treasurehunt.rest.SHListItem;
+import com.geoschnitzel.treasurehunt.rest.TargetItem;
 import com.geoschnitzel.treasurehunt.rest.UserItem;
 
 import java.util.ArrayList;
@@ -12,39 +15,29 @@ import java.util.Comparator;
 import java.util.List;
 
 public class ItemFactory {
-    public static GameItem CreateGameItem(Game game) {
-        return new GameItem(
-                game.getId(),
-                game.getUser().getId(),
-                game.getHunt().getId(),
-                CreateGameTargetItem(game.getTargets()),
-                game.getStarted(),
-                game.getPaused(),
-                game.getEnded()
-                );
-    }
-    public static List<GameTargetItem> CreateGameTargetItem(List<GameTarget> gameTargets) {
-        List<GameTargetItem> result = new ArrayList<>();
-        for(GameTarget gameTarget : gameTargets)
-            result.add(CreateGameTargetItem(gameTarget));
+    public static List<TargetItem> CreateTargetItem(List<Target> targets) {
+        List<TargetItem> result = new ArrayList<>();
+        for(Target target : targets)
+            result.add(CreateTargetItem(target));
         return result;
     }
-    public static GameTargetItem CreateGameTargetItem(GameTarget gameTarget) {
-        List<HintItem> hints = new ArrayList<>();
-        hints.addAll(CreateHintItem(gameTarget.getUnlockedHints(), true));
-        for(Hint hint : gameTarget.getTarget().getHints()) {
-            if(!gameTarget.getUnlockedHints().contains(hint))
-                hints.add(CreateHintItem(hint, false));
-        }
-        hints.sort(Comparator.comparingInt(HintItem::getShvalue));
-
-        return new GameTargetItem(gameTarget.getId(), gameTarget.getStartTime(),hints );
+    public static TargetItem CreateTargetItem(Target target) {
+        return new TargetItem(target.getId(),CreateHintItem(target.getHints()),CreateAreaItem(target.getArea()) );
     }
 
-    public static List<HintItem> CreateHintItem(List<Hint> hints, boolean unlocked) {
+    private static AreaItem CreateAreaItem(Area area) {
+        return new AreaItem(
+                CreateCoordinateItem(area.getCoordinate()),
+                area.getRadius()
+        );
+    }
+
+    public static List<HintItem> CreateHintItem(List<Hint> hints) {
         List<HintItem> results = new ArrayList<>();
         for (Hint hint : hints)
-            results.add(CreateHintItem(hint, unlocked));
+            results.add(CreateHintItem(hint,true));
+
+        results.sort(Comparator.comparingInt(HintItem::getShvalue));
         return results;
     }
 
@@ -87,5 +80,18 @@ public class ItemFactory {
 
     public static CoordinateItem CreateCoordinateItem(Coordinate coordinate) {
         return new CoordinateItem(coordinate.getLongitude(),coordinate.getLatitude());
+    }
+
+    public static HuntItem CreateHuntItem(Hunt hunt) {
+
+        return new HuntItem(
+                hunt.getId(),
+                CreateTargetItem(hunt.getTargets()),
+                hunt.getName(),
+                hunt.getDescription(),
+                hunt.getMaxSpeed(),
+                hunt.getCreator().getDisplayName(),
+                CreateAreaItem(hunt.getStartArea())
+        );
     }
 }

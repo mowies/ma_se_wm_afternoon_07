@@ -5,8 +5,15 @@ import android.support.annotation.NonNull;
 
 import com.geoschnitzel.treasurehunt.model.WebService;
 import com.geoschnitzel.treasurehunt.rest.GameItem;
+import com.geoschnitzel.treasurehunt.rest.GameTargetItem;
 import com.geoschnitzel.treasurehunt.rest.HintItem;
+import com.geoschnitzel.treasurehunt.rest.HuntItem;
+import com.geoschnitzel.treasurehunt.rest.TargetItem;
+import com.geoschnitzel.treasurehunt.utils.CalDistance;
 
+import java.lang.annotation.Target;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -15,6 +22,7 @@ public class GamePresenter implements GameContract.Presenter {
     private GameContract.MapView mapView = null;
     private GameContract.HintView hintView = null;
     private GameItem game = null;
+    private HuntItem hunt = null;
     private WebService webService = null;
 
 
@@ -24,12 +32,34 @@ public class GamePresenter implements GameContract.Presenter {
         this.mapView.setPresenter(this);
         this.hintView.setPresenter(this);
         this.webService = webService;
-        webService.startGame(result -> {
-            game = result;
-            List<HintItem> hints = result.getCurrenttarget().getHints();
-            hintView.ReloadHints(hints);
+        webService.getHunt(result -> {
+            hunt = result;
+
+            game = new GameItem(new ArrayList<>(),new Date(),null);
+
+            NextTarget(hunt.getTargets().get(0));
+
+            fetchHints();
         },huntID);
     }
+    private void NextTarget(TargetItem nextTarget)
+    {
+
+        if(nextTarget != null) {
+            List<HintItem> hints = new ArrayList<>();
+            for(HintItem hint : nextTarget.getHints()) {
+                hint.setUnlocked(hint == nextTarget.getHints().get(0));
+                hints.add(hint);
+            }
+            game.getTargets().add(new GameTargetItem(nextTarget.getId(),new Date(),null,hints,nextTarget.getArea()));
+        }
+        else
+        {
+            game.setEndtime(new Date());
+        }
+
+    }
+
 
     @Override
     public void start() {
@@ -43,37 +73,69 @@ public class GamePresenter implements GameContract.Presenter {
 
     @Override
     public void fetchHints() {
-        webService.getGame(result -> {
-            if (result != null) {
-                game = result;
-                List<HintItem> hints = game.getCurrenttarget().getHints();
-                hintView.ReloadHints(hints);
-            }
-        },game.getId());
+        hintView.ReloadHints(game.getCurrenttarget().getHints());
     }
 
 
     @Override
     public void buyHint(long hintID) {
-        webService.buyHint(result -> {
-            //Reload Balance
-            webService.getUser(result1 -> fetchHints());
-        },game.getId(),hintID);
+        TargetItem currentTarget = hunt.getTargets().get(game.getTargets().size()-1);
+        HintItem buyHint = null;
+        for(HintItem hint : currentTarget.getHints())
+        {
+            if(hint.getId() == hintID) {
+                buyHint = hint;
+                break;
+            }
+        }
+
+        buyHint.setUnlocked(true);
+        fetchHints();
     }
 
     @Override
     public void unlockHint(long hintID) {
-        webService.unlockHint(result -> fetchHints(),game.getId(),hintID);
+
+        GameTargetItem currentGameTarget = game.getCurrenttarget();
+        HintItem unlockHint = null;
+        for(HintItem hint : currentGameTarget.getHints())
+        {
+            if(hint.getId() == hintID) {
+                unlockHint = hint;
+                break;
+            }
+        }
+
+        if((currentGameTarget.getStarttime().getTime()  + unlockHint.getTimetounlockhint() * 1000) > new Date().getTime())
+            return;
+
+        unlockHint.setUnlocked(true);
     }
 
     @Override
     public void sendUserLocation(Location mLastKnownLocation) {
-        webService.sendUserLocation(mLastKnownLocation,game.getId());
-        webService.checkReachedTarget(result -> {
-            if (result != null && result) {
-                fetchHints();
-                mapView.targetReached();
+
+        if( CalDistance.distance(game.getCurrenttarget(),mLastKnownLocation, CalDistance.ScaleType.Meter) <
+                (double)game.getCurrenttarget().getArea().getRadius())
+        {
+            game.getCurrenttarget().setEndtime(new Date());
+
+            TargetItem nextTarget = null;
+            for (TargetItem target : hunt.getTargets()) {
+                boolean contains = false;
+                for(GameTargetItem gameTarget : game.getTargets()) {
+                    if(gameTarget.getId()== target.getId()) {
+                        contains = true;
+                        break;
+                    }
+                }
+                if (!contains)
+                    nextTarget = target;
             }
-        },game.getId());
+
+            NextTarget(nextTarget);
+
+            fetchHints();
+        }
     }
 }

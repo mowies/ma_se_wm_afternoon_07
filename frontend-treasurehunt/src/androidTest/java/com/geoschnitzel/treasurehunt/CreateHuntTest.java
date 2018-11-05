@@ -45,7 +45,6 @@ public class CreateHuntTest {
     public void insertDescription() {
         String exampleText = "TEST123\n321TEST\n";
         onView(withId(R.id.new_hunt_description))
-                .perform(click())
                 .perform(typeText(exampleText));
         closeSoftKeyboard();
 
@@ -57,7 +56,6 @@ public class CreateHuntTest {
     public void insertName() {
         String exampleText = "NAME123\n321NAME\n";
         onView(withId(R.id.new_hunt_name))
-                .perform(click())
                 .perform(typeText(exampleText));
         closeSoftKeyboard();
 
@@ -77,12 +75,10 @@ public class CreateHuntTest {
         String description = "defaultDescription";
 
         onView(withId(R.id.new_hunt_name))
-                .perform(click())
                 .perform(typeText(name));
         closeSoftKeyboard();
 
         onView(withId(R.id.new_hunt_description))
-                .perform(click())
                 .perform(typeText(description));
         closeSoftKeyboard();
 

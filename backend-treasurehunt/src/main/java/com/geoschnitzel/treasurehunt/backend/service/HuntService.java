@@ -3,6 +3,7 @@ package com.geoschnitzel.treasurehunt.backend.service;
 import com.geoschnitzel.treasurehunt.backend.model.HuntRepository;
 import com.geoschnitzel.treasurehunt.backend.schema.Hunt;
 import com.geoschnitzel.treasurehunt.backend.schema.ItemFactory;
+import com.geoschnitzel.treasurehunt.rest.HuntItem;
 import com.geoschnitzel.treasurehunt.rest.SHListItem;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +38,10 @@ public class HuntService {
     }
 
     @RequestMapping(value = "/{huntID}", method = RequestMethod.GET)
-    public SHListItem retrieveSchnitzelHunts(@PathVariable long huntID) {
+    public HuntItem retrieveSchnitzelHunt(@PathVariable long huntID) {
         if(!huntRepository.findById(huntID).isPresent())
             return null;
         Hunt hunt = huntRepository.findById(huntID).get();
-        return ItemFactory.CreateSHListItem(hunt);
+        return ItemFactory.CreateHuntItem(hunt);
     }
 }

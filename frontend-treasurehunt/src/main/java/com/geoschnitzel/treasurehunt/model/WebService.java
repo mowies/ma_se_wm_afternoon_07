@@ -5,6 +5,7 @@ import android.location.Location;
 import com.geoschnitzel.treasurehunt.BuildConfig;
 import com.geoschnitzel.treasurehunt.rest.CoordinateItem;
 import com.geoschnitzel.treasurehunt.rest.GameItem;
+import com.geoschnitzel.treasurehunt.rest.HuntItem;
 import com.geoschnitzel.treasurehunt.rest.Message;
 import com.geoschnitzel.treasurehunt.rest.SHListItem;
 import com.geoschnitzel.treasurehunt.rest.SHPurchaseItem;
@@ -24,7 +25,6 @@ import java.util.concurrent.atomic.AtomicLong;
 import static java.util.Arrays.asList;
 
 public class WebService {
-    private Future<UserItem> user = null;
     private static WebService instance = null;
     private AtomicLong timeDiffSC;
 
@@ -35,7 +35,11 @@ public class WebService {
         return instance;
     }
 
-    private WebService() {
+    private WebService()
+    {
+        //if (BuildConfig.DEBUG) {
+            GenerateTestData();
+        //}
         timeDiffSC = new AtomicLong(0);
     }
 
@@ -44,18 +48,12 @@ public class WebService {
     //In the RequestFunctions we can define the whole Api Call
     public static class RequestFunctions {
         final static String EndPoint = BuildConfig.ENDPOINT;
-        final static RequestParams<UserItem> Login = new RequestParams<>(UserItem.class, EndPoint + "/api/user/login", HttpMethod.GET);
-        final static RequestParams<CoordinateItem> SendUserLocation = new RequestParams<>(CoordinateItem.class, EndPoint + "/api/user/{userID}/game/{gameID}/location/", HttpMethod.POST);
-        final static RequestParams<UserItem> GetUser = new RequestParams<>(UserItem.class, EndPoint + "/api/user/{userID}", HttpMethod.GET);
-        final static RequestParams<Message> HelloWorld = new RequestParams<>(Message.class, EndPoint + "/api/helloWorld", HttpMethod.GET);
         final static RequestParams<SHListItem[]> GetSHList = new RequestParams<>(SHListItem[].class, EndPoint + "/api/hunt/", HttpMethod.GET);
-        //final static RequestParams<SHListItem> GetSHItem = new RequestParams<>(SHListItem.class,EndPoint + "/api/hunt/{huntID}",HttpMethod.GET);
-        final static RequestParams<GameItem> StartGame = new RequestParams<>(GameItem.class, EndPoint + "/api/user/{userID}/game/startGame/{huntID}", HttpMethod.GET);
-        final static RequestParams<Boolean> CheckReachedTarget = new RequestParams<>(Boolean.class, EndPoint + "/api/user/{userID}/game/{gameID}/reachedTarget/", HttpMethod.GET);
-        final static RequestParams<GameItem> GetGame = new RequestParams<>(GameItem.class, EndPoint + "/api/user/{userID}/game/{gameID}", HttpMethod.GET);
-        final static RequestParams<Boolean> BuyHint = new RequestParams<>(Boolean.class, EndPoint + "/api/user/{userID}/game/{gameID}/buyHint/{hintID}", HttpMethod.GET);
-        final static RequestParams<Boolean> UnlockHint = new RequestParams<>(Boolean.class, EndPoint + "/api/user/{userID}/game/{gameID}/unlockHint/{hintID}", HttpMethod.GET);
+        final static RequestParams<HuntItem> GetHunt = new RequestParams<>(HuntItem.class, EndPoint + "/api/hunt/{huntID}", HttpMethod.GET);
         final static RequestParams<Long> GetCurrentTime = new RequestParams<>(Long.class, EndPoint + "/api/time/", HttpMethod.GET);
+        final static RequestParams<Void> GenerateTestData = new RequestParams<>(Void.class, EndPoint + "/api/test/generatetestdata", HttpMethod.GET);
+
+
     }
 
 
@@ -63,6 +61,15 @@ public class WebService {
     //Webservice functions for Synchronous and Asynchronous Call
     //----------------------------------------------------------------------------------------------
 
+    //region Test
+
+
+    public void GenerateTestData() {
+        RequestParams params = RequestFunctions.GenerateTestData;
+        final Long start = new Date().getTime();
+        new WebserviceAsyncTask<Void>(null).doInBackground(params);
+    }
+    //endregion
     //region TimeSync
     public void syncTimeDifference() {
         RequestParams params = RequestFunctions.GetCurrentTime;
@@ -76,133 +83,23 @@ public class WebService {
     public Long getTimeDifference() {
         return timeDiffSC.get();
     }
-
     //endregion
-    //region User
-
-    public void sendUserLocation(Location mLastKnownLocation,long gameID) {
-        RequestParams params = RequestFunctions.SendUserLocation;
-        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
-        params.addParam("gameID", gameID);
-        params.setPostObject(new CoordinateItem(mLastKnownLocation.getLongitude(),mLastKnownLocation.getLatitude()));
-        new WebserviceAsyncTask<>(null).execute(params);
-    }
-
-    public void loginSync() {
-        if (user != null && !user.isDone())
-            return;
-
-        RequestParams params = RequestFunctions.Login;
-        user = Futures.immediateFuture(
-                new WebserviceAsyncTask<UserItem>(null).doInBackground(params)
-        );
-    }
-
-    public void loginAsync() {
-        if (user != null && !user.isDone())
-            return;
-
-        RequestParams params = RequestFunctions.Login;
-
-        WebserviceAsyncTask<UserItem> task = new WebserviceAsyncTask<>(null);
-        user = task;
-        task.execute(params);
-    }
-
-    public UserItem getUser() {
-        RequestParams params = RequestFunctions.GetUser;
-        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
-        return new WebserviceAsyncTask<UserItem>(null).doInBackground(params);
-    }
-
-    public void getUser(WebServiceCallback<UserItem> callback) {
-        RequestParams params = RequestFunctions.GetUser;
-        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
-        new WebserviceAsyncTask<>(callback).execute(params);
-    }
-    //endregion
-
-    //region Game
-
-    public void checkReachedTarget(long gameID) {
-        RequestParams params = RequestFunctions.CheckReachedTarget;
-        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
-        params.addParam("gameID", gameID);
-        new WebserviceAsyncTask<Boolean>(null).doInBackground(params);
-    }
-
-    public void checkReachedTarget(WebServiceCallback<Boolean> callback,long gameID) {
-        RequestParams params = RequestFunctions.CheckReachedTarget;
-        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
-        params.addParam("gameID", gameID);
-        new WebserviceAsyncTask<Boolean>(callback).execute(params);
-    }
-
-    public void buyHint(WebServiceCallback<Boolean> callback, long gameID, long hintID) {
-        RequestParams params = RequestFunctions.BuyHint;
-        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
-        params.addParam("gameID", gameID);
-        params.addParam("hintID", hintID);
-
-        new WebserviceAsyncTask<Boolean>(callback).execute(params);
-    }
-
-    public Boolean buyHint(long hintID, long gameID) {
-        RequestParams params = RequestFunctions.BuyHint;
-        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
-        params.addParam("gameID", gameID);
-        params.addParam("hintID", hintID);
-        return new WebserviceAsyncTask<Boolean>(null).doInBackground(params);
-    }
-
-    public void unlockHint(WebServiceCallback<Boolean> callback, long gameID, long hintID) {
-        RequestParams params = RequestFunctions.UnlockHint;
-        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
-        params.addParam("gameID", gameID);
-        params.addParam("hintID", hintID);
-        new WebserviceAsyncTask<>(callback).execute(params);
-    }
-
-    public Boolean unlockHint(long hintID, long gameID) {
-        RequestParams params = RequestFunctions.UnlockHint;
-        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
-        params.addParam("gameID", gameID);
-        params.addParam("hintID", hintID);
-        return new WebserviceAsyncTask<Boolean>(null).doInBackground(params);
-    }
-
-    public void getGame(WebServiceCallback<GameItem> callback, long gameID) {
-        RequestParams params = RequestFunctions.GetGame;
-        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
-        params.addParam("gameID", gameID);
-        new WebserviceAsyncTask<>(callback).execute(params);
-    }
-
-    public GameItem getGame(long gameID) {
-        RequestParams params = RequestFunctions.GetGame;
-        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
-        params.addParam("gameID", gameID);
-        return new WebserviceAsyncTask<GameItem>(null).doInBackground(params);
-    }
-
-
-    public void startGame(WebServiceCallback<GameItem> callback, Long huntID) {
-        RequestParams params = RequestFunctions.StartGame;
-        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
-        params.addParam("huntID", huntID);
-
-        new WebserviceAsyncTask<>(callback).execute(params);
-    }
-
-    public GameItem startGame(long huntID) {
-        RequestParams params = RequestFunctions.StartGame;
-        params.addParam("userID", Futures.lazyTransform(user, UserItem::getId));
-        params.addParam("huntID", huntID);
-
-        return new WebserviceAsyncTask<GameItem>(null).doInBackground(params);
-    }
 
     //region Hunt
+
+    public void getHunt(WebServiceCallback<HuntItem> callback, long huntID) {
+        RequestParams params = RequestFunctions.GetHunt;
+        params.addParam("huntID", huntID);
+        new WebserviceAsyncTask<>(callback).execute(params);
+    }
+
+    public HuntItem getHunt(long huntID) {
+        RequestParams params = RequestFunctions.GetHunt;
+        params.addParam("gameID", huntID);
+        return new WebserviceAsyncTask<HuntItem>(null).doInBackground(params);
+    }
+
+
     public List<SHListItem> getSHListItems() {
         RequestParams params = RequestFunctions.GetSHList;
         SHListItem[] result = new WebserviceAsyncTask<SHListItem[]>(null).doInBackground(params);

@@ -6,12 +6,13 @@ import android.support.v4.app.FragmentManager;
 import com.geoschnitzel.treasurehunt.R;
 import com.geoschnitzel.treasurehunt.base.BaseActivityWithBackButton;
 import com.geoschnitzel.treasurehunt.model.WebService;
+import com.geoschnitzel.treasurehunt.rest.GameItem;
 import com.geoschnitzel.treasurehunt.utils.ActivityUtils;
 
 public class GameActivity extends BaseActivityWithBackButton {
 
     GameContract.Presenter mPresenter;
-    public Long getGameID() { return mPresenter.getCurrentGame().getId(); }
+    public GameItem getGame() { return mPresenter.getCurrentGame(); }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

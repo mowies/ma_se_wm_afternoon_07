@@ -51,8 +51,7 @@ public class GameUITest {
     @Test
     public void GameReachedPosition() {
         onView(withId(R.id.hint_container)).perform(waitFor(isDisplayed()));
-        Long gameID = mGameActivityTestRule.getActivity().getGameID();
-        GameItem game = WebService.instance().getGame(gameID);
+        GameItem gameItem = mGameActivityTestRule.getActivity().getGame();
         HorizontalGridView hintContainer = this.mGameActivityTestRule.getActivity().findViewById(R.id.hint_container);
 
     }
@@ -62,8 +61,7 @@ public class GameUITest {
         //Just to make sure it is waited on the resource and the game is loaded already
         onView(withId(R.id.hint_container)).perform(waitFor(isDisplayed()));
 
-        Long gameID = mGameActivityTestRule.getActivity().getGameID();
-        GameItem game = WebService.instance().getGame(gameID);
+        GameItem game = mGameActivityTestRule.getActivity().getGame();
         HorizontalGridView hintContainer = this.mGameActivityTestRule.getActivity().findViewById(R.id.hint_container);
 
         assertTrue(game.getCurrenttarget().getHints().size() > 1);
@@ -95,54 +93,13 @@ public class GameUITest {
         }
     }
 
-    @Test
-    public void BuyHints() {
-        //Just to make sure it is waited on the resource and the game is loaded already
-        onView(withId(R.id.hint_container)).perform(waitFor(isDisplayed()));
-
-        Long gameID = mGameActivityTestRule.getActivity().getGameID();
-        GameItem game = WebService.instance().getGame(gameID);
-        HorizontalGridView hintContainer = this.mGameActivityTestRule.getActivity().findViewById(R.id.hint_container);
-
-        assertTrue(game.getCurrenttarget().getHints().size() > 1);
-        for (int index = 0; index < game.getCurrenttarget().getHints().size(); index++) {
-            HintItem hint = game.getCurrenttarget().getHints().get(index);
-
-
-            onView(withId(R.id.hint_container)).perform(
-                    actionOnItemAtPosition(index,
-                            DescendantViewActions.checkViewAction(matches(isDisplayed())))
-            );
-
-            boolean buyVisible = !hintContainer.findViewHolderForAdapterPosition(index).itemView.findViewById(R.id.hint_item_unlock_button).isEnabled();
-
-            if (buyVisible) {
-                boolean enoughMoney = WebService.instance().getUser().getBalance() > hint.getShvalue();
-                onView(withId(R.id.hint_container)).perform(
-                        actionOnItemAtPosition(index,
-                                DescendantViewActions.performDescendantAction(
-                                        withId(R.id.hint_item_buy_button), click()))
-                );
-                onView(withId(R.id.hint_container)).perform(
-                        actionOnItemAtPosition(index,
-                                DescendantViewActions.performDescendantAction(
-                                        withId(R.id.hint_item_buy_button), waitFor(enoughMoney ? not(isDisplayed()) : isDisplayed())))
-                );
-                onView(withId(R.id.hint_container)).perform(
-                        actionOnItemAtPosition(index,
-                                DescendantViewActions.checkDescendantViewAction(
-                                        withId(R.id.hint_item_unlock_button), matches(enoughMoney ? not(isDisplayed()) : isDisplayed())))
-                );
-            }
-        }
-    }
 
     @Test
     public void UnlockHintAfterTimeout() throws InterruptedException {
         onView(withId(R.id.hint_container)).perform(waitFor(isDisplayed()));
 
-        Long gameID = mGameActivityTestRule.getActivity().getGameID();
-        GameItem game = WebService.instance().getGame(gameID);
+
+        GameItem game = mGameActivityTestRule.getActivity().getGame();
 
         assertTrue(game.getCurrenttarget().getHints().size() > 1);
         for (int index = 0; index < game.getCurrenttarget().getHints().size(); index++) {
@@ -188,8 +145,8 @@ public class GameUITest {
         //Just to make sure it is waited on the resource and the game is loaded already
         onView(withId(R.id.hint_container)).perform(waitFor(isDisplayed()));
 
-        Long gameID = mGameActivityTestRule.getActivity().getGameID();
-        GameItem game = WebService.instance().getGame(gameID);
+
+        GameItem game = mGameActivityTestRule.getActivity().getGame();
 
         assertTrue(game.getCurrenttarget().getHints().size() > 1);
         for (int index = 0; index < game.getCurrenttarget().getHints().size(); index++) {
